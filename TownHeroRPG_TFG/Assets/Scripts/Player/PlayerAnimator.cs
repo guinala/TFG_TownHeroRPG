@@ -17,10 +17,12 @@ public class PlayerAnimator : MonoBehaviour
 
     private Vector2 movementInput;
     private PlayerWeapon _playerWeapon;
-
+    private PlayerControls _playerControls;
+    private bool Attacking;
 
     private void Awake()
     {
+        _playerControls = new PlayerControls();
         _animator = GetComponent<Animator>();
         _playerWeapon = GetComponent<PlayerWeapon>();
     }
@@ -29,6 +31,12 @@ public class PlayerAnimator : MonoBehaviour
     {
         UpdateLayer();
     }
+
+    private void Start()
+    {
+        _playerControls.Enable();
+        _playerControls.PlayerActions.Attack.started += _ => OnAttack();
+    }
     
     public void OnMovement(InputAction.CallbackContext value)
     {
@@ -36,6 +44,20 @@ public class PlayerAnimator : MonoBehaviour
 
         _animator.SetFloat(directionX, movementInput.x);
         _animator.SetFloat(directionY, movementInput.y);
+    }
+
+    private void OnAttack()
+    {
+        StartCoroutine(AttackRoutine());
+    }
+    
+    private IEnumerator AttackRoutine()
+    {
+        Attacking = true;
+        ActiveLayer(LayerAttacking);
+        yield return new WaitForSeconds(0.6f);
+        ActiveLayer(LayerIdle);
+        Attacking = false;
     }
 
     private void ActiveLayer(string layerName)
@@ -50,19 +72,20 @@ public class PlayerAnimator : MonoBehaviour
 
     private void UpdateLayer()
     {
-        
+        /*
         if(_playerWeapon.Attacking)
         {
             Debug.Log("Activo esto");
             ActiveLayer(LayerAttacking);
         }
+        */
         
-        else if(movementInput.x != 0 || movementInput.y != 0)
+        if((movementInput.x != 0 || movementInput.y != 0) && Attacking == false) 
         {
             ActiveLayer(LayerWalking);
         }
 
-        else
+        else if(Attacking == false)
         {
             ActiveLayer(LayerIdle);
         }
