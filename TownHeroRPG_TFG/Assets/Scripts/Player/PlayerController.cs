@@ -75,6 +75,25 @@ public class PlayerController : MonoBehaviour
             spriteRenderer.flipX = true;
         }
     }
+    
+    public void ReviveCharacter()
+    {
+        //ActiveLayer(LayerIdle);
+        _animator.SetBool(defeated, false);
+    }
+
+    private void Defeated()
+    {
+        //if(_animator.GetLayerWeight(_animator.GetLayerIndex(LayerIdle)) == 1)
+        _animator.SetBool(defeated, true);
+        /*
+        else
+        {
+            ActiveLayer(LayerIdle);
+            _animator.SetBool(defeated, true);
+        }
+        */
+    }
 
     /*
     private bool PlayerIsLookingLeft()
