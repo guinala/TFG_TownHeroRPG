@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 1097382138}
   - component: {fileID: 1097382137}
   - component: {fileID: 1097382136}
+  - component: {fileID: 1097382142}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -472,6 +473,44 @@ CapsuleCollider2D:
   m_Offset: {x: 0.015267763, y: 0.26884028}
   m_Size: {x: 0.6903588, y: 0.5376813}
   m_Direction: 1
+--- !u!114 &1097382142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097382126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: aaab565794ecb5640b0da991c61d8685, type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 78cead34-ac13-43c6-8a1d-3576d3f01d78
+    m_ActionName: PlayerActions/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 39bb9dab-5ac7-4d38-b7c8-a2b3e37f4faf
+    m_ActionName: PlayerActions/Attack[/Mouse/leftButton]
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: PlayerActions
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1432893281
 GameObject:
   m_ObjectHideFlags: 0
