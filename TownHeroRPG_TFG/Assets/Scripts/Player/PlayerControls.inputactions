@@ -3,21 +3,30 @@
     "maps": [
         {
             "name": "PlayerActions",
-            "id": "c95f65ed-e328-4865-870f-4bafe675491a",
+            "id": "38745444-2bec-4f68-aa82-6e1ec81f1791",
             "actions": [
                 {
                     "name": "Movement",
                     "type": "Value",
-                    "id": "78cead34-ac13-43c6-8a1d-3576d3f01d78",
+                    "id": "afb334bd-720d-443e-9aef-2b5ca65fd1c5",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Attack",
+                    "name": "Combat",
                     "type": "Button",
-                    "id": "39bb9dab-5ac7-4d38-b7c8-a2b3e37f4faf",
+                    "id": "8b7dce6f-94c0-440c-bb8c-ca4caf3c2e6c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "b8314022-2f3a-494b-9c2e-328a4719a794",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -27,18 +36,18 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "d04889e2-1288-46d7-984e-6a4caf0ec4a9",
+                    "id": "f16099b6-46e7-44ea-8f51-2a0fac765f4b",
                     "path": "<Gamepad>/leftStick",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "New control scheme",
                     "action": "Movement",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "2D Vector",
-                    "id": "76ccdd5e-0396-45cb-b65f-ab4fd358530e",
+                    "id": "a5985de8-89c6-4b0b-8a66-c4a83ca5c7a0",
                     "path": "2DVector",
                     "interactions": "",
                     "processors": "",
@@ -49,7 +58,7 @@
                 },
                 {
                     "name": "up",
-                    "id": "60c25a59-2097-4e65-b044-99a90539e688",
+                    "id": "2cdae0b4-9865-46af-a168-2a6a005484ea",
                     "path": "<Keyboard>/w",
                     "interactions": "",
                     "processors": "",
@@ -60,7 +69,7 @@
                 },
                 {
                     "name": "down",
-                    "id": "03f56a75-cd49-4842-9b74-3f9c8618428d",
+                    "id": "609133e5-bcee-478a-816c-e0a6184c9b01",
                     "path": "<Keyboard>/s",
                     "interactions": "",
                     "processors": "",
@@ -71,7 +80,7 @@
                 },
                 {
                     "name": "left",
-                    "id": "785f9ae2-767e-4fe7-a156-743bdbe911d6",
+                    "id": "cbf1e2fa-08d9-41bf-8fa5-4076671e1054",
                     "path": "<Keyboard>/a",
                     "interactions": "",
                     "processors": "",
@@ -82,7 +91,7 @@
                 },
                 {
                     "name": "right",
-                    "id": "76051129-e932-4735-b309-dcc611ea84bf",
+                    "id": "a4f53c3f-87be-4fa7-a3b8-a199e43a0205",
                     "path": "<Keyboard>/d",
                     "interactions": "",
                     "processors": "",
@@ -93,28 +102,67 @@
                 },
                 {
                     "name": "",
-                    "id": "9bd641ed-990f-4f0b-9ce9-0e2e4d5cfe79",
-                    "path": "<Mouse>/leftButton",
+                    "id": "7a8332fc-560d-4130-b8a6-7a025ae6d2f7",
+                    "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "Combat",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "0a54b90b-358d-4745-96d3-dc82764eb213",
-                    "path": "<Gamepad>/buttonNorth",
+                    "id": "f67a7d13-b5b8-4dd4-a17b-b771032bc688",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Attack",
+                    "action": "Combat",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c73d1273-e51d-458a-95c1-dc14c977053c",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "277dc125-d449-45c8-9450-46350693f2b3",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
             ]
         }
     ],
-    "controlSchemes": []
+    "controlSchemes": [
+        {
+            "name": "New control scheme",
+            "bindingGroup": "New control scheme",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
 }

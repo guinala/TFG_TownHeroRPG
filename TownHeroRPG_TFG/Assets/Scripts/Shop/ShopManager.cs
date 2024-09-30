@@ -4,25 +4,29 @@ using UnityEngine;
 
 public class ShopManager : MonoBehaviour
 {
+    [Header("Temp")]
+    [SerializeField] private GameObject shopPanelObject;
 
     [Header("Config")]
     [SerializeField] private ItemShop itemPrefab;
     [SerializeField] private Transform shopPanel;
+    
+    private CharacterShopInventorySO items;
 
-    [Header("Items")]
-    [SerializeField] private ItemSale[] items;
-
-    private void Start()
+    private void OnEnable()
     {
-        LoadItems();
+        ShopTrigger.onShopTriggered += LoadItems;
     }
 
-    private void LoadItems()
+    private void LoadItems(CharacterShopInventorySO itemsToLoad)
     {
-        for(int i = 0; i < items.Length; i++)
+        shopPanelObject.SetActive(true);
+        items = itemsToLoad;
+        
+        for(int i = 0; i < items.itemsShop.Length; i++)
         {
             ItemShop itemShop = Instantiate(itemPrefab, shopPanel);
-            itemShop.ConfigureShopPanel(items[i]);
+            itemShop.ConfigureShopPanel(items.itemsShop[i]);
         }
     }
 }

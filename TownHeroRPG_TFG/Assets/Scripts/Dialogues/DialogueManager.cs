@@ -15,6 +15,8 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public event Action cutsceneEnded;
 
+    [Header("Temp")] [SerializeField] private GameObject dialogueUI;
+
     private Queue<Sentence> sentences;
     private bool cutscene;
     
@@ -41,16 +43,14 @@ public class DialogueManager : Singleton<DialogueManager>
     [SerializeField] private bool makePredictable = false;
 
 
+    
     private void Awake()
     {
         audioSource = this.gameObject.GetComponent<AudioSource>();
-        if(defaultAudio.id == null)
-        {
-            Debug.Log("Aqui es donde falla");
-        }
         InitializeAudioDictionary();
         currentAudio = defaultAudio;
     }
+    
 
     private void Start()
     {
@@ -62,6 +62,7 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void StartConversation(ConversationSO conversation)
     {
+        dialogueUI.SetActive(true);
         if (this.sentences.Count != 0)
             return;
         
@@ -70,12 +71,6 @@ public class DialogueManager : Singleton<DialogueManager>
         foreach (var sentence in conversation.sentences)
         {
             this.sentences.Enqueue(sentence);
-        }
-
-        //Debug.Log("El dialogo es :" + conversation.name + "y ademas");
-        if(DialogueUI.Instance == null)
-        {
-            Debug.Log("Instance es null");
         }
 
         if (this.onConversationStarted != null)
@@ -130,6 +125,7 @@ public class DialogueManager : Singleton<DialogueManager>
 
         if(cutscene)
             cutsceneEnded?.Invoke();
+        dialogueUI.SetActive(false);
     }
     
     #endregion
@@ -200,6 +196,10 @@ public class DialogueManager : Singleton<DialogueManager>
 
         foreach (char letter in this._currentSenence.ToCharArray())
         {
+            if (dialogueBox.isTextOverflowing)
+            {
+                this.dialogueBox.text = "";
+            }
             if (audioSource != null)
             {
                 Debug.Log("Quiero reproducir");
@@ -210,7 +210,7 @@ public class DialogueManager : Singleton<DialogueManager>
             yield return new WaitForSeconds(textSpeed);
         }
 
-        this.dialogueBox.text = this._currentSenence;
+        //this.dialogueBox.text = this._currentSenence;
         this._currentSenence = null;
     }
 
@@ -284,16 +284,12 @@ public class DialogueManager : Singleton<DialogueManager>
         audioInfoDictionary.Add(defaultAudio.id, defaultAudio);
         foreach(DialogueAudioInfoSO audioInfo in audioInfos)
         {
-            Debug.Log("Hola me llamo: " + audioInfo.id + "y tengo: " + audioInfo.dialogueSounds.Length + " sonidos");
             audioInfoDictionary.Add(audioInfo.id, audioInfo);
         }
-
-        Debug.Log("He creado el diccionario de audios");
     }
 
     private void SetCurrentAudioinfo(string id)
     {
-        Debug.Log("y el diccionario tiene: " + audioInfoDictionary.Count + " elementos");
         DialogueAudioInfoSO info = null;
         audioInfoDictionary.TryGetValue(id, out info);
         if(info != null)
@@ -304,6 +300,7 @@ public class DialogueManager : Singleton<DialogueManager>
         {
             Debug.LogWarning("Audio Info not found for id: " + id);
         }
+        
     }
 
     private void CleanUI()

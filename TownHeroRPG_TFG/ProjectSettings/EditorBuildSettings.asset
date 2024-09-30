@@ -6,6 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Town.unity
+    path: Assets/Scenes/Managers.unity
+    guid: 25e91dd44578b4642b4a13bea1e3e15e
+  - enabled: 1
+    path: Assets/Scenes/Gameplay.unity
+    guid: 6d9bc1ec1b868cd45a6c7492e9757559
+  - enabled: 1
+    path: Assets/Scenes/SenseiHouse.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/ForestPath.unity
+    guid: 3791a6e242a63e84aa016e9ec59a5d92
   m_configObjects: {}

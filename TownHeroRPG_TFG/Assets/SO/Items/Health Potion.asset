@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b304e0098fadc14793b3ae1c932a2dd, type: 3}
+  m_Name: Health Potion
+  m_EditorClassIdentifier: 
+  id: HealthPotion
+  name: Little Health Potion
+  icon: {fileID: 237255737888612096, guid: ae2e59adf58c94839a4a49d1a41c5920, type: 3}
+  description: A normal health potion. It doesn't healths so much, but it helps.
+  type: 1
+  Consumible: 1
+  Stackable: 1
+  maxAccumulation: 25
+  Quantity: 0
+  healthAmount: 5

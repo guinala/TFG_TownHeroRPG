@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2af1fc3b2ebcb914684b29f1e27b74b3, type: 3}
+  m_Name: ForestPathVendor
+  m_EditorClassIdentifier: 
+  itemsShop:
+  - Name: Little Health Potion
+    Item: {fileID: 11400000, guid: 3554b247a17f8ff42a392993ed9d2757, type: 2}
+    Price: 2
+  - Name: Little Mana Potion
+    Item: {fileID: 11400000, guid: 54d1e122ba6ca1c478af7b17f56b3bfb, type: 2}
+    Price: 5

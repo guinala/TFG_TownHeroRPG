@@ -24,7 +24,8 @@ public class WeaponContainer : Singleton<WeaponContainer>
                 skillIcon.gameObject.SetActive(true);
             }
 
-            InventoryManager.Instance.Player.PlayerWeapon.EquipWeapon(item);
+            //Falta integrar
+            //InventoryManager.Instance.Player.PlayerWeapon.EquipWeapon(item);
         }
     }
 
@@ -33,7 +34,7 @@ public class WeaponContainer : Singleton<WeaponContainer>
         weaponIcon.gameObject.SetActive(false);
         skillIcon.gameObject.SetActive(false);
         equipedWapon = null;
-        InventoryManager.Instance.Player.PlayerWeapon.RemoveWeapon();
+        //InventoryManager.Instance.Player.PlayerWeapon.RemoveWeapon();
     }
     
 }

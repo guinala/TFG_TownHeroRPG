@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
         _playerControls.Enable();
         _playerControls.PlayerActions.Movement.performed += OnMovement;
         _playerControls.PlayerActions.Movement.canceled += StopMovement;
-        _playerControls.PlayerActions.Attack.started += _ => OnAttack();
+        _playerControls.PlayerActions.Combat.started += _ => OnAttack();
     }
     private void OnAttack()
     {
@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
         rigidbody.velocity = _movementInput * speed;
     }
 
-    private void OnMovement(InputAction.CallbackContext value)
+    public void OnMovement(InputAction.CallbackContext value)
     {
         _movementInput = value.ReadValue<Vector2>();
         Flip(_movementInput);
@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
         Walking = true;
         _animator.SetBool(walking, true);
     }
+    
 
     private void StopMovement(InputAction.CallbackContext value)
     {
