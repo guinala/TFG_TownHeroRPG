@@ -749,6 +749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 332577758}
   - component: {fileID: 332577757}
+  - component: {fileID: 332577760}
   - component: {fileID: 332577759}
   m_Layer: 0
   m_Name: DialogueManager
@@ -771,10 +772,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onConversationStarted:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 332577760}
+        m_TargetAssemblyTypeName: GameStateChange, Assembly-CSharp
+        m_MethodName: SetGameState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: c0f92e880d1d2844c9b2790bca2bf39f, type: 2}
+          m_ObjectArgumentAssemblyTypeName: GameStateSO, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onConversationEnded:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 332577760}
+        m_TargetAssemblyTypeName: GameStateChange, Assembly-CSharp
+        m_MethodName: SetGameState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 5562fcbee12a0ad4fa5d9cdb68c8cc9b, type: 2}
+          m_ObjectArgumentAssemblyTypeName: GameStateSO, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   dialogueUI: {fileID: 117853704}
   textSpeed: 0.05
   leftCharacter: {fileID: 117853702}
@@ -905,6 +930,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &332577760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 332577756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2ee35e7d4ad80428604c065d7b7390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &377491662
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,6 +1129,119 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 887122128}
   m_CullTransparentMesh: 1
+--- !u!1 &1129943757
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1129943758}
+  - component: {fileID: 1129943760}
+  - component: {fileID: 1129943759}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1129943758
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129943757}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1129943759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129943757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977e33e95b086f448adf8f525856f120, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats: {fileID: 0}
+  panelStats: {fileID: 0}
+  panelShop: {fileID: 0}
+  inventoryPanel: {fileID: 0}
+  questsPanel: {fileID: 0}
+  questsCharacterPanel: {fileID: 0}
+  panelCraft: {fileID: 0}
+  panelCraftInfo: {fileID: 0}
+  healthImage: {fileID: 0}
+  manaImage: {fileID: 0}
+  expImage: {fileID: 0}
+  healthText: {fileID: 0}
+  manaText: {fileID: 0}
+  expText: {fileID: 0}
+  levelText: {fileID: 0}
+  coins: {fileID: 0}
+  damageTextStat: {fileID: 0}
+  defenseTextStat: {fileID: 0}
+  expTextStat: {fileID: 0}
+  levelTextStat: {fileID: 0}
+  speedTextStat: {fileID: 0}
+  criticalTextStat: {fileID: 0}
+  blockTextStat: {fileID: 0}
+  expRequiredTextStat: {fileID: 0}
+  expTotalTextStat: {fileID: 0}
+  availablePointsTextStat: {fileID: 0}
+  strengthAttribute: {fileID: 0}
+  dexterityAttribute: {fileID: 0}
+  intelligenceAttribute: {fileID: 0}
+--- !u!114 &1129943760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129943757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101548b5107fc14bbadec92c67d3b13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components: []
+  enabledStates: []
+  disabledStates: []
+  onMainMenuState:
+    m_PersistentCalls:
+      m_Calls: []
+  onLoadingState:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayingState:
+    m_PersistentCalls:
+      m_Calls: []
+  onPauseState:
+    m_PersistentCalls:
+      m_Calls: []
+  onDialogueState:
+    m_PersistentCalls:
+      m_Calls: []
+  onCutsceneState:
+    m_PersistentCalls:
+      m_Calls: []
+  onShoppingState:
+    m_PersistentCalls:
+      m_Calls: []
+  onMissionState:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1181642321
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,3 +1493,4 @@ SceneRoots:
   - {fileID: 74343738}
   - {fileID: 1962003644}
   - {fileID: 1181642323}
+  - {fileID: 1129943758}

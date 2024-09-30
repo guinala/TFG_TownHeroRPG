@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 6996844017048503893}
   - component: {fileID: 83557555532969935}
   - component: {fileID: 4622294025982154066}
+  - component: {fileID: 2906817283022281294}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -189,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccd7ec99f10e3d74f91a1e22a953615d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: 36d3c2667fe76a14abd52850cc9c8d19, type: 2}
 --- !u!114 &7225213072207076586
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1ab6812a26af144ea5831a37f77868c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stats: {fileID: 0}
+  stats: {fileID: 11400000, guid: 36d3c2667fe76a14abd52850cc9c8d19, type: 2}
   maxLevel: 0
   expbase: 0
   expIncrement: 0
@@ -260,6 +261,54 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88cb311b03017854d97c657b2224017a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2906817283022281294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6909470742631781130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f101548b5107fc14bbadec92c67d3b13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  components:
+  - {fileID: 7225213072207076586}
+  enabledStates:
+  - {fileID: 11400000, guid: 5562fcbee12a0ad4fa5d9cdb68c8cc9b, type: 2}
+  disabledStates:
+  - {fileID: 11400000, guid: 4529a01bf75604744a0871b58b2bd34b, type: 2}
+  - {fileID: 11400000, guid: c0f92e880d1d2844c9b2790bca2bf39f, type: 2}
+  - {fileID: 11400000, guid: 765a61f9c041f3845a4e8845b63b29f9, type: 2}
+  - {fileID: 11400000, guid: 413ca92fcc34d8e4781ba6978066eec3, type: 2}
+  - {fileID: 11400000, guid: a8c43c7d8eccb5c45a907c2c8cdd523f, type: 2}
+  - {fileID: 11400000, guid: b92ee857a65da6647b3c9d44497d935a, type: 2}
+  - {fileID: 11400000, guid: c561b7f014d567642b800dd881ba004b, type: 2}
+  onMainMenuState:
+    m_PersistentCalls:
+      m_Calls: []
+  onLoadingState:
+    m_PersistentCalls:
+      m_Calls: []
+  onPlayingState:
+    m_PersistentCalls:
+      m_Calls: []
+  onPauseState:
+    m_PersistentCalls:
+      m_Calls: []
+  onDialogueState:
+    m_PersistentCalls:
+      m_Calls: []
+  onCutsceneState:
+    m_PersistentCalls:
+      m_Calls: []
+  onShoppingState:
+    m_PersistentCalls:
+      m_Calls: []
+  onMissionState:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &9053784276857661792
 GameObject:
   m_ObjectHideFlags: 0

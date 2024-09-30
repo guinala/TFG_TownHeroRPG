@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: ManaPotion
   name: Little Mana Potion
-  icon: {fileID: 0}
+  icon: {fileID: -7773183333426011814, guid: ae2e59adf58c94839a4a49d1a41c5920, type: 3}
   description: A normal mana potion. It gives a little amount of mana for magic skills
   type: 1
   Consumible: 1

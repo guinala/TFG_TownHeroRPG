@@ -25,13 +25,22 @@ public class PlayerController : MonoBehaviour
     {
         _playerControls = new PlayerControls();
         _animator = GetComponent<Animator>();
-        rigidbody = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rigidbody = GetComponent<Rigidbody2D>();
+    }
+
+    private void OnEnable()
+    {
+        _playerControls.Enable();
+    }
+    
+    private void OnDisable()
+    {
+        _playerControls.Disable();
     }
 
     private void Start()
     {
-        _playerControls.Enable();
         _playerControls.PlayerActions.Movement.performed += OnMovement;
         _playerControls.PlayerActions.Movement.canceled += StopMovement;
         _playerControls.PlayerActions.Combat.started += _ => OnAttack();

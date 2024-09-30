@@ -137,6 +137,7 @@ public class DialogueManager : Singleton<DialogueManager>
         string rightCharacterName,
         Sprite rightCharacterPortrait)
     {
+        //GameManager.Instance.SetGameState(dialogueState);
         // Reset UI
         this.CleanUI();
 
