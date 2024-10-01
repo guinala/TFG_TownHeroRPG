@@ -285,6 +285,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a8c43c7d8eccb5c45a907c2c8cdd523f, type: 2}
   - {fileID: 11400000, guid: b92ee857a65da6647b3c9d44497d935a, type: 2}
   - {fileID: 11400000, guid: c561b7f014d567642b800dd881ba004b, type: 2}
+  - {fileID: 11400000, guid: 3635c298857a15f4caf72cef907cc641, type: 2}
   onMainMenuState:
     m_PersistentCalls:
       m_Calls: []
@@ -307,6 +308,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   onMissionState:
+    m_PersistentCalls:
+      m_Calls: []
+  onStatsState:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &9053784276857661792

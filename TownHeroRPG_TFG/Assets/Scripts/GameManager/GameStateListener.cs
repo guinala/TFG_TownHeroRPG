@@ -18,6 +18,7 @@ public class GameStateListener : MonoBehaviour
     public UnityEvent onCutsceneState;
     public UnityEvent onShoppingState;
     public UnityEvent onMissionState;
+    public UnityEvent onStatsState;
 
     private void OnEnable()
     {
@@ -76,7 +77,10 @@ public class GameStateListener : MonoBehaviour
         if (newGameState.stateName == "Shopping" && this.onShoppingState != null)
             this.onShoppingState.Invoke();
 
-        if (newGameState.stateName == "OnMission" && this.onShoppingState != null)
+        if (newGameState.stateName == "OnMission" && this.onMissionState != null)
             this.onMissionState.Invoke();
+        
+        if (newGameState.stateName == "Stats" && this.onStatsState != null)
+            this.onStatsState.Invoke();
     }
 }
