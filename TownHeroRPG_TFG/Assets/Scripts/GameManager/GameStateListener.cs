@@ -21,12 +21,14 @@ public class GameStateListener : MonoBehaviour
 
     private void OnEnable()
     {
-        GameManager.Instance.gameStateChanged += GameStateChanged;
+        if(GameManager.Instance != null)
+            GameManager.Instance.gameStateChanged += GameStateChanged;
     }
 
     private void OnDisable()
     {
-        GameManager.Instance.gameStateChanged -= GameStateChanged;
+        if(GameManager.Instance != null)
+            GameManager.Instance.gameStateChanged -= GameStateChanged;
     }
 
     private void GameStateChanged(GameStateSO newGameState)

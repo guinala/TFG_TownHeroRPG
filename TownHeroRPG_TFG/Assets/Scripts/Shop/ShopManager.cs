@@ -1,11 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShopManager : MonoBehaviour
 {
     [Header("Temp")]
     [SerializeField] private GameObject shopPanelObject;
+    
+    [Header("Open And Close Events")]
+    public UnityEvent onShopOpened;
+    public UnityEvent onShopClosed;
 
     [Header("Config")]
     [SerializeField] private ItemShop itemPrefab;
@@ -15,14 +20,30 @@ public class ShopManager : MonoBehaviour
 
     private void OnEnable()
     {
-        ShopTrigger.onShopTriggered += LoadItems;
+        ShopTrigger.onShopTriggered += ShopOpen;
     }
 
-    private void LoadItems(CharacterShopInventorySO itemsToLoad)
+    public void ShopClose()
     {
-        shopPanelObject.SetActive(true);
+        items = null;
+        if (this.onShopClosed != null)
+            onShopClosed?.Invoke();
+    }
+
+    
+    public void ShopOpen(CharacterShopInventorySO itemsToLoad)
+    {
+        if (this.items != null)
+            return;
+        //shopPanelObject.SetActive(true);
         items = itemsToLoad;
-        
+        LoadItems();
+        if (this.onShopOpened != null)
+            onShopOpened?.Invoke();
+    }
+
+    private void LoadItems()
+    {
         for(int i = 0; i < items.itemsShop.Length; i++)
         {
             ItemShop itemShop = Instantiate(itemPrefab, shopPanel);

@@ -3688,6 +3688,38 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -7.67
       objectReference: {fileID: 0}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Target
+      value: 
+      objectReference: {fileID: 451779644}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: SetGameState
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
+      value: GameStateChange, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 11400000, guid: 5562fcbee12a0ad4fa5d9cdb68c8cc9b, type: 2}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: GameStateSO, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 6479094186879632749, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3743,8 +3775,28 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8143197609247385937, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 451779644}
   m_SourcePrefab: {fileID: 100100000, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+--- !u!1 &451779643 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8143197609247385937, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+  m_PrefabInstance: {fileID: 451779642}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &451779644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 451779643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2ee35e7d4ad80428604c065d7b7390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &459118510
 GameObject:
   m_ObjectHideFlags: 0
@@ -18385,6 +18437,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: GameStateChange, Assembly-CSharp
+        m_MethodName: SetGameState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: b92ee857a65da6647b3c9d44497d935a, type: 2}
+          m_ObjectArgumentAssemblyTypeName: GameStateSO, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!61 &1290866603
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -23844,7 +23908,13 @@ PrefabInstance:
       addedObject: {fileID: 1561498110756227188}
     - targetCorrespondingSourceObject: {fileID: 2348537691265584570, guid: a1cf87682ffe5bc40971cfb53286a511, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1561498110756227191}
+    - targetCorrespondingSourceObject: {fileID: 2348537691265584570, guid: a1cf87682ffe5bc40971cfb53286a511, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 1561498110756227187}
+    - targetCorrespondingSourceObject: {fileID: 2348537691265584570, guid: a1cf87682ffe5bc40971cfb53286a511, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1561498110756227190}
   m_SourcePrefab: {fileID: 100100000, guid: a1cf87682ffe5bc40971cfb53286a511, type: 3}
 --- !u!1 &1561498110756227185 stripped
 GameObject:
@@ -23931,6 +24001,64 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   entrance: {fileID: 11400000, guid: 34b3fa9fe6961df4ebd5d519b2f0f192, type: 2}
+--- !u!114 &1561498110756227190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561498110756227185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a2ee35e7d4ad80428604c065d7b7390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1561498110756227191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1561498110756227185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fcbc69c843e94946934fa0de45d0c89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  validTag: Player
+  onTriggerEnter:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1561498110756227187}
+        m_TargetAssemblyTypeName: SceneLoader, Assembly-CSharp
+        m_MethodName: LoadScene
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1561498110756227190}
+        m_TargetAssemblyTypeName: GameStateChange, Assembly-CSharp
+        m_MethodName: SetGameState
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: 765a61f9c041f3845a4e8845b63b29f9, type: 2}
+          m_ObjectArgumentAssemblyTypeName: GameStateSO, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onTriggerStay:
+    m_PersistentCalls:
+      m_Calls: []
+  onTriggerExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
