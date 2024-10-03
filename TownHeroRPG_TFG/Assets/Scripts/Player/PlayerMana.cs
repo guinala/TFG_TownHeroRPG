@@ -52,7 +52,7 @@ public class PlayerMana : MonoBehaviour
             Mana = maxMana;
         }
 
-        //UIManager.Instance.UpdateManaCharacter(Mana, maxMana);
+        UIManager.Instance.UpdateManaBar(Mana, maxMana);
     }
 
     private void RegenerateMana()
@@ -81,7 +81,7 @@ public class PlayerMana : MonoBehaviour
 
     private void UpdateManaBar()
     {
-        //UIManager.Instance.UpdateManaCharacter(Mana, maxMana);
+        UIManager.Instance.UpdateManaBar(Mana, maxMana);
     }
 
 }

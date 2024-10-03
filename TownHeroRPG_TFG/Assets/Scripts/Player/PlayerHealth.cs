@@ -21,6 +21,7 @@ public class PlayerHealth : HealthBase
     {
         base.Start();
         UpdateHealthBar(health, maxHealth);
+        Debug.Log("La salud inicial es: " + health);
     }
 
     private void Update()
@@ -83,7 +84,7 @@ public class PlayerHealth : HealthBase
 
     protected override void UpdateHealthBar(float actualHealth, float maxHealth)
     {
-        //UIManager.Instance.UpdateHealthCharacter(actualHealth, maxHealth);
+        UIManager.Instance.UpdateHealthBar(actualHealth, maxHealth);
     }
 
 }

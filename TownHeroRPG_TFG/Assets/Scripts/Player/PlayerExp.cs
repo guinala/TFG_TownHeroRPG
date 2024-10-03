@@ -10,7 +10,7 @@ public class PlayerExp : MonoBehaviour
 
     [Header("Config")]
     [SerializeField] private int maxLevel;
-    [SerializeField] private int expbase; //Experiencia base requerida para subir de nivel
+    [SerializeField] private int expBase; //Experiencia base requerida para subir de nivel
     [SerializeField] private int expIncrement;
 
     private float actualExp;
@@ -19,9 +19,8 @@ public class PlayerExp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //stats.Level = 1;
-        expRequired = expbase;
-        //stats.ExpRequired = expRequired;
+        expRequired = expBase;
+        stats.ExpRequired = expRequired;
 
         UpdateExpBar();
     }
@@ -38,7 +37,7 @@ public class PlayerExp : MonoBehaviour
     {
         if (expObtained <= 0) return;
         actualExp += expObtained;
-        //stats.Experience = actualExp;
+        stats.Experience = actualExp;
 
         if(actualExp == expRequired)
         {
@@ -51,14 +50,14 @@ public class PlayerExp : MonoBehaviour
             AddExp(diference);
         }
 
-        //stats.ExpTotal += actualExp;
+        stats.ExpTotal += actualExp;
         UpdateExpBar();
     }
 
 
     private void UpdateLevel()
     {
-        /*
+        
         if(stats.Level < maxLevel)
         {
             stats.Level++;
@@ -68,12 +67,12 @@ public class PlayerExp : MonoBehaviour
             stats.ExpRequired = expRequired;
             stats.availablePoints += 3;
         }
-        */
+        
     }
 
     private void UpdateExpBar()
     {
-        //UIManager.Instance.UpdateExpCharacter(actualExp, expRequired);
+        UIManager.Instance.UpdateExpBar(actualExp, expRequired);
     }
 
 

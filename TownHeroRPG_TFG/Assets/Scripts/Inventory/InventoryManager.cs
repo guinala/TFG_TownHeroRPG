@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    [SerializeField] InventoryStore inventoryStore;
     [SerializeField] private PlayerGeneral player;
     public PlayerGeneral Player => player;
 
@@ -16,8 +15,6 @@ public class InventoryManager : Singleton<InventoryManager>
     [Header("Items")]
     [SerializeField] private InventoryItem[] items;
     public InventoryItem[] itemsInventory => items;
-
-    private readonly string KEY = "MYKEY1234567890"; 
 
     private void Start()
     {
@@ -231,6 +228,8 @@ public class InventoryManager : Singleton<InventoryManager>
                 break;
             case InteractionType.Remove:
                 RemoveItem(index);
+                break;
+            case InteractionType.Info:
                 break;
         }
     }

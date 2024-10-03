@@ -13,10 +13,14 @@ public class InventoryUI : Singleton<InventoryUI>
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descriptionText;
 
+    
+    [Header("Slots Dependencies")]
     [SerializeField] private InventorySlot slot;
     [SerializeField] private Transform container;
 
     public int initialMoveSlot { get; private set; }
+    
+    
     public InventorySlot slotSelection { get; private set; }
     private List<InventorySlot> slotList = new List<InventorySlot>();
 
@@ -32,6 +36,7 @@ public class InventoryUI : Singleton<InventoryUI>
     private void Update()
     {
         UpdateSlotSelection();
+        /*
         if(Input.GetKeyDown(KeyCode.M))
         {
             if(slotSelection != null)
@@ -39,6 +44,7 @@ public class InventoryUI : Singleton<InventoryUI>
                 initialMoveSlot = slotSelection.Index;
             }
         }
+        */
     }
     
 
@@ -128,15 +134,27 @@ public class InventoryUI : Singleton<InventoryUI>
         }
     }
 
+    /*
+    public void InfoItem()
+    {
+        if (slotSelection != null)
+        {
+            slotSelection.InfoItem();
+            slotSelection.SelectSlot();
+        }
+    }
+    */
+
     #region Event
     private void OnSlotInteraction(InteractionType type, int index)
         {
-            if (type == InteractionType.Click)
+            if (type == InteractionType.Info)
             {
                 UpdateDescriptionPanel(index);
             }
         }
 
+        
         private void OnEnable()
         {
             InventorySlot.interaction += OnSlotInteraction;
@@ -146,6 +164,7 @@ public class InventoryUI : Singleton<InventoryUI>
         {
             InventorySlot.interaction -= OnSlotInteraction;
         }
+        
     #endregion
 
     

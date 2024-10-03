@@ -1,192 +1,195 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 
 public class UIManager : Singleton<UIManager>
 {
-
-    [Header("Stats GameObject")]
+    [Header("Stats")] 
     [SerializeField] private PlayerStats stats;
-
-    [Header("Panels")]
+    
+    [Header("Paneles")] 
     [SerializeField] private GameObject panelStats;
     [SerializeField] private GameObject panelShop;
-    [SerializeField] private GameObject inventoryPanel;
-    [SerializeField] private GameObject questsPanel;
-    [SerializeField] private GameObject questsCharacterPanel;
-    [SerializeField] private GameObject panelCraft;
-    [SerializeField] private GameObject panelCraftInfo;
-
-    [Header("Bars")]
-    [SerializeField] private Image healthImage;
-    [SerializeField] private Image manaImage;
-    [SerializeField] private Image expImage;
-
-    [Header("Text")]
+    [SerializeField] private GameObject panelCrafting;
+    [SerializeField] private GameObject panelCraftingInfo;
+    [SerializeField] private GameObject panelInventory;
+    [SerializeField] private GameObject panelQuests;
+    [SerializeField] private GameObject panelCharacterQuests;
+    
+    [Header("Barra")]
+    [SerializeField] private Image healthPlayer;
+    [SerializeField] private Image manaPlayer;
+    [SerializeField] private Image expPlayer;
+    
+    [Header("Texto")]
     [SerializeField] private TextMeshProUGUI healthText;
     [SerializeField] private TextMeshProUGUI manaText;
     [SerializeField] private TextMeshProUGUI expText;
     [SerializeField] private TextMeshProUGUI levelText;
-    [SerializeField] private TextMeshProUGUI coins;
+    [SerializeField] private TextMeshProUGUI coinsText;
 
-    [Header("Stats")]
-    [SerializeField] private TextMeshProUGUI damageTextStat;
-    [SerializeField] private TextMeshProUGUI defenseTextStat;
-    [SerializeField] private TextMeshProUGUI expTextStat;
-    [SerializeField] private TextMeshProUGUI levelTextStat;
-    [SerializeField] private TextMeshProUGUI speedTextStat;
-    [SerializeField] private TextMeshProUGUI criticalTextStat;
-    [SerializeField] private TextMeshProUGUI blockTextStat;
-    [SerializeField] private TextMeshProUGUI expRequiredTextStat;
-    [SerializeField] private TextMeshProUGUI expTotalTextStat;
-    [SerializeField] private TextMeshProUGUI availablePointsTextStat;
-    [SerializeField] private TextMeshProUGUI strengthAttribute;
-    [SerializeField] private TextMeshProUGUI dexterityAttribute;
-    [SerializeField] private TextMeshProUGUI intelligenceAttribute;
-    
+    [Header("Stats")] 
+    [SerializeField] private TextMeshProUGUI statDamageText;
+    [SerializeField] private TextMeshProUGUI statDefenseText;
+    [SerializeField] private TextMeshProUGUI statCriticalText;
+    [SerializeField] private TextMeshProUGUI statBlockText;
+    [SerializeField] private TextMeshProUGUI statSpeedText;
+    [SerializeField] private TextMeshProUGUI statLevelText;
+    [SerializeField] private TextMeshProUGUI statExpText;
+    [SerializeField] private TextMeshProUGUI statExpRequiredText;
+    [SerializeField] private TextMeshProUGUI statTotalExpText;
+    [SerializeField] private TextMeshProUGUI attributeStrengthText;
+    [SerializeField] private TextMeshProUGUI attributeIntelligenceText;
+    [SerializeField] private TextMeshProUGUI attributeDexterityText;
+    [SerializeField] private TextMeshProUGUI attributeAvailablePointsText;
 
     private float actualHealth;
-    private float actualMana;
-    private float actualExp;
     private float maxHealth;
+    private float actualMana;
     private float maxMana;
-    private float expNextlevel;
+    private float actualExp;
+    private float nextLevelExpRequired;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        UpdateUICharacter();    
+        UpdateUICharacter();
         UpdateStatsPanel();
     }
 
     private void UpdateUICharacter()
     {
-        healthImage.fillAmount = Mathf.Lerp(healthImage.fillAmount, actualHealth / maxHealth, Time.deltaTime * 10);
+        if (maxHealth > 0 && actualHealth > 0)
+        {
+            healthPlayer.fillAmount = Mathf.Lerp(healthPlayer.fillAmount,
+                actualHealth / maxHealth, 10f * Time.deltaTime);
+        }
 
-        //String interpolation
-        healthText.text = $"{actualHealth} / {maxHealth}";
+        if (maxMana > 0 && actualMana > 0)
+        {
+            manaPlayer.fillAmount = Mathf.Lerp(manaPlayer.fillAmount,
+                actualMana / maxMana, 10f * Time.deltaTime);
+        }
 
-        manaImage.fillAmount = Mathf.Lerp(manaImage.fillAmount, actualMana / maxMana, Time.deltaTime * 10);
-        manaText.text = $"{actualMana} / {maxMana}";
+        if (nextLevelExpRequired > 0)
+        {
+            expPlayer.fillAmount = Mathf.Lerp(expPlayer.fillAmount,
+                actualExp / nextLevelExpRequired, 10f * Time.deltaTime);
+        }
 
-        expImage.fillAmount = Mathf.Lerp(expImage.fillAmount, actualExp / expNextlevel, Time.deltaTime * 10);
-        expText.text = $"{((actualExp/expNextlevel)*100):F2}%";
+        healthText.text = $"{actualHealth}/{maxHealth}";
+        manaText.text = $"{actualMana}/{maxMana}";
+        
+        if (nextLevelExpRequired > 0)
+        {
+            expText.text = $"{((actualExp / nextLevelExpRequired) * 100):F2}%";
+        }
+        
         levelText.text = $"Nivel {stats.Level}";
-        coins.text = CoinManager.Instance.totalCoins.ToString();
+        // monedasTMP.text = MonedasManager.Instance.MonedasTotales.ToString();
     }
 
     private void UpdateStatsPanel()
     {
-        if(panelStats.activeSelf == false)
+        if (panelStats.activeSelf == false)
         {
             return;
         }
 
-        damageTextStat.text = stats.Damage.ToString();
-        defenseTextStat.text = stats.Defense.ToString();
-        expTextStat.text = stats.Experience.ToString();
-        levelTextStat.text = stats.Level.ToString();
-        speedTextStat.text = stats.Speed.ToString();
-        criticalTextStat.text = $"{stats.Critical}%";
-        blockTextStat.text = $"{stats.Block}%";
-        expRequiredTextStat.text = stats.ExpRequired.ToString();
-        expTotalTextStat.text = stats.ExpTotal.ToString();
-
-        availablePointsTextStat.text = $"Available Points: {stats.availablePoints}";
-        strengthAttribute.text = stats.strength.ToString();
-        dexterityAttribute.text = stats.dexterity.ToString();
-        intelligenceAttribute.text = stats.intelligence.ToString();
-    }
-
-    public void UpdateHealthCharacter(float pActualHealth, float pMaxHealth)
-    {
-        actualHealth = pActualHealth;
-        maxHealth = pMaxHealth;
-
-        //healthImage.fillAmount = actualHealth / maxHealth;
-        //healthText.text = actualHealth + " / " + maxHealth;
-    }
-
-    public void UpdateManaCharacter(float pActualMana, float pMaxMana)
-    {
-        actualMana = pActualMana;
-        maxMana = pMaxMana;
-
-        //healthImage.fillAmount = actualHealth / maxHealth;
-        //healthText.text = actualHealth + " / " + maxHealth;
-    }
-
-    public void UpdateExpCharacter(float pActualExp, float pExpRequired)
-    {
-        actualExp = pActualExp;
-        expNextlevel = pExpRequired;
-
-        //healthImage.fillAmount = actualHealth / maxHealth;
-        //healthText.text = actualHealth + " / " + maxHealth;
-    }
-
-    #region Panels
-
-        public void ShowStatsPanel()
-        {
-            panelStats.SetActive(!panelStats.activeSelf);
-        }
-
-        public void ShowInventoryPanel()
-        {
-            inventoryPanel.SetActive(!inventoryPanel.activeSelf);
-        }
+        statDamageText.text = stats.Damage.ToString();
+        statDefenseText.text = stats.Defense.ToString();
+        statCriticalText.text = $"{stats.Critical}%";
+        statBlockText.text = $"{stats.Block}%";
+        statSpeedText.text = stats.Speed.ToString();
+        statLevelText.text = stats.Level.ToString();
+        statExpText.text = stats.Experience.ToString();
+        statExpRequiredText.text = stats.ExpRequired.ToString();
+        statTotalExpText.text = stats.ExpTotal.ToString();
         
-        
-        public void ShowShopPanel()
+        attributeStrengthText.text = stats.strength.ToString();
+        attributeDexterityText.text = stats.dexterity.ToString();
+        attributeIntelligenceText.text = stats.intelligence.ToString();
+        attributeAvailablePointsText.text = $"Puntos: {stats.availablePoints}";
+    }
+    
+    public void UpdateHealthBar(float pVidaActual, float pVidaMax)
+    {
+        actualHealth = pVidaActual;
+        maxHealth = pVidaMax;
+    }
+    
+    public void UpdateManaBar(float pManaActual, float pManaMax)
+    {
+        actualMana = pManaActual;
+        maxMana = pManaMax;
+    }
+    
+    public void UpdateExpBar(float pExpActual, float pExpRequerida)
+    {
+        actualExp = pExpActual;
+        nextLevelExpRequired = pExpRequerida;
+    }
+
+    #region Paneles
+
+    public void ShowPanelStats()
+    {
+        panelStats.SetActive(!panelStats.activeSelf);
+    }
+
+    public void ShowShopPanel()
+    {
+        panelShop.SetActive(!panelShop.activeSelf);
+    }
+
+    public void OpenCraftingPanel()
+    {
+        panelCrafting.SetActive(true);
+    }
+    
+    public void ClosePanelCrafting()
+    {
+        panelCrafting.SetActive(false);
+        ShowCraftInfo(false);
+    }
+
+    public void ShowCraftInfo(bool state)
+    {
+        panelCraftingInfo.SetActive(state);
+    }
+    
+    public void ShowInventoryPanel()
+    {
+        panelInventory.SetActive(!panelInventory.activeSelf);
+    }
+
+    public void ShowCharacterQuests()
+    {
+        panelCharacterQuests.SetActive(!panelCharacterQuests.activeSelf);
+    }
+    
+    public void ShowQuestsPanel()
+    {
+        panelQuests.SetActive(!panelQuests.activeSelf);
+    }
+
+    /*
+    public void AbrirPanelInteraccion(InteraccionExtraNPC tipoInteraccion)
+    {
+        switch (tipoInteraccion)
         {
-            panelShop.SetActive(!panelShop.activeSelf);
+            case InteraccionExtraNPC.Quests:
+                AbrirCerrarPanelInspectorQuests();
+                break;
+            case InteraccionExtraNPC.Tienda:
+                AbrirCerrarPanelTienda();
+                break;
+            case InteraccionExtraNPC.Crafting:
+                AbriPanelCrafting();
+                break;
         }
-
-        public void ShowCraftanel()
-        {
-            panelCraft.SetActive(!panelCraft.activeSelf);
-            ShowCraftInfoPanel(false);
-        }
-
-
-        public void ShowQuestCharacterPanel()
-        {
-            questsCharacterPanel.SetActive(!questsCharacterPanel.activeSelf);
-        }
-
-        public void ShowCraftInfoPanel(bool state)
-        {
-            panelCraftInfo.SetActive(state);
-        }
-
-        public void ShowQuestsPanel()
-        {
-        Debug.Log("abnrete sesamo");
-            questsPanel.SetActive(!questsPanel.activeSelf);
-        }
-
-        /*
-        public void ShowExtraInteraction(ExtraInteraction extra)
-        {
-            switch(extra)
-            {
-                case ExtraInteraction.Quest:
-                    ShowQuestsPanel();
-                    break;
-                case ExtraInteraction.Shop:
-                    ShowShopPanel();
-                    break;
-                case ExtraInteraction.Craft:
-                    ShowCraftanel();
-                    break;
-               
-
-            }
-        }
-        */
-
-    #endregion 
+    }
+    */
+    
+    #endregion
 }

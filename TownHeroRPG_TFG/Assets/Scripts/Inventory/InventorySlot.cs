@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 public enum InteractionType
 {
-    Click,
+    Info,
     Use,
     Equip,
     Remove
@@ -19,6 +19,7 @@ public class InventorySlot : MonoBehaviour
     public static Action <InteractionType, int> interaction;
 
     [SerializeField] private Image icon;
+    private bool itemInSlot;
     [SerializeField] private GameObject background;
     [SerializeField] private TextMeshProUGUI quantityText;
 
@@ -43,6 +44,7 @@ public class InventorySlot : MonoBehaviour
         background.SetActive(state);
     }
 
+    /*
     public void ClickSlot()
     {
         interaction?.Invoke(InteractionType.Click, Index);
@@ -56,6 +58,7 @@ public class InventorySlot : MonoBehaviour
             }
         }
     }
+    */
 
     public void UseSlotItem()
     {
@@ -79,6 +82,14 @@ public class InventorySlot : MonoBehaviour
         if (InventoryManager.Instance.itemsInventory[Index] != null)
         {
             interaction?.Invoke(InteractionType.Remove, Index);
+        }
+    }
+    
+    public void InfoItem()
+    {
+        if (InventoryManager.Instance.itemsInventory[Index] != null)
+        {
+            interaction?.Invoke(InteractionType.Info, Index);
         }
     }
 

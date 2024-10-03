@@ -216,8 +216,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9dc4b37e16e849a4e8b8d364314973df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialHealth: 0
-  maxHealth: 0
+  initialHealth: 25
+  maxHealth: 25
 --- !u!114 &6996844017048503893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,9 +230,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 064495666d83f314eb1e94feef75033c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  initialMana: 0
-  regenerationPerSecond: 0
-  maxMana: 0
+  initialMana: 50
+  regenerationPerSecond: 1
+  maxMana: 50
 --- !u!114 &83557555532969935
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,9 +246,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stats: {fileID: 11400000, guid: 36d3c2667fe76a14abd52850cc9c8d19, type: 2}
-  maxLevel: 0
-  expbase: 0
-  expIncrement: 0
+  maxLevel: 99
+  expBase: 2
+  expIncrement: 5
 --- !u!114 &4622294025982154066
 MonoBehaviour:
   m_ObjectHideFlags: 0

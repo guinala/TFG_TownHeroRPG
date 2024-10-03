@@ -9,19 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29551bf4a94c7a44094cc391e43cf4a1, type: 3}
-  m_Name: PlayerStats
+  m_Script: {fileID: 11500000, guid: 5bac388e248996a44913cdf3c9fb135f, type: 3}
+  m_Name: InventoryStore
   m_EditorClassIdentifier: 
-  Damage: 5
-  Level: 1
-  Defense: 2
-  Speed: 5
-  Experience: 0
-  ExpRequired: 5
-  ExpTotal: 0
-  Critical: 0.1
-  Block: 0.2
-  strength: 5
-  dexterity: 5
-  intelligence: 5
-  availablePoints: 0
+  Items: []

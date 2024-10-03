@@ -19,6 +19,7 @@ public class GameStateListener : MonoBehaviour
     public UnityEvent onShoppingState;
     public UnityEvent onMissionState;
     public UnityEvent onStatsState;
+    public UnityEvent onInventoryState;
 
     private void OnEnable()
     {
@@ -82,5 +83,8 @@ public class GameStateListener : MonoBehaviour
         
         if (newGameState.stateName == "Stats" && this.onStatsState != null)
             this.onStatsState.Invoke();
+        
+        if (newGameState.stateName == "Inventory" && this.onInventoryState != null)
+            this.onInventoryState.Invoke();
     }
 }
