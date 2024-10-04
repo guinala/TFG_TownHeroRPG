@@ -8,6 +8,7 @@ public class ManaPotionItem : InventoryItem
     [Header("Effects")]
     public float manaAmount;
 
+    
     public override bool Use()
     {
         if(InventoryManager.Instance.Player.PlayerMana.CanRestore)
@@ -18,4 +19,5 @@ public class ManaPotionItem : InventoryItem
 
         return false;
     }
+    
 }

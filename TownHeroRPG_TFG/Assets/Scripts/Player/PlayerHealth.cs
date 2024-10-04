@@ -10,11 +10,11 @@ public class PlayerHealth : HealthBase
 
     public bool Defeated { get; private set; }
 
-    private BoxCollider2D _boxCollider2D;
+    private CapsuleCollider2D _capsuleCollider2D;
 
     private void Awake()
     {
-        _boxCollider2D = GetComponent<BoxCollider2D>();
+        _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
     }
 
     protected override void Start()
@@ -60,7 +60,7 @@ public class PlayerHealth : HealthBase
 
     public void RestoreCharacter()
     {
-        _boxCollider2D.enabled = true;
+        _capsuleCollider2D.enabled = true;
         Defeated = false;
         health = initialHealth;
         UpdateHealthBar(health, initialHealth);
@@ -69,7 +69,7 @@ public class PlayerHealth : HealthBase
 
     protected override void CharacterDefeated()
     {
-        _boxCollider2D.enabled = false;
+        _capsuleCollider2D.enabled = false;
         Defeated = true;
         DefeatedEvent?.Invoke();
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -39,6 +40,7 @@ public class PlayerGeneral : MonoBehaviour
     {
         ButtonAttribute.attributeEvent -= AddAttribute;
     }
+    
 
     private void AddAttribute(AttributeType attributeType)
     {
@@ -46,7 +48,7 @@ public class PlayerGeneral : MonoBehaviour
         {
             return;
         }
-        Debug.Log("si");
+        
 
         switch (attributeType)
         {

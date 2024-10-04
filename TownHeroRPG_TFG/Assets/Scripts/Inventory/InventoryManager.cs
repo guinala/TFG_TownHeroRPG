@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    [SerializeField] private PlayerGeneral player;
+    private PlayerGeneral player;
     public PlayerGeneral Player => player;
 
     [SerializeField] private int slots;
@@ -19,6 +19,12 @@ public class InventoryManager : Singleton<InventoryManager>
     private void Start()
     {
         items = new InventoryItem[slots];
+    }
+
+    private void GetPlayer(PlayerGeneral playerGet)
+    {
+        this.player = playerGet;
+        Debug.Log("Player obtained" + player + player.PlayerHealth);
     }
 
     public int ObtainItemsAmount(string itemID)
@@ -35,7 +41,7 @@ public class InventoryManager : Singleton<InventoryManager>
 
         return total;
     }
-
+    
     public void ConsumeItem(string ID)
     {
         List<int> indexes = VerifyStock(ID);
@@ -213,6 +219,7 @@ public class InventoryManager : Singleton<InventoryManager>
     private void OnEnable()
     {
         InventorySlot.interaction += SlotResponse;
+        PlayerSpawner.onPlayerSpawned += GetPlayer;
     }
 
     private void SlotResponse(InteractionType type, int index)

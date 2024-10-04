@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject playerPrefab;
     public CinemachineVirtualCamera followCamera;
     public GameObject playerParent;
+    
+    public static Action<PlayerGeneral> onPlayerSpawned;
 
     public void InstantiatePlayerOnLevel()
     {
@@ -20,6 +23,8 @@ public class PlayerSpawner : MonoBehaviour
 
         // When player is instantiated and moved, reset path
         playerPath.levelEntrance = null;
+        
+        PlayerReady();
     }
 
     private GameObject GetPlayer()
@@ -55,5 +60,10 @@ public class PlayerSpawner : MonoBehaviour
 
         // No entrance found, return default
         return this.transform.GetChild(0).transform;
+    }
+
+    private void PlayerReady()
+    {
+        onPlayerSpawned?.Invoke(GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerGeneral>());
     }
 }
