@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class CoinManager : Singleton<CoinManager>
 {
     [SerializeField] private int testCoins = 100;
+    [SerializeField] private TextMeshProUGUI coinText;
 
     public int totalCoins { get; set; }
 
@@ -16,6 +18,7 @@ public class CoinManager : Singleton<CoinManager>
         //Para testar o sistema de moedas
         PlayerPrefs.DeleteKey(coinKey);
         LoadCoins();
+        coinText.text = totalCoins.ToString();
     }
     
     private void LoadCoins()

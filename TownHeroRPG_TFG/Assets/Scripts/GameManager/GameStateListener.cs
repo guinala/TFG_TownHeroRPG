@@ -20,6 +20,7 @@ public class GameStateListener : MonoBehaviour
     public UnityEvent onMissionState;
     public UnityEvent onStatsState;
     public UnityEvent onInventoryState;
+    public UnityEvent onCraftingState;
 
     private void OnEnable()
     {
@@ -86,5 +87,7 @@ public class GameStateListener : MonoBehaviour
         
         if (newGameState.stateName == "Inventory" && this.onInventoryState != null)
             this.onInventoryState.Invoke();
+        if (newGameState.stateName == "Crafting" && this.onCraftingState != null)
+            this.onCraftingState.Invoke();
     }
 }

@@ -21,7 +21,7 @@ public class ReceipeCard : MonoBehaviour
 
     public void Select()
     {
-        Debug.Log("Empanasdas CON ATTUN");
+        Debug.Log("La receta actual es: " + LoadedReceipe.Result.name);
         //UIManager.Instance.ShowCraftInfoPanel(true);
         CraftingManager.Instance.Display(LoadedReceipe);
     }

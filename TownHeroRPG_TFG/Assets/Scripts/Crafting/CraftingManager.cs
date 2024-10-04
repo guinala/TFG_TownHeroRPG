@@ -21,7 +21,8 @@ public class CraftingManager : Singleton<CraftingManager>
 
     [SerializeField] private Button button;
 
-    [Header("Receipe Result")]
+    [Header("Receipe Result")] 
+    [SerializeField] private GameObject messagePanel;
     [SerializeField] private Image iconResult;
     [SerializeField] private TextMeshProUGUI nameResult;
     [SerializeField] private TextMeshProUGUI descriptionResult;
@@ -51,28 +52,30 @@ public class CraftingManager : Singleton<CraftingManager>
     public void Display(Receipe receipe)
     {
         selectedReceipe = receipe;
+        
+        if(iconMaterial1.enabled == false) iconMaterial1.enabled = true;
+        if(iconMaterial2.enabled == false) iconMaterial2.enabled = true;
+        if(nameMaterial1.enabled == false) nameMaterial1.enabled = true;
+        if(nameMaterial2.enabled == false) nameMaterial2.enabled = true;
+        if(amountMaterial1.enabled == false) amountMaterial1.enabled = true;
+        if(amountMaterial2.enabled == false) amountMaterial2.enabled = true;
+        
         iconMaterial1.sprite = receipe.Material1.icon;
         iconMaterial2.sprite = receipe.Material2.icon;
         nameMaterial1.text = receipe.Material1.name;
         nameMaterial2.text = receipe.Material2.name;
         amountMaterial1.text = $"{InventoryManager.Instance.ObtainItemsAmount(receipe.Material1.id)} / {receipe.amountRequired1}";
         amountMaterial2.text = $"{InventoryManager.Instance.ObtainItemsAmount(receipe.Material2.id)} / {receipe.amountRequired2}";
-
-        if(CanCraft(receipe))
-        {
-            messageResult.text = "You can craft this item!";
-            button.interactable = true;
-        }
-
-        else
-        {
-            messageResult.text = "You don't have enough materials!";
-            button.interactable = false;
-        }
+        
+        if(iconResult.enabled == false) iconResult.enabled = true;
+        if(nameResult.enabled == false) nameResult.enabled = true;
+        if(descriptionResult.enabled == false) descriptionResult.enabled = true;
 
         iconResult.sprite = receipe.Result.icon;
         nameResult.text = receipe.Result.name;
         descriptionResult.text = receipe.Result.DescriptionCraftThing();
+        
+        button.gameObject.SetActive(true);
     }
 
     public bool CanCraft(Receipe receipe)
@@ -89,17 +92,31 @@ public class CraftingManager : Singleton<CraftingManager>
 
     public void Craft()
     {
-        for(int i = 0; i < selectedReceipe.amountRequired1; i++)
+        if(CanCraft(selectedReceipe))
         {
-            InventoryManager.Instance.ConsumeItem(selectedReceipe.Material1.id);
+            messageResult.text = "Material \n crafted!";
+            //button.interactable = true;
+            for(int i = 0; i < selectedReceipe.amountRequired1; i++)
+            {
+                InventoryManager.Instance.ConsumeItem(selectedReceipe.Material1.id);
+            }
+
+            for(int i = 0; i < selectedReceipe.amountRequired2; i++)
+            {
+                InventoryManager.Instance.ConsumeItem(selectedReceipe.Material2.id);
+            }
+
+            InventoryManager.Instance.AddItem(selectedReceipe.Result, selectedReceipe.amountResult);
+            messagePanel.SetActive(true);
+            Display(selectedReceipe);
         }
 
-        for(int i = 0; i < selectedReceipe.amountRequired2; i++)
+        else
         {
-            InventoryManager.Instance.ConsumeItem(selectedReceipe.Material2.id);
+            messageResult.text = "You don't have enough materials!";
+            messagePanel.SetActive(true);
+            //button.interactable = false;
         }
-
-        InventoryManager.Instance.AddItem(selectedReceipe.Result, selectedReceipe.amountResult);
-        Display(selectedReceipe);
+        
     }
 }

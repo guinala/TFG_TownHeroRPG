@@ -10,7 +10,6 @@ public class SceneLoaderManager : MonoBehaviour
     private SceneRequestSO _pendingRequest;
     private void OnEnable()
     {
-        Debug.Log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
         SceneLoader.loadSceneEvent += OnLoadLevelRequest;    
     }
     
@@ -27,7 +26,6 @@ public class SceneLoaderManager : MonoBehaviour
     // Function that will be called from a listener
     public void OnLoadLevelRequest(SceneRequestSO request)
     {
-        Debug.Log("Cosazas");
         if (IsSceneAlreadyLoaded(request.scene))
         {
            // Debug.Log("Cosazas");
@@ -43,7 +41,6 @@ public class SceneLoaderManager : MonoBehaviour
                 // If a loading screen is requested, then show it and wait
                 this._pendingRequest = request;
                 //this.loadingScreenUI.ToggleScreen(true);
-                Debug.Log("Deberia hacer esto");
                 StartCoroutine(Fade(fadeScreen, 1, 1f));
             }
             else
