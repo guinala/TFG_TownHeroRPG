@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -43,12 +43,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 16
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -72,7 +72,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -108,7 +108,1498 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: skeleton_swordless_0
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 584
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8d2bf79393b9c1942a0af85a43a512d2
+      internalID: 2080089751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_1
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 584
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 65c6b542fbc3ca347aaf8f34dad83198
+      internalID: -398051217
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_2
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 584
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 69edcdca5e0fed7428b6dfabf5e054af
+      internalID: 363368390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_3
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 584
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 23001c465ededcb45890cdae46065fd0
+      internalID: -1049370102
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_4
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 584
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5fae03cff91abb4785fb8d7a33cd23a
+      internalID: -871499953
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_5
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 584
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 492a43b8fd473484386a1f31b070e9bb
+      internalID: 1969292519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_6
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 536
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f25acac74027e64b9659d95a7aa2fd1
+      internalID: 1618627414
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_7
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 536
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bef857abeaf39ac46ad19a1ca8b74c0c
+      internalID: 374694373
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_8
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 536
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 207c38dcfab1fba418091e6b1a0652a9
+      internalID: -873160751
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_9
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 536
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8e46834a72c299c4d8f4d57b4096d7b3
+      internalID: -628795310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_10
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 536
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b5afd3aa0de7cf4ea6e3f906db89579
+      internalID: 1845394897
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_11
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 536
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ef89d3e88d6415b4abe5804d2ee1fbda
+      internalID: 1924959246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_12
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 488
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1463db2a787780048912d2b653a5adee
+      internalID: 1121640359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_13
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 488
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d734f74a3b25dfb46ab1bc72d2cfe845
+      internalID: 861103321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_14
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 488
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eca1341cb95e91340a47dde7b60a7325
+      internalID: 1357912830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_15
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 488
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f36ce787685fc7147b28f1943ade8571
+      internalID: -1960980371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_16
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 488
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24319d5d37c3d6148b2ec4b1b629fe8e
+      internalID: -1030477406
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_17
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 488
+        width: 15
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6df1a6fb428a4044cb8425381e1a78a1
+      internalID: -191960233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_18
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 440
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c170418e54f84b540a761656bd81f17d
+      internalID: -1387359766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_19
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 440
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b59d29cdcb8771e4e8e1117bb1a5ea22
+      internalID: -205657298
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_20
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 440
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dca522c2ceead6148abd7144dea4e97c
+      internalID: 1285836600
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_21
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 440
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbd516b39b353344ab4f2f8eb2da5aba
+      internalID: 957205647
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_22
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 440
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f644c0580fd09734cae71bc8841bcd62
+      internalID: -2098841833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_23
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 440
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2a5c5edba8d4c9e4296373653bd34372
+      internalID: 1898130249
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_24
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 392
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 630953d5bae279b4d9587e088c077cff
+      internalID: 819502676
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_25
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 392
+        width: 13
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a31887c9b152db647be7a76c91f6dd8d
+      internalID: -711074973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_26
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 392
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58ef5d16cb9a61841b664461dcf03bcc
+      internalID: 1454222597
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_27
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 392
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1835e1b3fbd3c0748a875745e708fc82
+      internalID: -1509582524
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_28
+      rect:
+        serializedVersion: 2
+        x: 208
+        y: 392
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7ba29b2e637dfad4884bdacc9534a051
+      internalID: -764098236
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_29
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 392
+        width: 13
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ce8bd5715dcd9340961254219c2e5f3
+      internalID: 1663734944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_30
+      rect:
+        serializedVersion: 2
+        x: 17
+        y: 344
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1e951d76826418041b684882692e51d4
+      internalID: 1519029990
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_31
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 344
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ef6d634e7fbe9842b5968e2516564e9
+      internalID: 1097085105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_32
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 344
+        width: 14
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd15d934adefa4849988d7e875eb7f4a
+      internalID: -1446592785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_33
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 344
+        width: 14
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be55bbc8a8330444fb48e1692b2cbb6b
+      internalID: 859745460
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_34
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 344
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9f5591c5010c94c46a4dcec9aa2e6ae0
+      internalID: -636911231
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_35
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 344
+        width: 14
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d3412d82ac6919046a6ca85cbeb143ad
+      internalID: -1619472458
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_36
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 296
+        width: 15
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 979554110278cb447b10a863349c69ff
+      internalID: -1810461635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_37
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 296
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 829632f8b8f2ca043bb06925300560bc
+      internalID: -1591131769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_38
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 296
+        width: 15
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38334633e68e901438768f702bc17c9a
+      internalID: -2003008884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_39
+      rect:
+        serializedVersion: 2
+        x: 157
+        y: 292
+        width: 17
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68938bab3713ec8478811e95be1ddcda
+      internalID: -636417299
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_40
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 290
+        width: 16
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eef20ad676ac7dc4c92e29f4727438e6
+      internalID: -588209270
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_41
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 290
+        width: 13
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9850158c588502e418112653dcf9a3b4
+      internalID: 650801584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_42
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 248
+        width: 23
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b08512e90da3ef41a491e84c758f3a0
+      internalID: -138736952
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_43
+      rect:
+        serializedVersion: 2
+        x: 57
+        y: 248
+        width: 21
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 690ce2550c2002f46a04eaef8a6aa4a3
+      internalID: -540390072
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_44
+      rect:
+        serializedVersion: 2
+        x: 105
+        y: 248
+        width: 21
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca362a8e3355288489d2ad43a0486fe4
+      internalID: -29500139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_45
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 248
+        width: 40
+        height: 30
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d80cfcb1d9cd4394d953133d1e1d57af
+      internalID: 1998132868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_46
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 248
+        width: 31
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bc49aa804e0f64d4fb678b8c84aa1fb3
+      internalID: 1821746328
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_47
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 248
+        width: 28
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 230df49087ff46e478a35ac5325da862
+      internalID: 1965726154
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_48
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 200
+        width: 15
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98c02243defb55b40a447bde92bbc7d9
+      internalID: -1300136943
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_49
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 200
+        width: 15
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0949eece917cf2d4c8d054cad33f4891
+      internalID: 996390360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_50
+      rect:
+        serializedVersion: 2
+        x: 112
+        y: 200
+        width: 15
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d2056d43f1fe0d8459c2a4a3a454fe04
+      internalID: 1951994885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_51
+      rect:
+        serializedVersion: 2
+        x: 161
+        y: 200
+        width: 14
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fcc002e46d2e084dbd8aee583739151
+      internalID: 1072678718
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_52
+      rect:
+        serializedVersion: 2
+        x: 209
+        y: 200
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 77b4096d806ee5d4798b71c717cdeaf5
+      internalID: 496946305
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_53
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 200
+        width: 13
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 521b21a4c0182af478486fca6b57cd13
+      internalID: -420742784
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_54
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 152
+        width: 16
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5b3ed31aedc4fa3428b8bfc1227cdf42
+      internalID: -1031797105
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_55
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 152
+        width: 21
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 604fd57974530d646bf3a50449a21414
+      internalID: 1638986611
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_56
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 152
+        width: 16
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cff112806cd432c4c8f8fc86d700b0ac
+      internalID: 900710859
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_57
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 104
+        width: 17
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eff1a24fc0cba7d4386a2401212e01e6
+      internalID: -333598593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_58
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 104
+        width: 20
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 24224783246697744b0d13efc13c3a82
+      internalID: -1127177472
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_59
+      rect:
+        serializedVersion: 2
+        x: 113
+        y: 104
+        width: 14
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e474ee0de31a9ce47bc3b064b4ff6740
+      internalID: -1251656232
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_60
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 56
+        width: 16
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0dcc05c33d0a6e64fa055af87b1e77c2
+      internalID: 1158596895
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_61
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 56
+        width: 22
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 309e787ac73efee44b37002cf7ee17cf
+      internalID: 937127632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_62
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 56
+        width: 18
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd6687516e02a2c45b16ec1349b48b2d
+      internalID: -643873212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_63
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 8
+        width: 21
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddeedbdd2a8dc7540b79a0eea0fb7c5e
+      internalID: 782041385
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_64
+      rect:
+        serializedVersion: 2
+        x: 63
+        y: 21
+        width: 11
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8b59d8fb1f095b43bbcd1dc451fa58f
+      internalID: -1157216666
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_65
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 18
+        width: 10
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47d6eb6f152617547b549f9b2930aeaf
+      internalID: 488500188
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_66
+      rect:
+        serializedVersion: 2
+        x: 106
+        y: 8
+        width: 24
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac620575c3e44ef40894130f7cd81c58
+      internalID: 123079785
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_67
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 8
+        width: 22
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 038e69f0a5f74cb4696879c7f003d992
+      internalID: -1294187733
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_68
+      rect:
+        serializedVersion: 2
+        x: 77
+        y: 15
+        width: 4
+        height: 4
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e4a3ec8933231ae44882dc4463695e93
+      internalID: -1741520137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_69
+      rect:
+        serializedVersion: 2
+        x: 152
+        y: 8
+        width: 27
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f65bde2da9c226a45988c08544ac161a
+      internalID: 452079348
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skeleton_swordless_70
+      rect:
+        serializedVersion: 2
+        x: 200
+        y: 8
+        width: 27
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a7f54686fbaf9d4081715f61fac3c64
+      internalID: 1035236648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +1610,78 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      skeleton_swordless_0: 2080089751
+      skeleton_swordless_1: -398051217
+      skeleton_swordless_10: 1845394897
+      skeleton_swordless_11: 1924959246
+      skeleton_swordless_12: 1121640359
+      skeleton_swordless_13: 861103321
+      skeleton_swordless_14: 1357912830
+      skeleton_swordless_15: -1960980371
+      skeleton_swordless_16: -1030477406
+      skeleton_swordless_17: -191960233
+      skeleton_swordless_18: -1387359766
+      skeleton_swordless_19: -205657298
+      skeleton_swordless_2: 363368390
+      skeleton_swordless_20: 1285836600
+      skeleton_swordless_21: 957205647
+      skeleton_swordless_22: -2098841833
+      skeleton_swordless_23: 1898130249
+      skeleton_swordless_24: 819502676
+      skeleton_swordless_25: -711074973
+      skeleton_swordless_26: 1454222597
+      skeleton_swordless_27: -1509582524
+      skeleton_swordless_28: -764098236
+      skeleton_swordless_29: 1663734944
+      skeleton_swordless_3: -1049370102
+      skeleton_swordless_30: 1519029990
+      skeleton_swordless_31: 1097085105
+      skeleton_swordless_32: -1446592785
+      skeleton_swordless_33: 859745460
+      skeleton_swordless_34: -636911231
+      skeleton_swordless_35: -1619472458
+      skeleton_swordless_36: -1810461635
+      skeleton_swordless_37: -1591131769
+      skeleton_swordless_38: -2003008884
+      skeleton_swordless_39: -636417299
+      skeleton_swordless_4: -871499953
+      skeleton_swordless_40: -588209270
+      skeleton_swordless_41: 650801584
+      skeleton_swordless_42: -138736952
+      skeleton_swordless_43: -540390072
+      skeleton_swordless_44: -29500139
+      skeleton_swordless_45: 1998132868
+      skeleton_swordless_46: 1821746328
+      skeleton_swordless_47: 1965726154
+      skeleton_swordless_48: -1300136943
+      skeleton_swordless_49: 996390360
+      skeleton_swordless_5: 1969292519
+      skeleton_swordless_50: 1951994885
+      skeleton_swordless_51: 1072678718
+      skeleton_swordless_52: 496946305
+      skeleton_swordless_53: -420742784
+      skeleton_swordless_54: -1031797105
+      skeleton_swordless_55: 1638986611
+      skeleton_swordless_56: 900710859
+      skeleton_swordless_57: -333598593
+      skeleton_swordless_58: -1127177472
+      skeleton_swordless_59: -1251656232
+      skeleton_swordless_6: 1618627414
+      skeleton_swordless_60: 1158596895
+      skeleton_swordless_61: 937127632
+      skeleton_swordless_62: -643873212
+      skeleton_swordless_63: 782041385
+      skeleton_swordless_64: -1157216666
+      skeleton_swordless_65: 488500188
+      skeleton_swordless_66: 123079785
+      skeleton_swordless_67: -1294187733
+      skeleton_swordless_68: -1741520137
+      skeleton_swordless_69: 452079348
+      skeleton_swordless_7: 374694373
+      skeleton_swordless_70: 1035236648
+      skeleton_swordless_8: -873160751
+      skeleton_swordless_9: -628795310
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

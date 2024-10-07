@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class PlayerWeapon : MonoBehaviour
 {
+    public float damage = 5f;
     /*
     public static Action<float, EnemyHealth> OnEnemyDamaged;
     [Header("Stats")]
@@ -203,4 +204,15 @@ public class PlayerWeapon : MonoBehaviour
         enemySelectionated = null;
     }
     */
+    
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        ITakeDamage takeDamage = other.gameObject.GetComponent<ITakeDamage>();
+        
+        if(takeDamage != null)
+        {
+            takeDamage.ITakeDamage(damage);
+            Debug.Log("Colision con: " + other.gameObject.name);
+        }
+    }
 }

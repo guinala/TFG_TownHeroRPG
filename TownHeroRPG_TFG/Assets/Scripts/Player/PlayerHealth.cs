@@ -3,8 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealth : HealthBase
+public class PlayerHealth : MonoBehaviour
 {
+    [SerializeField] protected int initialHealth;
+    [SerializeField] protected int maxHealth;
+
+    public float health { get; protected set; }
+    
     public static Action DefeatedEvent;
     public bool canRestore => health < maxHealth;
 
@@ -16,12 +21,34 @@ public class PlayerHealth : HealthBase
     {
         _capsuleCollider2D = GetComponent<CapsuleCollider2D>();
     }
-
-    protected override void Start()
+    
+    private void Start()
     {
-        base.Start();
+        health = initialHealth;
         UpdateHealthBar(health, maxHealth);
-        Debug.Log("La salud inicial es: " + health);
+    }
+    
+    public void AddDamage(float damage)
+    {
+        if(damage <= 0)
+        {
+            return;
+        }
+
+        if(health > 0)
+        {
+            health -= damage;
+            Debug.Log("cosazas");
+            UpdateHealthBar(health, maxHealth);
+
+            if(health <= 0)
+            {
+                health = 0;
+                
+                UpdateHealthBar(health, maxHealth);
+                CharacterDefeated();
+            }
+        }
     }
 
     private void Update()
@@ -67,7 +94,7 @@ public class PlayerHealth : HealthBase
     }
 
 
-    protected override void CharacterDefeated()
+    private void CharacterDefeated()
     {
         _capsuleCollider2D.enabled = false;
         Defeated = true;
@@ -82,7 +109,7 @@ public class PlayerHealth : HealthBase
         */
     }
 
-    protected override void UpdateHealthBar(float actualHealth, float maxHealth)
+    private void UpdateHealthBar(float actualHealth, float maxHealth)
     {
         UIManager.Instance.UpdateHealthBar(actualHealth, maxHealth);
     }

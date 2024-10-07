@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     public void OnMovement(InputAction.CallbackContext value)
     {
         _movementInput = value.ReadValue<Vector2>();
+        Debug.Log(_movementInput);;
         Flip(_movementInput);
         _animator.SetFloat(directionX, _movementInput.x);
         _animator.SetFloat(directionY, _movementInput.y);
