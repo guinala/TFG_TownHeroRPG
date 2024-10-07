@@ -40,7 +40,8 @@ public class EnemyHealth : MonoBehaviour, ITakeDamage
         if (actualHealth <= 0)
         {
             onEnemyDefeated?.Invoke(transform);
-            Destroy(gameObject);
+            animator.SetTrigger("Death");
+            //Destroy(gameObject);
         }
     }
 
