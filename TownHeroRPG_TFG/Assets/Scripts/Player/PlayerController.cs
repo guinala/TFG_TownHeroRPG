@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     [Header("Dependencies")]
     private Rigidbody2D rigidbody;
     private SpriteRenderer spriteRenderer;
+    [SerializeField] private BoxCollider2D collider_AttackRightLeft;
     private Animator _animator;
     private PlayerControls _playerControls;
 
@@ -80,10 +81,12 @@ public class PlayerController : MonoBehaviour
         if (movementInput.x > 0f) // Moving to the right
         {
             spriteRenderer.flipX = false;
+            collider_AttackRightLeft.offset = new Vector2(0.37f, 0.41f);
         }
         else if (movementInput.x < 0f) // Moving to the left
         {
             spriteRenderer.flipX = true;
+            collider_AttackRightLeft.offset = new Vector2(-0.37f, 0.41f);
         }
     }
     

@@ -9788,6 +9788,22 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9118581197261411522, guid: ac0e458157ad744d0b28c62b90c40786, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8778785
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118581197261411522, guid: ac0e458157ad744d0b28c62b90c40786, type: 3}
+      propertyPath: m_Size.y
+      value: 0.3811362
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118581197261411522, guid: ac0e458157ad744d0b28c62b90c40786, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.004563846
+      objectReference: {fileID: 0}
+    - target: {fileID: 9118581197261411522, guid: ac0e458157ad744d0b28c62b90c40786, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.18943442
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:

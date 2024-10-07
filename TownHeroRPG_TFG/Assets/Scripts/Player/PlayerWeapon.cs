@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 public class PlayerWeapon : MonoBehaviour
 {
     public float damage = 5f;
+    [SerializeField] private PlayerDamageSource playerDamageSource;
     /*
     public static Action<float, EnemyHealth> OnEnemyDamaged;
     [Header("Stats")]
