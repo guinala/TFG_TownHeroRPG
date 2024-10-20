@@ -9,7 +9,9 @@ public class RoomContentGenerator : MonoBehaviour
 {
     [SerializeField]
     private RoomGenerator playerRoom, defaultRoom;
-
+    
+    [SerializeField] private Transform playerSpawnPointScene;
+    
     List<GameObject> spawnedObjects = new List<GameObject>();
 
     [SerializeField]
@@ -18,6 +20,10 @@ public class RoomContentGenerator : MonoBehaviour
     public Transform itemParent;
 
     public UnityEvent RegenerateDungeon;
+    
+    [SerializeField]
+    private CinemachineVirtualCamera cinemachineCamera;
+
 
     private void Update()
     {
@@ -53,6 +59,8 @@ public class RoomContentGenerator : MonoBehaviour
         int randomRoomIndex = UnityEngine.Random.Range(0, dungeonData.roomsDictionary.Count);
         Vector2Int playerSpawnPoint = dungeonData.roomsDictionary.Keys.ElementAt(randomRoomIndex);
 
+        playerSpawnPointScene.position = new Vector3(playerSpawnPoint.x, playerSpawnPoint.y, playerSpawnPointScene.position.z);
+
         graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
 
         Vector2Int roomIndex = dungeonData.roomsDictionary.Keys.ElementAt(randomRoomIndex);
@@ -63,20 +71,20 @@ public class RoomContentGenerator : MonoBehaviour
             dungeonData.GetRoomFloorWithoutCorridors(roomIndex)
             );
 
-       // FocusCameraOnThePlayer(placedPrefabs[placedPrefabs.Count - 1].transform);
+        FocusCameraOnThePlayer(placedPrefabs[placedPrefabs.Count - 1].transform);
 
         spawnedObjects.AddRange(placedPrefabs);
 
         dungeonData.roomsDictionary.Remove(playerSpawnPoint);
     }
 
-    /*
+    
     private void FocusCameraOnThePlayer(Transform playerTransform)
     {
         cinemachineCamera.LookAt = playerTransform;
         cinemachineCamera.Follow = playerTransform;
     }
-    */
+    
 
     private void SelectEnemySpawnPoints(DungeonData dungeonData)
     {

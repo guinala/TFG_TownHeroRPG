@@ -456,11 +456,11 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 915141fbf462c35499d49bd6403e5731, type: 2}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
@@ -473,11 +473,11 @@ PrefabInstance:
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2137969290}
+      objectReference: {fileID: 2137969291}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
-      objectReference: {fileID: 2137969291}
+      objectReference: {fileID: 2137969290}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
       value: 2
@@ -492,7 +492,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: InstantiatePlayerOnLevel
+      value: SetGameState
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -504,19 +504,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: PlayerSpawner, Assembly-CSharp
+      value: GameStateChange, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
       value: GameStateChange, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+      propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgument
+      value: 
+      objectReference: {fileID: 11400000, guid: 5562fcbee12a0ad4fa5d9cdb68c8cc9b, type: 2}
+    - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgument
       value: 
       objectReference: {fileID: 11400000, guid: 5562fcbee12a0ad4fa5d9cdb68c8cc9b, type: 2}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: GameStateSO, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 3583201477938834181, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
       propertyPath: onDependenciesLoaded.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -587,6 +591,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8143197609247385937, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
   m_PrefabInstance: {fileID: 815220545}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &815220547 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3240873101600715662, guid: 2600457646590b24089dfe05c5c5460f, type: 3}
+  m_PrefabInstance: {fileID: 815220545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &964966431
 GameObject:
   m_ObjectHideFlags: 0
@@ -618,6 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRoom: {fileID: 7865203752102416072, guid: 3ae513d4db81b814eb7b20224088e279, type: 3}
   defaultRoom: {fileID: 5014036838999361873, guid: 215e2f0338d158f488869dfa60ba7db2, type: 3}
+  playerSpawnPointScene: {fileID: 815220547}
   graphTest: {fileID: 1243370903}
   itemParent: {fileID: 1801912218}
   RegenerateDungeon:
@@ -635,6 +645,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  cinemachineCamera: {fileID: 1006251579}
 --- !u!4 &964966433
 Transform:
   m_ObjectHideFlags: 0
