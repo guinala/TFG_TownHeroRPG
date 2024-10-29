@@ -202,8 +202,7 @@ MonoBehaviour:
   initialStateID: Default
   states:
   - stateID: Default
-    Actions:
-    - {fileID: 0}
+    Actions: []
     Transitions: []
 --- !u!114 &5656030173804513984
 MonoBehaviour:
