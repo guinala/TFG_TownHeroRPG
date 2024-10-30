@@ -97,8 +97,10 @@ public class RoomContentGenerator : MonoBehaviour
 
         playerSpawnPointScene.position = new Vector3(playerSpawnPoint.x, playerSpawnPoint.y, playerSpawnPointScene.position.z);
 
-        graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
+        //graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
 
+        Dictionary<Vector2Int, int> dijkstraResult = graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
+        
         Vector2Int roomIndex = dungeonData.roomsDictionary.Keys.ElementAt(randomRoomIndex);
 
         List<GameObject> placedPrefabs = playerRoom.ProcessRoom(
