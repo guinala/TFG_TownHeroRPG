@@ -153,6 +153,71 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &404491092
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2115694523938006633, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: ChestPrefab
+      value: 
+      objectReference: {fileID: 7607691775279638219, guid: 1e6fe30b8e3bec94ba7b6f29044785ed, type: 3}
+    - target: {fileID: 2115694523938006633, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: itemData.Array.data[0].itemData
+      value: 
+      objectReference: {fileID: 11400000, guid: ca1c181eaf92a334d90439276a2c9a73, type: 2}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4380658066054020301, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9147888321612453613, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+      propertyPath: m_Name
+      value: ChestRoom
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
 --- !u!1 &522691660
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,6 +389,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &759813759 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2115694523938006633, guid: bd0535731ec9de646a3b78c4418a8a7b, type: 3}
+  m_PrefabInstance: {fileID: 404491092}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d14142192fd194cbf45f1b7308280c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &763364129
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +703,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRoom: {fileID: 7865203752102416072, guid: 3ae513d4db81b814eb7b20224088e279, type: 3}
   defaultRoom: {fileID: 5014036838999361873, guid: 215e2f0338d158f488869dfa60ba7db2, type: 3}
+  chestRoom: {fileID: 759813759}
   playerSpawnPointScene: {fileID: 815220547}
   graphTest: {fileID: 1243370903}
   itemParent: {fileID: 1801912218}
@@ -2410,3 +2487,4 @@ SceneRoots:
   - {fileID: 5809002982533963079}
   - {fileID: 1472027208412525032}
   - {fileID: 889969908568791424}
+  - {fileID: 404491092}

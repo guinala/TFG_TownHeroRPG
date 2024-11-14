@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class RoomContentGenerator : MonoBehaviour
 {
     [SerializeField]
-    private RoomGenerator playerRoom, defaultRoom;
+    private RoomGenerator playerRoom, defaultRoom, chestRoom;
     
     [SerializeField] private Transform playerSpawnPointScene;
     
@@ -72,15 +72,15 @@ public class RoomContentGenerator : MonoBehaviour
 
         // Usar la habitación en el índice intermedio para colocar el contenido del cofre
         Vector2Int roomIndex = dungeonData.roomsDictionary.Keys.ElementAt(midRoomIndex);
-        /*
-        List<GameObject> placedPrefabs = playerRoom.ProcessRoom(
+        
+        List<GameObject> placedPrefabs = chestRoom.ProcessRoom(
             chestSpawnPoint,
             dungeonData.roomsDictionary.Values.ElementAt(midRoomIndex),
             dungeonData.GetRoomFloorWithoutCorridors(roomIndex)
         );
-        */
+        
 
-        //spawnedObjects.AddRange(placedPrefabs);
+        spawnedObjects.AddRange(placedPrefabs);
 
         // Eliminar la habitación seleccionada del diccionario
         dungeonData.roomsDictionary.Remove(chestSpawnPoint);
