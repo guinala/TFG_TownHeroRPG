@@ -23,6 +23,8 @@ public class RoomContentGenerator : MonoBehaviour
     
     [SerializeField]
     private CinemachineVirtualCamera cinemachineCamera;
+    private Vector2Int playerSpawnPoint;
+    private Dictionary<Vector2Int, int> dijkstraResult;
 
 
     private void Update()
@@ -59,6 +61,43 @@ public class RoomContentGenerator : MonoBehaviour
 
     private void SelectChestSpawnPoints(DungeonData dungeonData)
     {
+        // Ejecutar el algoritmo de Dijkstra desde la posición del jugador
+        //Dictionary<Vector2Int, int> dijkstraResult = graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
+        
+        // Ejecutar el algoritmo de Dijkstra desde la posición del jugador
+        int totalDistance = dijkstraResult.Values.Sum();
+        int averageDistance = totalDistance / dijkstraResult.Count;
+
+        // Encontrar la habitación cuya distancia sea la más cercana a la distancia media
+        Vector2Int chestSpawnPoint = dijkstraResult.OrderBy(kvp => Mathf.Abs(kvp.Value - averageDistance)).First().Key;
+
+        // Verificar si chestSpawnPoint está en el diccionario
+        if (!dungeonData.roomsDictionary.ContainsKey(chestSpawnPoint))
+        {
+            // Obtener la clave más cercana
+            chestSpawnPoint = dungeonData.roomsDictionary.Keys
+                .OrderBy(key => Vector2Int.Distance(key, chestSpawnPoint))
+                .First();
+        }
+
+        // Usar la habitación en el índice intermedio para colocar el contenido del cofre
+        Vector2Int roomIndex = chestSpawnPoint;
+
+        Debug.Log("Chest spawn point: " + chestSpawnPoint);
+        List<GameObject> placedPrefabs = chestRoom.ProcessRoom(
+            chestSpawnPoint,
+            dungeonData.roomsDictionary[chestSpawnPoint],
+            dungeonData.GetRoomFloorWithoutCorridors(roomIndex)
+        );
+
+        spawnedObjects.AddRange(placedPrefabs);
+
+        // Eliminar la habitación seleccionada del diccionario
+        dungeonData.roomsDictionary.Remove(chestSpawnPoint);
+
+        Debug.Log("Dungeon data tiene un diccionario con: " + dungeonData.roomsDictionary.Count + " elementos");
+        Debug.Log($"Elgida clave: {chestSpawnPoint}");
+        /*
         // Calcular el índice intermedio
         int midRoomIndex = dungeonData.roomsDictionary.Count % 2 == 0 
             ? (dungeonData.roomsDictionary.Count / 2) - 1 
@@ -88,18 +127,21 @@ public class RoomContentGenerator : MonoBehaviour
         Debug.Log("Dungeon data tiene un diccionario con: " + dungeonData.roomsDictionary.Count + " elementos");
         //var ultimoElemento = dungeonData.roomsDictionary.Last();
         Debug.Log($"Elgida clave: {midRoomIndex}");
+        */
     }
 
     private void SelectPlayerSpawnPoint(DungeonData dungeonData)
     {
         int randomRoomIndex = UnityEngine.Random.Range(0, dungeonData.roomsDictionary.Count);
-        Vector2Int playerSpawnPoint = dungeonData.roomsDictionary.Keys.ElementAt(randomRoomIndex);
+        //Vector2Int playerSpawnPoint = dungeonData.roomsDictionary.Keys.ElementAt(randomRoomIndex);
+        playerSpawnPoint = dungeonData.roomsDictionary.Keys.ElementAt(randomRoomIndex);
 
         playerSpawnPointScene.position = new Vector3(playerSpawnPoint.x, playerSpawnPoint.y, playerSpawnPointScene.position.z);
 
         //graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
 
-        Dictionary<Vector2Int, int> dijkstraResult = graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
+        //Dictionary<Vector2Int, int> dijkstraResult = graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
+        dijkstraResult = graphTest.RunDijkstraAlgorithm(playerSpawnPoint, dungeonData.floorPositions);
         
         Vector2Int roomIndex = dungeonData.roomsDictionary.Keys.ElementAt(randomRoomIndex);
 
