@@ -78,9 +78,14 @@ public class PrefabPlacer : MonoBehaviour
         }
         else
         {
-            newItem = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
-            newItem.transform.position = placementPosition;
-            newItem.transform.rotation = Quaternion.identity;
+            #if UNITY_EDITOR
+                        newItem = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+                        newItem.transform.position = placementPosition;
+                        newItem.transform.rotation = Quaternion.identity;
+            #else
+                        Debug.LogError("PrefabUtility is not available at runtime. Ensure this code is not called in builds.");
+                        return null;
+            #endif
         }
 
         return newItem;
