@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1565994852549927307}
   - component: {fileID: 6568200938409202493}
   - component: {fileID: -3148944032637221628}
+  - component: {fileID: 6821409641702420379}
   m_Layer: 0
   m_Name: WaterBottom
   m_TagString: Untagged
@@ -104,3 +105,24 @@ MonoBehaviour:
   RightSocket: 20
   ReferenceWeight: 10
   Weight: 0
+--- !u!65 &6821409641702420379
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1443028368536923584}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 0.31753278, z: 0.2}
+  m_Center: {x: 0.5, y: 0.15876639, z: 0}

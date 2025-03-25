@@ -99,12 +99,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CanBeUsedOnTheEdge: 0
-  UpSocket: 0
-  DownSocket: 0
-  LeftSocket: 0
-  RightSocket: 0
-  ReferenceWeight: 50
-  Weight: 0
+  UpSocket: 1
+  DownSocket: 1
+  LeftSocket: 1
+  RightSocket: 1
+  ReferenceWeight: 5
+  Weight: 5
 --- !u!1 &3110522926612356786
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -1315100297, guid: ecf9a0b2bb1c20b4f9ac9dfc294c684e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
