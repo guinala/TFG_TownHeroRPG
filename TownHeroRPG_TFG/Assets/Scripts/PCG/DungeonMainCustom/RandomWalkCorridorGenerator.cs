@@ -6,45 +6,24 @@ using UnityEngine;
 using Cinemachine;
 using UnityEngine.Events;
 
-public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
+public class RandomWalkCorridorGenerator : RandomWalkGenerator
 {
     //PCG parameters
     [SerializeField]
     private int corridorLength = 14, corridorCount = 5;
     [SerializeField]
-    [Range(0.1f,1)]
+    [Range(0.1f, 1)]
     private float roomPercent = 0.8f;
-
-    //PCG Data
-    private Dictionary<Vector2Int, HashSet<Vector2Int>> roomsDictionary 
-        = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
-    
-    private HashSet<Vector2Int> floorPositions, corridorPositions;
-
-    //Gizmos Data
-    private List<Color> roomColors = new List<Color>();
-    [SerializeField]
-    private bool showRoomGizmo = false, showCorridorsGizmo;
-
-    //Events
-    public UnityEvent<DungeonData> OnDungeonFloorReady;
 
     protected override void RunProceduralGeneration()
     {
-        CorridorFirstGeneration();
-        DungeonData data = new DungeonData
-        {
-            roomsDictionary = this.roomsDictionary,
-            corridorPositions = this.corridorPositions,
-            floorPositions = this.floorPositions
-        };
-        OnDungeonFloorReady?.Invoke(data);
+        RunRandomWalkCorridorAlgorithm();
     }
 
-    private void CorridorFirstGeneration()
+    private void RunRandomWalkCorridorAlgorithm()
     {
-        floorPositions = new HashSet<Vector2Int>();
-        HashSet<Vector2Int> potentialRoomPositions = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> path = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> possibleRoomPos = new HashSet<Vector2Int>();
 
         CreateCorridors(floorPositions, potentialRoomPositions);
 
@@ -87,7 +66,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
     {
         foreach (var position in deadEnds)
         {
-            if(roomFloors.Contains(position) == false)
+            if (roomFloors.Contains(position) == false)
             {
                 var room = RunRandomWalk(randomWalkParameters, position);
                 SaveRoomData(position, room);
@@ -106,7 +85,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
             {
                 if (floorPositions.Contains(position + direction))
                     neighboursCount++;
-                
+
             }
             if (neighboursCount == 1)
                 deadEnds.Add(position);
@@ -124,7 +103,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         foreach (var roomPosition in roomsToCreate)
         {
             var roomFloor = RunRandomWalk(randomWalkParameters, roomPosition);
-            
+
             SaveRoomData(roomPosition, roomFloor);
             roomPositions.UnionWith(roomFloor);
         }
@@ -143,7 +122,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
         roomColors.Add(UnityEngine.Random.ColorHSV());
     }
 
-    private void CreateCorridors(HashSet<Vector2Int> floorPositions, 
+    private void CreateCorridors(HashSet<Vector2Int> floorPositions,
         HashSet<Vector2Int> potentialRoomPositions)
     {
         var currentPosition = startPosition;
@@ -172,7 +151,7 @@ public class CorridorFirstDungeonGenerator : SimpleRandomWalkDungeonGenerator
                 Gizmos.DrawSphere((Vector2)roomData.Key, 0.5f);
                 foreach (var position in roomData.Value)
                 {
-                    Gizmos.DrawCube((Vector2)position + new Vector2(0.5f,0.5f), Vector3.one);
+                    Gizmos.DrawCube((Vector2)position + new Vector2(0.5f, 0.5f), Vector3.one);
                 }
                 i++;
             }

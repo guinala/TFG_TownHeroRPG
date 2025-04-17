@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a37ac5e1790f0c469e924f27540f124, type: 3}
-  m_Name: SmallRoom
+  m_Script: {fileID: 11500000, guid: df086e31900f92f48aa7a9c555c0f43d, type: 3}
+  m_Name: BigRoom
   m_EditorClassIdentifier: 
-  randomIterations: 1
-  iterations: 1
-  walkLength: 10
+  iterations: 50
+  walkLength: 50
+  startRandomEachIteration: 1
