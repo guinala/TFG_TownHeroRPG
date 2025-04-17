@@ -9,8 +9,7 @@ using UnityEngine.Events;
 public class RandomWalkCorridorGenerator : RandomWalkGenerator
 {
     //PCG parameters
-    [SerializeField]
-    private int corridorLength = 14, corridorCount = 5;
+    [SerializeField] private int corridorLength = 14, corridorCount = 5;
     [SerializeField]
     [Range(0.1f, 1)]
     private float roomPercent = 0.8f;
@@ -48,19 +47,6 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
         WallGenerator.CreateWalls(floorPositions, tilemapVisualizer);
     }
 
-    private IEnumerator GenerateRoomsCoroutine(HashSet<Vector2Int> potentialRoomPositions)
-    {
-        yield return new WaitForSeconds(2);
-        tilemapVisualizer.Clear();
-        GenerateRooms(potentialRoomPositions);
-        DungeonData data = new DungeonData
-        {
-            roomsDictionary = this.roomsDictionary,
-            corridorPositions = this.corridorPositions,
-            floorPositions = this.floorPositions
-        };
-        OnDungeonFloorReady?.Invoke(data);
-    }
 
     private void CreateRoomsAtDeadEnd(List<Vector2Int> deadEnds, HashSet<Vector2Int> roomFloors)
     {
