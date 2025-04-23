@@ -6,10 +6,10 @@ public static class Directions
 {
     public static List<Vector2Int> cardinalDirections = new List<Vector2Int>
     {
-        new Vector2Int(-1, 0),  // WEST
         new Vector2Int(0, 1),    // NORTH
         new Vector2Int(1, 0),    // EAST
-        new Vector2Int(0, -1)    // SOUTH
+        new Vector2Int(0, -1),    // SOUTH
+        new Vector2Int(-1, 0),  // WEST
     };
 
     public static List<Vector2Int> diagonalDirections = new List<Vector2Int>

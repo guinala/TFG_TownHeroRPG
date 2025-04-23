@@ -5,12 +5,12 @@ using System;
 using UnityEngine.UIElements;
 using UnityEditor.SceneManagement;
 
-[CustomEditor(typeof(WaveFunctionCollapseAlgorithm))]
+[CustomEditor(typeof(WaveFunctionCollapseAlgorithmNope))]
 public class WFC_EditorCustom : Editor
 {
     public override void OnInspectorGUI()
     {
-        WaveFunctionCollapseAlgorithm wfcGenerator = (WaveFunctionCollapseAlgorithm)target;
+        WaveFunctionCollapseAlgorithmNope wfcGenerator = (WaveFunctionCollapseAlgorithmNope)target;
 
         if (GUILayout.Button("Generar Mapa"))
         {

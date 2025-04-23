@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public static class WallPlacer
 {
@@ -41,7 +43,7 @@ public static class WallPlacer
         ["BottomEightDirections"] = new HashSet<int> { 0b01000001 }
     };
 
-    public static void GenerateWalls(HashSet<Vector2Int> floorPositions, ITilemapVisualizer visualizer)
+    public static void GenerateWalls(HashSet<Vector2Int> floorPositions, TilemapPainter visualizer)
     {
         if (floorPositions == null || floorPositions.Count == 0)
         {
@@ -57,8 +59,8 @@ public static class WallPlacer
         HashSet<Vector2Int> basicWallPositions = FindWalls(floorPositions, Directions.cardinalDirections);
         HashSet<Vector2Int> cornerWallPositions = FindWalls(floorPositions, Directions.diagonalDirections);
 
-        PaintWalls(visualizer, basicWallPositions, floorPositions, Directions.cardinalDirections, isBasicWall: true);
-        PaintWalls(visualizer, cornerWallPositions, floorPositions, Directions.allDirections, isBasicWall: false);
+        PlaceWalls(visualizer, basicWallPositions, floorPositions, Directions.cardinalDirections, isBasicWall: true);
+        PlaceWalls(visualizer, cornerWallPositions, floorPositions, Directions.allDirections, isBasicWall: false);
     }
 
     private static HashSet<Vector2Int> FindWalls(HashSet<Vector2Int> floorPositions, List<Vector2Int> directions)
@@ -78,22 +80,37 @@ public static class WallPlacer
         return wallPositions;
     }
 
-    private static void PaintWalls(ITilemapVisualizer visualizer, HashSet<Vector2Int> wallPositions,
+    private static void PlaceWalls(TilemapPainter painter, HashSet<Vector2Int> wallPositions,
         HashSet<Vector2Int> floorPositions, List<Vector2Int> directions, bool isBasicWall)
     {
+        int failedCount = 0;
         foreach (var position in wallPositions)
         {
             string neighborPattern = GenerateNeighborPattern(position, floorPositions, directions);
             int patternValue = Convert.ToInt32(neighborPattern, 2);
             string wallType = DetermineWallType(patternValue, isBasicWall);
+            string binaryPattern = Convert.ToString(patternValue, 2).PadLeft(4, '0');
+            Debug.Log($"Position {position}: Pattern {patternValue} ({binaryPattern}) -> WallType {wallType}");
+
+            bool success;
+            
             if (isBasicWall)
             {
-                visualizer.PaintSingleBasicWall(position, wallType, neighborPattern);
+                success = painter.PlaceBasicWall(position, wallType);
             }
             else
             {
-                visualizer.PaintSingleCornerWall(position, wallType, neighborPattern);
+                success = painter.PlaceCornerWall(position, wallType);
             }
+
+            if (!success)
+            {
+                failedCount++;
+            }
+        }
+        if (failedCount > 0)
+        {
+            Debug.LogWarning($"Failed to place {failedCount} walls.");
         }
     }
 
@@ -110,6 +127,8 @@ public static class WallPlacer
 
     private static string DetermineWallType(int patternValue, bool isBasicWall)
     {
+        string binaryPattern = Convert.ToString(patternValue, 2).PadLeft(4, '0');
+
         if (isBasicWall)
         {
             if (WallTypePatterns["Top"].Contains(patternValue)) return "Top";
@@ -130,12 +149,7 @@ public static class WallPlacer
             if (WallTypePatterns["BottomEightDirections"].Contains(patternValue)) return "BottomEightDirections";
         }
 
+
         return "Default"; // Fallback if no pattern matches
     }
-}
-
-public interface ITilemapVisualizer
-{
-    void PaintSingleBasicWall(Vector2Int position, string wallType, string binaryPattern);
-    void PaintSingleCornerWall(Vector2Int position, string wallType, string binaryPattern);
 }

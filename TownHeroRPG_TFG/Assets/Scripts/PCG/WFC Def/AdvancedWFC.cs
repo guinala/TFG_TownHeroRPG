@@ -8,11 +8,10 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [ExecuteInEditMode]
-public class AdvancedWFC : MonoBehaviour
+public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 {
     [Header("Grid Configuration")]
     [SerializeField] private bool progressive = true;
-    //[SerializeField] private bool showGrid;
     [SerializeField] private int dimension = 25;
 
     [Header("Tiles")]
@@ -26,61 +25,35 @@ public class AdvancedWFC : MonoBehaviour
 
     private bool IsGenerating;
 
-    // private void OnDrawGizmos()
-    // {
-    //     if (showGrid)
-    //     {
-    //         Gizmos.color = Color.green;
-    //         for (int row = 0; row < dimension; row++)
-    //         {
-    //             for (int col = 0; col < dimension; col++)
-    //             {
-    //                 Gizmos.DrawWireCube(new Vector3(col + 0.5f, row + 0.5f, 0f), new Vector3(1f, 1f, 0.1f));
-    //             }
-    //         }
-    //     }
-    // }
-
     private void Awake()
     {
         IsGenerating = false;
     }
 
+    public void StartGeneration()
+    {
+        Debug.Log("Comenzando iteraci�n");
+        Init();
+    }
+
     void Update() {
         if (IsGenerating)
         {
-            Debug.Log("cosazas");
-            GenerateStepByStep();
+            Wave();
         } 
-        else
-        {
-            Debug.Log("No se esta generando");
-        }
     }
     
     void EditorUpdate() {
         if(IsGenerating)
         {
-            Debug.Log("cosazas");
-            GenerateStepByStep();
-        }
-        else
-        {
-            Debug.Log("No se esta generando");
+            Wave();
         }
     }
     
 
-    // #if UNITY_EDITOR
-    // private void EditorUpdate()
-    // {
-    //     EditorApplication.update += Update;
-    // }
-    // #endif
-
     private void InitializeGrid()
     {
-        var tileList = AvailableTiles.Where(t => t != null).ToList();
+        List<TileAlgorithm> tileList = AvailableTiles.Where(t => t != null).ToList();
         tileList.Add(BaseTile);
         allTiles = tileList.OrderBy(t => t.Weight).ToArray();
 
@@ -103,7 +76,7 @@ public class AdvancedWFC : MonoBehaviour
         }
     }
 
-    public void GenerateMap()
+    public void Init()
     {
         int seed = Random.Range(1, 2000000);
         Random.InitState(seed);
@@ -115,17 +88,17 @@ public class AdvancedWFC : MonoBehaviour
         IsGenerating = true;
 
         CellAlgorithm initialCell = grid[0, 0];
-        CollapseCell(initialCell);
+        Collapse(initialCell);
 
         EditorApplication.update += EditorUpdate;
         MaxIteration = dimension * dimension;
     }
 
-    private void GenerateStepByStep()
+    private void Wave()
     {
         if (IsGenerating && Iteration < MaxIteration)
         {
-            PerformWaveFunctionStep();
+            WaveStep();
             Iteration++;
         }
         else
@@ -139,17 +112,17 @@ public class AdvancedWFC : MonoBehaviour
         }
     }
 
-    private void PerformWaveFunctionStep()
+    private void WaveStep()
     {
         if(progressive)
         {
             InstantiateCollapsedCells();
         }
 
-        CellAlgorithm nextCell = FindCellWithLowestEntropy();
+        CellAlgorithm nextCell = FindLowestEntropy();
         if (nextCell != null)
         {
-            CollapseCell(nextCell);
+            Collapse(nextCell);
         }
         else
         {
@@ -169,7 +142,7 @@ public class AdvancedWFC : MonoBehaviour
         {
             for (int col = 0; col < dimension; col++)
             {
-                var cell = grid[row, col];
+                CellAlgorithm cell = grid[row, col];
                 if (cell.collapsed && !cell.instantiated)
                 {
                     Instantiate(cell.selectedTile, new Vector3(col, row, 0f), Quaternion.identity, transform);
@@ -186,8 +159,8 @@ public class AdvancedWFC : MonoBehaviour
         {
             for (int col = 0; col < dimension; col++)
             {
-                var cell = grid[row, col];
-                if (cell.collapsed) //&& !cell.instantiated && cell.selectedTile != null)
+                CellAlgorithm cell = grid[row, col];
+                if (cell.collapsed) 
                 {
                     Instantiate(cell.selectedTile, new Vector3(col, row, 0f), Quaternion.identity, transform);
                     cell.instantiated = true;
@@ -197,7 +170,7 @@ public class AdvancedWFC : MonoBehaviour
     }
 
 
-    private void CollapseCell(CellAlgorithm cell)
+    private void Collapse(CellAlgorithm cell)
     {
         if (cell.tileOptions.Length == 0)
         {
@@ -206,21 +179,21 @@ public class AdvancedWFC : MonoBehaviour
             return;
         }
 
-        TileAlgorithm selectedTile = SelectTileBasedOnWeight(cell.tileOptions);
+        TileAlgorithm selectedTile = SelectTile(cell.tileOptions);
         cell.selectedTile = selectedTile;
         cell.tileOptions = new[] { selectedTile };
         cell.collapsed = true;
 
-        FilterPossibleOptions(cell);
+        Propagate(cell);
     }
 
-    private TileAlgorithm SelectTileBasedOnWeight(TileAlgorithm[] possibleTiles)
+    private TileAlgorithm SelectTile(TileAlgorithm[] possibleTiles)
     {
         if (possibleTiles.Length == 1)
             return possibleTiles[0];
 
-        var totalWeight = possibleTiles.Sum(t => t.Weight);
-        var randomValue = UnityEngine.Random.Range(0, totalWeight);
+        int totalWeight = possibleTiles.Sum(t => t.Weight);
+        int randomValue = UnityEngine.Random.Range(0, totalWeight);
         float cumulative = 0;
 
         foreach (var tile in possibleTiles)
@@ -233,16 +206,16 @@ public class AdvancedWFC : MonoBehaviour
         return possibleTiles.OrderByDescending(t => t.Weight).First();
     }
 
-    private void FilterPossibleOptions(CellAlgorithm cell)
+    private void Propagate(CellAlgorithm cell)
     {
-        var topCell = GetTopCell(cell.row, cell.col);
-        var bottomCell = GetBottomCell(cell.row, cell.col);
-        var leftCell = GetLeftCell(cell.row, cell.col);
-        var rightCell = GetRightCell(cell.row, cell.col);
+        CellAlgorithm topCell = GetTopCell(cell.row, cell.col);
+        CellAlgorithm bottomCell = GetBottomCell(cell.row, cell.col);
+        CellAlgorithm leftCell = GetLeftCell(cell.row, cell.col);
+        CellAlgorithm rightCell = GetRightCell(cell.row, cell.col);
 
         if (topCell != null && !topCell.collapsed)
         {
-            var possibleTilesLength = topCell.tileOptions.Length;
+            int possibleTilesLength = topCell.tileOptions.Length;
             topCell.tileOptions = topCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.UpSocketID == t.DownSocketID)).ToArray();
 
             if (topCell.tileOptions.Length == 0)
@@ -252,17 +225,17 @@ public class AdvancedWFC : MonoBehaviour
             }
             else if (topCell.tileOptions.Length == 1)
             {
-                CollapseCell(topCell);
+                Collapse(topCell);
             }
             else if (possibleTilesLength > topCell.tileOptions.Length)
             {
-                FilterPossibleOptions(topCell);
+                Propagate(topCell);
             }
         }
 
         if (bottomCell != null && !bottomCell.collapsed)
         {
-            var possibleTilesLength = bottomCell.tileOptions.Length;
+            int possibleTilesLength = bottomCell.tileOptions.Length;
             bottomCell.tileOptions = bottomCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.DownSocketID == t.UpSocketID)).ToArray();
 
             if (bottomCell.tileOptions.Length == 0)
@@ -272,17 +245,17 @@ public class AdvancedWFC : MonoBehaviour
             }
             else if (bottomCell.tileOptions.Length == 1)
             {
-                CollapseCell(bottomCell);
+                Collapse(bottomCell);
             }
             else if (possibleTilesLength > bottomCell.tileOptions.Length)
             {
-                FilterPossibleOptions(bottomCell);
+                Propagate(bottomCell);
             }
         }
 
         if (leftCell != null && !leftCell.collapsed)
         {
-            var possibleTilesLength = leftCell.tileOptions.Length;
+            int possibleTilesLength = leftCell.tileOptions.Length;
             leftCell.tileOptions = leftCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.LeftSocketID == t.RightSocketID)).ToArray();
 
             if (leftCell.tileOptions.Length == 0)
@@ -292,17 +265,17 @@ public class AdvancedWFC : MonoBehaviour
             }
             else if (leftCell.tileOptions.Length == 1)
             {
-                CollapseCell(leftCell);
+                Collapse(leftCell);
             }
             else if (possibleTilesLength > leftCell.tileOptions.Length)
             {
-                FilterPossibleOptions(leftCell);
+                Propagate(leftCell);
             }
         }
 
         if (rightCell != null && !rightCell.collapsed)
         {
-            var possibleTilesLength = rightCell.tileOptions.Length;
+            int possibleTilesLength = rightCell.tileOptions.Length;
             rightCell.tileOptions = rightCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.RightSocketID == t.LeftSocketID)).ToArray();
 
             if (rightCell.tileOptions.Length == 0)
@@ -312,11 +285,11 @@ public class AdvancedWFC : MonoBehaviour
             }
             else if (rightCell.tileOptions.Length == 1)
             {
-                CollapseCell(rightCell);
+                Collapse(rightCell);
             }
             else if (possibleTilesLength > rightCell.tileOptions.Length)
             {
-                FilterPossibleOptions(rightCell);
+                Propagate(rightCell);
             }
         }
     }
@@ -349,7 +322,7 @@ public class AdvancedWFC : MonoBehaviour
         return grid[row, col + 1];
     }
 
-    private CellAlgorithm FindCellWithLowestEntropy()
+    private CellAlgorithm FindLowestEntropy()
     {
         CellAlgorithm cellWithLowestEntropy = null;
         float lowestEntropy = float.MaxValue;
@@ -358,10 +331,10 @@ public class AdvancedWFC : MonoBehaviour
         {
             for (int col = 0; col < dimension; col++)
             {
-                var cell = grid[row, col];
+                CellAlgorithm cell = grid[row, col];
                 if (cell.collapsed) continue;
 
-                var entropy = CalculateEntropy(cell.tileOptions);
+                float entropy = CalculateEntropy(cell.tileOptions);
                 if (entropy < lowestEntropy)
                 {
                     lowestEntropy = entropy;
@@ -375,10 +348,8 @@ public class AdvancedWFC : MonoBehaviour
 
     private float CalculateEntropy(TileAlgorithm[] possibleTiles)
     {
-        // var weightSum = possibleTiles.Sum(t => 1f / t.Weight);
-        // var weightSumLog = possibleTiles.Sum(t => (1f / t.Weight) * math.log(1f / t.Weight));
-        var weightSum = possibleTiles.Sum(t => t.Weight);
-        var weightSumLog = possibleTiles.Sum(t => (t.Weight) * math.log(t.Weight));
+        int weightSum = possibleTiles.Sum(t => t.Weight);
+        float weightSumLog = possibleTiles.Sum(t => (t.Weight) * math.log(t.Weight));
         return math.log(weightSum) - (weightSumLog / weightSum);
     }
 
@@ -388,12 +359,5 @@ public class AdvancedWFC : MonoBehaviour
         {
             DestroyImmediate(transform.GetChild(transform.childCount - 1).gameObject);
         }
-    }
-
-    [ContextMenu("Generate Map")]
-    public void StartGeneration()
-    {
-        Debug.Log("Comenzando iteraci�n");
-        GenerateMap();
     }
 }

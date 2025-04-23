@@ -8,7 +8,7 @@ using UnityEditor;
 using UnityEngine;
 
 
-public class WaveFunctionCollapseAlgorithm : MonoBehaviour
+public class WaveFunctionCollapseAlgorithmNope : MonoBehaviour
 {
     [SerializeField] private bool showGrid;
 

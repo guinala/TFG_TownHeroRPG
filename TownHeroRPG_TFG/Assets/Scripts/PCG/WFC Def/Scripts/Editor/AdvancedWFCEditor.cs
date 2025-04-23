@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(AdvancedWFC))]
+[CustomEditor(typeof(WaveFunctionCollapseAlgorithm))]
 public class AdvancedWFCEditor : Editor
 {
     public override void OnInspectorGUI()
@@ -13,7 +13,7 @@ public class AdvancedWFCEditor : Editor
         if (GUILayout.Button("Generate"))
         {
             // Obtiene la instancia del script AdvancedWFC.
-            AdvancedWFC advancedWFC = (AdvancedWFC)target;
+            WaveFunctionCollapseAlgorithm advancedWFC = (WaveFunctionCollapseAlgorithm)target;
 
             // Llama al método que inicia la generación.
             advancedWFC.StartGeneration();
