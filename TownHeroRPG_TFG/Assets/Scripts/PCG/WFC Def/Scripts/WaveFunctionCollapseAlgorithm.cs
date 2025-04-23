@@ -8,22 +8,21 @@ using UnityEditor;
 using UnityEngine;
 
 
-[ExecuteInEditMode, Serializable]
 public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 {
     [SerializeField] private bool showGrid;
 
     [Header("Grid config"), SerializeField] private int dimension = 4;
-    [SerializeField, Tooltip("Leave the number at 0 to have random generated maps")] private int mapSeed = 0;
 
     private TileAlgorithm[] tiles;
-    private CellAlgorithm[,] gridCells;
+    private CellAlgorithm[,] cells;
 
-    public TileAlgorithm BaseTile;
-    //[HideInInspector, SerializeField] public List<TilePattern> TilePatternList;
-    [Header("Tiles disponibles")]
+    public TileAlgorithm groundTile;
+
+    [Header("Tiles")]
     public List<TileAlgorithm> AvailableTiles = new List<TileAlgorithm>();
-    [HideInInspector] public bool Generate;
+
+    [HideInInspector] public bool Generating;
     [HideInInspector] public int UsedSeed;
     [HideInInspector] public int IterationNumber;
     [HideInInspector] public int MaxIterationNumber;
@@ -31,6 +30,11 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     [HideInInspector] public double ElapsedTime;
 
     private double executionStartup;
+
+    private void Start()
+    {
+        Generate();
+    }
 
     private void OnDrawGizmos()
     {
@@ -50,68 +54,62 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     private void Awake()
     {
-        Generate = false;
+        Generating = false;
         // TilePatternList = new List<TilePattern>();
     }
 
     void EditorUpdate()
     {
-        if (Generate && IterationNumber < MaxIterationNumber)
+        if (Generating && IterationNumber < MaxIterationNumber)
         {
             Debug.Log("Hola");
             WaveFunction();
-            ElapsedTime = EditorApplication.timeSinceStartup - executionStartup;
-            IterationPerSecond = IterationNumber / ElapsedTime;
+            //ElapsedTime = EditorApplication.timeSinceStartup - executionStartup;
+            //IterationPerSecond = IterationNumber / ElapsedTime;
         }
-        Debug.Log("Termino: " + IterationNumber + " de " + MaxIterationNumber);
-        Debug.Log(Generate);
     }
 
-    /*
-    ██╗    ██╗███████╗ ██████╗    ███╗   ███╗███████╗████████╗██╗  ██╗ ██████╗ ██████╗ ███████╗
-    ██║    ██║██╔════╝██╔════╝    ████╗ ████║██╔════╝╚══██╔══╝██║  ██║██╔═══██╗██╔══██╗██╔════╝
-    ██║ █╗ ██║█████╗  ██║         ██╔████╔██║█████╗     ██║   ███████║██║   ██║██║  ██║███████╗
-    ██║███╗██║██╔══╝  ██║         ██║╚██╔╝██║██╔══╝     ██║   ██╔══██║██║   ██║██║  ██║╚════██║
-    ╚███╔███╔╝██║     ╚██████╗    ██║ ╚═╝ ██║███████╗   ██║   ██║  ██║╚██████╔╝██████╔╝███████║
-     ╚══╝╚══╝ ╚═╝      ╚═════╝    ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
-    */
+    void Update()
+    {
+        if (Generating && IterationNumber < MaxIterationNumber)
+        {
+            Debug.Log("Hola");
+            WaveFunction();
+            //ElapsedTime = EditorApplication.timeSinceStartup - executionStartup;
+            //IterationPerSecond = IterationNumber / ElapsedTime;
+        }
+    }
 
     void InitCells()
     {
         //ConfigTiles();
 
         var tilesList = AvailableTiles.Where(t => t != null).ToList();
-        tilesList.Add(BaseTile);
+        tilesList.Add(groundTile);
         //Debug.Log(BaseTile + ", " + tilesList.Count);
-
-        // Inicializar Weight con ReferenceWeight
-        foreach (var tile in tilesList)
-        {
-            tile.Weight = tile.ReferenceWeight; // <--- Añade esto
-        }
 
         tiles = tilesList.OrderBy(t => t.Weight).ToArray();
 
 
-        for (int i = 0; i < gridCells.GetLength(0); i++)
+        for (int i = 0; i < cells.GetLength(0); i++)
         {
-            for (int j = 0; j < gridCells.GetLength(1); j++)
+            for (int j = 0; j < cells.GetLength(1); j++)
             {
-                gridCells[i, j] = new CellAlgorithm
+                cells[i, j] = new CellAlgorithm
                 {
-                    Row = i,
-                    Col = j,
-                    Collapsed = false
+                    row = i,
+                    col = j,
+                    collapsed = false
                 };
                 //Debug.Log("hecho");
 
                 if (i == 0 || j == 0 || i == dimension - 1 || j == dimension - 1)
                 {
-                    gridCells[i, j].PossibleTiles = tiles.Where(t => t.CanBeUsedOnTheEdge).ToArray();
+                    cells[i, j].tileOptions = tiles.Where(t => t.UseOnEdges).ToArray();
                 }
                 else
                 {
-                    gridCells[i, j].PossibleTiles = tiles;
+                    cells[i, j].tileOptions = tiles;
                 }
             }
         }
@@ -235,19 +233,19 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     private void WaveFunction()
     {
-        for (int i = 0; i < gridCells.GetLength(0); i++)
+        for (int i = 0; i < cells.GetLength(0); i++)
         {
-            for (int j = 0; j < gridCells.GetLength(1); j++)
+            for (int j = 0; j < cells.GetLength(1); j++)
             {
-                var currentCell = gridCells[i, j];
+                var currentCell = cells[i, j];
 
-                if (currentCell.Collapsed)
+                if (currentCell.collapsed)
                 {
                     // Instantiate the collapsed cell
-                    if (!currentCell.Instantiated)
+                    if (!currentCell.instantiated)
                     {
-                        Instantiate(currentCell.Tile, new Vector3(j, i, 0f), Quaternion.identity, gameObject.transform);
-                        currentCell.Instantiated = true;
+                        Instantiate(currentCell.selectedTile, new Vector3(j, i, 0f), Quaternion.identity, gameObject.transform);
+                        currentCell.instantiated = true;
                     }
                 }
             }
@@ -257,7 +255,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
         if (nextCellToCollapse == null)
         {
-            Generate = false;
+            Generating = false;
             EditorApplication.update -= EditorUpdate;
         }
         else
@@ -270,78 +268,78 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     private void FilterPossibleOptions(CellAlgorithm cell)
     {
-        var topCell = GetTopCell(cell.Row, cell.Col);
-        var bottomCell = GetBottomCell(cell.Row, cell.Col);
-        var leftCell = GetLeftCell(cell.Row, cell.Col);
-        var rightCell = GetRightCell(cell.Row, cell.Col);
+        var topCell = GetTopCell(cell.row, cell.col);
+        var bottomCell = GetBottomCell(cell.row, cell.col);
+        var leftCell = GetLeftCell(cell.row, cell.col);
+        var rightCell = GetRightCell(cell.row, cell.col);
 
-        if (topCell != null && !topCell.Collapsed)
+        if (topCell != null && !topCell.collapsed)
         {
-            var possibleTilesLength = topCell.PossibleTiles.Length;
-            topCell.PossibleTiles = topCell.PossibleTiles.Where(t => cell.PossibleTiles.Any(p => p.UpSocket == t.DownSocket))?.ToArray();
+            var possibleTilesLength = topCell.tileOptions.Length;
+            topCell.tileOptions = topCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.UpSocketID == t.DownSocketID))?.ToArray();
 
-            if (topCell.PossibleTiles.Length == 1)
+            if (topCell.tileOptions.Length == 1)
             {
                 CollapseCell(topCell);
                 //Debug.Log("Voy a colapsar");
             }
             else
             {
-                if (possibleTilesLength > topCell.PossibleTiles.Length)
+                if (possibleTilesLength > topCell.tileOptions.Length)
                 {
                     FilterPossibleOptions(topCell);
                 }
             }
         }
 
-        if (bottomCell != null && !bottomCell.Collapsed)
+        if (bottomCell != null && !bottomCell.collapsed)
         {
-            var possibleTilesLength = bottomCell.PossibleTiles.Length;
-            bottomCell.PossibleTiles = bottomCell.PossibleTiles.Where(t => cell.PossibleTiles.Any(p => p.DownSocket == t.UpSocket))?.ToArray();
+            var possibleTilesLength = bottomCell.tileOptions.Length;
+            bottomCell.tileOptions = bottomCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.DownSocketID == t.UpSocketID))?.ToArray();
 
-            if (bottomCell.PossibleTiles.Length == 1)
+            if (bottomCell.tileOptions.Length == 1)
             {
                 CollapseCell(bottomCell);
             }
             else
             {
-                if (possibleTilesLength > bottomCell.PossibleTiles.Length)
+                if (possibleTilesLength > bottomCell.tileOptions.Length)
                 {
                     FilterPossibleOptions(bottomCell);
                 }
             }
         }
 
-        if (leftCell != null && !leftCell.Collapsed)
+        if (leftCell != null && !leftCell.collapsed)
         {
-            var possibleTilesLength = leftCell.PossibleTiles.Length;
-            leftCell.PossibleTiles = leftCell.PossibleTiles.Where(t => cell.PossibleTiles.Any(p => p.LeftSocket == t.RightSocket))?.ToArray();
+            var possibleTilesLength = leftCell.tileOptions.Length;
+            leftCell.tileOptions = leftCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.LeftSocketID == t.RightSocketID))?.ToArray();
 
-            if (leftCell.PossibleTiles.Length == 1)
+            if (leftCell.tileOptions.Length == 1)
             {
                 CollapseCell(leftCell);
             }
             else
             {
-                if (possibleTilesLength > leftCell.PossibleTiles.Length)
+                if (possibleTilesLength > leftCell.tileOptions.Length)
                 {
                     FilterPossibleOptions(leftCell);
                 }
             }
         }
 
-        if (rightCell != null && !rightCell.Collapsed)
+        if (rightCell != null && !rightCell.collapsed)
         {
-            var possibleTilesLength = rightCell.PossibleTiles.Length;
-            rightCell.PossibleTiles = rightCell.PossibleTiles.Where(t => cell.PossibleTiles.Any(p => p.RightSocket == t.LeftSocket))?.ToArray();
+            var possibleTilesLength = rightCell.tileOptions.Length;
+            rightCell.tileOptions = rightCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.RightSocketID == t.LeftSocketID))?.ToArray();
 
-            if (rightCell.PossibleTiles.Length == 1)
+            if (rightCell.tileOptions.Length == 1)
             {
                 CollapseCell(rightCell);
             }
             else
             {
-                if (possibleTilesLength > rightCell.PossibleTiles.Length)
+                if (possibleTilesLength > rightCell.tileOptions.Length)
                 {
                     FilterPossibleOptions(rightCell);
                 }
@@ -353,18 +351,18 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     {
         TileAlgorithm selectedTile = null;
 
-        if (cell.PossibleTiles.Length == 1)
+        if (cell.tileOptions.Length == 1)
         {
-            selectedTile = cell.PossibleTiles[0];
+            selectedTile = cell.tileOptions[0];
         }
         else
         {
-            var sumOfWeights = cell.PossibleTiles.Sum(c => c.Weight);
+            var sumOfWeights = cell.tileOptions.Sum(c => c.Weight);
             var pickedNumber = UnityEngine.Random.Range(0, sumOfWeights);
             TileAlgorithm pickedTile = null;
 
             float cumulativeWeight = 0;
-            foreach (var item in cell.PossibleTiles)
+            foreach (var item in cell.tileOptions)
             {
                 cumulativeWeight += item.Weight;
                 if (pickedNumber <= cumulativeWeight)
@@ -374,7 +372,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                 }
             }
 
-            var sameWeightTiles = cell.PossibleTiles.Where(c => c.Weight == pickedTile.Weight).ToArray();
+            var sameWeightTiles = cell.tileOptions.Where(c => c.Weight == pickedTile.Weight).ToArray();
 
             if (sameWeightTiles.Length > 1)
             {
@@ -386,7 +384,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             {
                 if (pickedTile is null)
                 {
-                    selectedTile = cell.PossibleTiles.OrderByDescending(c => c.Weight).First();
+                    selectedTile = cell.tileOptions.OrderByDescending(c => c.Weight).First();
                 }
                 else
                 {
@@ -395,9 +393,9 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             }
         }
 
-        cell.Tile = selectedTile;
-        cell.PossibleTiles = new[] { cell.Tile };
-        cell.Collapsed = true;
+        cell.selectedTile = selectedTile;
+        cell.tileOptions = new[] { cell.selectedTile };
+        cell.collapsed = true;
         //Debug.Log("Patateuelas");
         FilterPossibleOptions(cell);
     }
@@ -409,7 +407,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             return null;
         }
 
-        return gridCells[row + 1, col];
+        return cells[row + 1, col];
     }
 
     private CellAlgorithm GetBottomCell(int row, int col)
@@ -419,7 +417,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             return null;
         }
 
-        return gridCells[row - 1, col];
+        return cells[row - 1, col];
     }
 
     private CellAlgorithm GetLeftCell(int row, int col)
@@ -429,7 +427,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             return null;
         }
 
-        return gridCells[row, col - 1];
+        return cells[row, col - 1];
     }
 
     private CellAlgorithm GetRightCell(int row, int col)
@@ -439,7 +437,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             return null;
         }
 
-        return gridCells[row, col + 1];
+        return cells[row, col + 1];
     }
 
     private CellAlgorithm GetSmallerEntropy()
@@ -447,20 +445,22 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         CellAlgorithm nextCellToCollapse = null;
         float smallerEntropy = float.MaxValue;
 
-        for (int i = 0; i < gridCells.GetLength(0); i++)
+        for (int i = 0; i < cells.GetLength(0); i++)
         {
-            for (int j = 0; j < gridCells.GetLength(1); j++)
+            for (int j = 0; j < cells.GetLength(1); j++)
             {
-                var candidateCell = gridCells[i, j];
+                var candidateCell = cells[i, j];
 
-                if (candidateCell.Collapsed)
+                if (candidateCell.collapsed)
                 {
                     continue;
                 }
 
 
-                var weightSum = candidateCell.PossibleTiles.Sum(c => 1 / (float)c.Weight);
-                var weightSumLog = candidateCell.PossibleTiles.Sum(c => (1 / (float)c.Weight) * math.log(1 / (float)c.Weight));
+                //var weightSum = candidateCell.tileOptions.Sum(c => 1 / (float)c.Weight);
+                //var weightSumLog = candidateCell.tileOptions.Sum(c => (1 / (float)c.Weight) * math.log(1 / (float)c.Weight));
+                var weightSum = candidateCell.tileOptions.Sum(c => (float)c.Weight);
+                var weightSumLog = candidateCell.tileOptions.Sum(c => ((float)c.Weight) * math.log((float)c.Weight));
 
                 var entropy = math.log(weightSum) - (weightSumLog / weightSum);
 
@@ -475,55 +475,22 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         return nextCellToCollapse;
     }
 
-    /*
-    ███████╗██████╗ ██╗████████╗ ██████╗ ██████╗     ███╗   ███╗███████╗████████╗██╗  ██╗ ██████╗ ██████╗ ███████╗
-    ██╔════╝██╔══██╗██║╚══██╔══╝██╔═══██╗██╔══██╗    ████╗ ████║██╔════╝╚══██╔══╝██║  ██║██╔═══██╗██╔══██╗██╔════╝
-    █████╗  ██║  ██║██║   ██║   ██║   ██║██████╔╝    ██╔████╔██║█████╗     ██║   ███████║██║   ██║██║  ██║███████╗
-    ██╔══╝  ██║  ██║██║   ██║   ██║   ██║██╔══██╗    ██║╚██╔╝██║██╔══╝     ██║   ██╔══██║██║   ██║██║  ██║╚════██║
-    ███████╗██████╔╝██║   ██║   ╚██████╔╝██║  ██║    ██║ ╚═╝ ██║███████╗   ██║   ██║  ██║╚██████╔╝██████╔╝███████║
-    ╚══════╝╚═════╝ ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝    ╚═╝     ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
-    */
-
-    public void GenerateMap()
+    public void Generate()
     {
-        if (mapSeed > 0)
-        {
-            UsedSeed = mapSeed;
-            UnityEngine.Random.InitState(mapSeed);
-        }
-        else
-        {
-            UsedSeed = UnityEngine.Random.Range(1, 2000000);
-            UnityEngine.Random.InitState(UsedSeed);
-        }
+        UsedSeed = UnityEngine.Random.Range(1, 2000000);
+        UnityEngine.Random.InitState(UsedSeed);
 
         IterationNumber = 0;
         ClearGridObjects();
 
-        gridCells = new CellAlgorithm[dimension, dimension];
+        cells = new CellAlgorithm[dimension, dimension];
         InitCells();
-        Generate = true;
-        CollapseCell(gridCells[0, 0]);
+        Generating = true;
+        CollapseCell(cells[0, 0]);
 
-        executionStartup = EditorApplication.timeSinceStartup;
         MaxIterationNumber = dimension * dimension;
-        Debug.Log(MaxIterationNumber);
         EditorApplication.update += EditorUpdate;
     }
-
-    // public void AddTilePattern()
-    // {
-    //     TilePatternList.Add(new TilePattern() { Enabled = true });
-    //
-    //     // tilePattern = TilePatternList.ToArray();
-    // }
-    //
-    // public void RemoveTilePattern(int index)
-    // {
-    //     TilePatternList.RemoveAt(index);
-    //
-    //     // tilePattern = TilePatternList.ToArray();
-    // }
 
     public void ClearGridObjects()
     {

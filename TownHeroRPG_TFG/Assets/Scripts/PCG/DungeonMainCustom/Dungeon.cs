@@ -5,11 +5,9 @@ using UnityEngine;
 
 public abstract class Dungeon : MonoBehaviour
 {
-    [SerializeField]
-    protected Vector2Int startPos = Vector2Int.zero;
+    [SerializeField] protected Vector2Int startPos = Vector2Int.zero;
 
-    [SerializeField]
-    protected TilemapPainter painter = null;
+    [SerializeField] protected TilemapPainter painter = null;
 
     private void Start()
     {
@@ -19,8 +17,8 @@ public abstract class Dungeon : MonoBehaviour
     public void Generate()
     {
         painter.ClearTiles();
-        RunProceduralGeneration();
+        RunAlgorithm();
     }
 
-    protected abstract void RunProceduralGeneration();
+    protected abstract void RunAlgorithm();
 }

@@ -4,30 +4,14 @@ using UnityEngine;
 [Serializable]
 public class TileAlgorithm : MonoBehaviour
 {
-    [Header("General config")]
-    public bool CanBeUsedOnTheEdge = true;
+    [Header("Sockets")]
+    public int UpSocketID;
+    public int DownSocketID;
+    public int LeftSocketID;
+    public int RightSocketID;
 
-    [Header("Socket config")]
-    public int UpSocket;
-    public int DownSocket;
-    public int LeftSocket;
-    public int RightSocket;
-
-    [Header("Frequency"), Range(1, 1000)]
-    public int ReferenceWeight;
-
-    [HideInInspector]
+    [Header("Weight (Frequency)")] [Range(1, 100)]
     public int Weight;
 
-    public Sprite GetSprite()
-    {
-        Sprite sprite = null;
-
-        if (TryGetComponent<SpriteRenderer>(out var renderer))
-        {
-            return renderer.sprite;
-        }
-
-        return sprite;
-    }
+    public bool UseOnEdges = false;
 }

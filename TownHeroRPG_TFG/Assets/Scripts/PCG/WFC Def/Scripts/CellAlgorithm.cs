@@ -4,11 +4,15 @@ using UnityEngine;
 [Serializable]
 public class CellAlgorithm
 {
-    public int Row;
-    public int Col;
+    [Header("Tiles")]
+    public TileAlgorithm[] tileOptions;
+    public TileAlgorithm selectedTile;
 
-    public  TileAlgorithm[] PossibleTiles;
-    public TileAlgorithm Tile;
-    public bool Collapsed;
-    public bool Instantiated;
+    [Header("Position")]
+    public int row;
+    public int col;
+
+    [Header("State")]
+    public bool collapsed;
+    public bool instantiated;
 }

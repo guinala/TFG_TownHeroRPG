@@ -98,13 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7258379c234b3184faeee080cbe6433d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanBeUsedOnTheEdge: 0
-  UpSocket: 1
-  DownSocket: 22
-  LeftSocket: 1
-  RightSocket: 24
-  ReferenceWeight: 5
-  Weight: 0
+  UpSocketID: 1
+  DownSocketID: 22
+  LeftSocketID: 1
+  RightSocketID: 24
+  Weight: 5
+  UseOnEdges: 0
 --- !u!1 &4349736020029184843
 GameObject:
   m_ObjectHideFlags: 0

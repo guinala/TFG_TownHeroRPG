@@ -97,10 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7258379c234b3184faeee080cbe6433d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanBeUsedOnTheEdge: 0
-  UpSocket: 16
-  DownSocket: 16
-  LeftSocket: 16
-  RightSocket: 16
-  ReferenceWeight: 20
-  Weight: 0
+  UpSocketID: 16
+  DownSocketID: 16
+  LeftSocketID: 16
+  RightSocketID: 16
+  Weight: 20
+  UseOnEdges: 0
