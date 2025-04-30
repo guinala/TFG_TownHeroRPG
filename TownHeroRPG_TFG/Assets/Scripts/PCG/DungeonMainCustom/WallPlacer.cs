@@ -88,9 +88,7 @@ public static class WallPlacer
         {
             string neighborPattern = GenerateNeighborPattern(position, floorPositions, directions);
             int patternValue = Convert.ToInt32(neighborPattern, 2);
-            string wallType = DetermineWallType(patternValue, isBasicWall);
-            string binaryPattern = Convert.ToString(patternValue, 2).PadLeft(4, '0');
-            Debug.Log($"Position {position}: Pattern {patternValue} ({binaryPattern}) -> WallType {wallType}");
+            string wallType = DetermineWallType(patternValue, isBasicWall); 
 
             bool success;
             

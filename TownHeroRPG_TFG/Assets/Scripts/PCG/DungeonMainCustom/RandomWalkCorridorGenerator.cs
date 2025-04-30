@@ -48,7 +48,7 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
         RoomsInDeadEnds(path, roomPos);
         path.UnionWith(roomPos);
 
-        //Aumentar width
+        //Increase Width
         if(increaseCorridorWidth)
         {
             for(int i = 0; i < corridorsList.Count; i++)
@@ -107,6 +107,7 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
         for (int i = 0; i < corridors; i++)
         {
             List<Vector2Int> corridor = new List<Vector2Int>();
+
             //variable length
             if(variableLength)
             {
@@ -120,7 +121,9 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
                 corridorsList.Add(corridor);
             }
            
+
             int branchPossibility = Random.Range(0,10);
+
             //Branch
             if (branches && branchPossibility < 5 && corridor.Count > 5)
             {
@@ -158,6 +161,5 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
     {
         painter.ClearTiles();
         painter.PaintGround(path);
-        WallPlacer.GenerateWalls(path, painter);
     }
 }

@@ -10,6 +10,7 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
     [SerializeField] private int dungeonWidth = 20, dungeonHeight = 20;
     [SerializeField] [Range(0, 10)] private int offset = 1;
     [SerializeField] private bool randomWalkRooms = false;
+    [SerializeField] private bool circularRooms = false;
 
     private void Start()
     {
@@ -38,7 +39,7 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
         BoundsInt dungeonArea = new BoundsInt((Vector3Int)startPos, new Vector3Int(dungeonWidth, dungeonHeight, 0));
         List<BoundsInt> roomsList = DungeonAlgorithms.BinarySpacePartitioning(dungeonArea, minRoomWidth, minRoomHeight);
 
-        HashSet<Vector2Int> floor = randomWalkRooms ? GenerateRandomWalkRooms(roomsList) : GenerateSimpleRooms(roomsList);
+        HashSet<Vector2Int> floor = randomWalkRooms ? GenerateRandomWalkRooms(roomsList) : (circularRooms ? GenerateCircularRooms(roomsList) : GenerateSimpleRooms(roomsList));
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         foreach (var room in roomsList)
@@ -156,8 +157,36 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
         return floor;
     }
 
-    private void PaintDungeon(HashSet<Vector2Int> floor)
+    private HashSet<Vector2Int> GenerateCircularRooms(List<BoundsInt> roomsList)
     {
-        painter.PaintGround(floor);
+        HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+        foreach (var room in roomsList)
+        {
+            Vector2Int center = (Vector2Int)Vector3Int.RoundToInt(room.center);
+            int radius = Mathf.Min(room.size.x, room.size.y) / 2 - offset;
+            for (int x = -radius; x <= radius; x++)
+            {
+                for (int y = -radius; y <= radius; y++)
+                {
+                    if (x * x + y * y <= radius * radius)
+                    {
+                        Vector2Int pos = center + new Vector2Int(x, y);
+                        if (pos.x >= room.xMin + offset && pos.x <= room.xMax - offset &&
+                            pos.y >= room.yMin + offset && pos.y <= room.yMax - offset)
+                        {
+                            floor.Add(pos);
+                        }
+                    }
+                }
+            }
+        }
+        return floor;
+    }
+
+    private void PaintDungeon(HashSet<Vector2Int> path)
+    {
+        painter.ClearTiles();
+        painter.PaintGround(path);
+        WallPlacer.GenerateWalls(path, painter);
     }
 }

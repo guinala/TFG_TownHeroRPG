@@ -15,11 +15,10 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     [SerializeField] private int dimension = 25;
 
     [Header("Tiles")]
-    public TileAlgorithm BaseTile;
     public List<TileAlgorithm> AvailableTiles = new List<TileAlgorithm>();
     private TileAlgorithm[] allTiles;
     private CellAlgorithm[,] grid;
-    
+
     private int Iteration;
     private int MaxIteration;
 
@@ -32,29 +31,30 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     public void StartGeneration()
     {
-        Debug.Log("Comenzando iteraci�n");
+        Debug.Log("Comenzando iteracion");
         Init();
     }
 
-    void Update() {
+    void Update()
+    {
         if (IsGenerating)
-        {
-            Wave();
-        } 
-    }
-    
-    void EditorUpdate() {
-        if(IsGenerating)
         {
             Wave();
         }
     }
-    
+
+    void EditorUpdate()
+    {
+        if (IsGenerating)
+        {
+            Wave();
+        }
+    }
+
 
     private void InitializeGrid()
     {
         List<TileAlgorithm> tileList = AvailableTiles.Where(t => t != null).ToList();
-        tileList.Add(BaseTile);
         allTiles = tileList.OrderBy(t => t.Weight).ToArray();
 
         grid = new CellAlgorithm[dimension, dimension];
@@ -80,59 +80,51 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     {
         int seed = Random.Range(1, 2000000);
         Random.InitState(seed);
+        EditorApplication.update += EditorUpdate;
 
         Iteration = 0;
+        MaxIteration = dimension * dimension;
         ClearGridObjects();
+        IsGenerating = true;
 
         InitializeGrid();
-        IsGenerating = true;
+
 
         CellAlgorithm initialCell = grid[0, 0];
         Collapse(initialCell);
-
-        EditorApplication.update += EditorUpdate;
-        MaxIteration = dimension * dimension;
     }
+
 
     private void Wave()
     {
-        if (IsGenerating && Iteration < MaxIteration)
+        if (Iteration < MaxIteration)
         {
-            WaveStep();
             Iteration++;
-        }
-        else
-        {
-            Debug.Log("Generation complete");
-            if (!progressive)
-            {
-               InstantiateAllCells();
-            }
-            EditorApplication.update -= EditorUpdate;
-        }
-    }
 
-    private void WaveStep()
-    {
-        if(progressive)
-        {
-            InstantiateCollapsedCells();
-        }
-
-        CellAlgorithm nextCell = FindLowestEntropy();
-        if (nextCell != null)
-        {
-            Collapse(nextCell);
-        }
-        else
-        {
-            IsGenerating = false;
-            Debug.Log("Generation complete");
-            if (!progressive)
+            if (progressive)
             {
-                InstantiateAllCells();
+                InstantiateCollapsedCells();
             }
-            EditorApplication.update -= EditorUpdate;
+
+            CellAlgorithm nextCell = FindLowestEntropy();
+
+            if (nextCell != null)
+            {
+                Collapse(nextCell);
+            }
+
+            else
+            {
+                IsGenerating = false;
+                Debug.Log("Generation complete");
+
+                if (!progressive)
+                {
+                    InstantiateAllCells();
+                }
+
+                EditorApplication.update -= EditorUpdate;
+            }
         }
     }
 
@@ -154,19 +146,50 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     private void InstantiateAllCells()
     {
-        Debug.Log("Se viene");
         for (int row = 0; row < dimension; row++)
         {
             for (int col = 0; col < dimension; col++)
             {
                 CellAlgorithm cell = grid[row, col];
-                if (cell.collapsed) 
+                if (cell.collapsed)
                 {
                     Instantiate(cell.selectedTile, new Vector3(col, row, 0f), Quaternion.identity, transform);
                     cell.instantiated = true;
                 }
             }
         }
+    }
+
+    private CellAlgorithm FindLowestEntropy()
+    {
+        CellAlgorithm cellWithLowestEntropy = null;
+        float lowestEntropy = float.PositiveInfinity;
+
+        for (int row = 0; row < dimension; row++)
+        {
+            for (int col = 0; col < dimension; col++)
+            {
+                CellAlgorithm cell = grid[row, col];
+                if (!cell.collapsed)
+                {
+                    float entropy = CalculateEntropy(cell.tileOptions);
+                    if (entropy < lowestEntropy)
+                    {
+                        lowestEntropy = entropy;
+                        cellWithLowestEntropy = cell;
+                    }
+                }
+            }
+        }
+
+        return cellWithLowestEntropy;
+    }
+
+    private float CalculateEntropy(TileAlgorithm[] tiles)
+    {
+        int sumOfWeights = tiles.Sum(t => t.Weight);
+        float logSumOfWeights = tiles.Sum(t => (t.Weight) * math.log(t.Weight));
+        return math.log(sumOfWeights) - (logSumOfWeights / sumOfWeights);
     }
 
 
@@ -187,170 +210,224 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         Propagate(cell);
     }
 
-    private TileAlgorithm SelectTile(TileAlgorithm[] possibleTiles)
+    private TileAlgorithm SelectTile(TileAlgorithm[] tiles)
     {
-        if (possibleTiles.Length == 1)
-            return possibleTiles[0];
+        if (tiles.Length == 1)
+            return tiles[0];
 
-        int totalWeight = possibleTiles.Sum(t => t.Weight);
-        int randomValue = UnityEngine.Random.Range(0, totalWeight);
-        float cumulative = 0;
-
-        foreach (var tile in possibleTiles)
+        float acumulative = 0;
+        int totalWeight = tiles.Sum(t => t.Weight);
+        int random = Random.Range(0, totalWeight);
+        
+        foreach (var tile in tiles)
         {
-            cumulative += tile.Weight;
-            if (randomValue <= cumulative)
+            acumulative += tile.Weight;
+            if (random <= acumulative)
                 return tile;
         }
 
-        return possibleTiles.OrderByDescending(t => t.Weight).First();
+        return tiles.OrderByDescending(t => t.Weight).First();
     }
 
     private void Propagate(CellAlgorithm cell)
     {
-        CellAlgorithm topCell = GetTopCell(cell.row, cell.col);
-        CellAlgorithm bottomCell = GetBottomCell(cell.row, cell.col);
-        CellAlgorithm leftCell = GetLeftCell(cell.row, cell.col);
-        CellAlgorithm rightCell = GetRightCell(cell.row, cell.col);
+        CellAlgorithm cellLeft = GetCellLeft(cell.row, cell.col);
+        CellAlgorithm cellRight = GetCellRight(cell.row, cell.col);
+        CellAlgorithm cellTop = GetCellTop(cell.row, cell.col);
+        CellAlgorithm cellBottom = GetCellBottom(cell.row, cell.col);
+        
 
-        if (topCell != null && !topCell.collapsed)
+        if (cellTop != null && !cellTop.collapsed)
         {
-            int possibleTilesLength = topCell.tileOptions.Length;
-            topCell.tileOptions = topCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.UpSocketID == t.DownSocketID)).ToArray();
+            int tilesLength = cellTop.tileOptions.Length;
 
-            if (topCell.tileOptions.Length == 0)
+            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+            foreach (var t in cellTop.tileOptions)
             {
-                Debug.LogError($"No possible tiles left for top neighbor at [{topCell.row}, {topCell.col}]");
+                bool sameSocket = false;
+                foreach (var n in cell.tileOptions)
+                {
+                    if (n.UpSocketID == t.DownSocketID)
+                    {
+                        sameSocket = true;
+                        break; 
+                    }
+                }
+                
+                if (sameSocket)
+                {
+                    tilesSameSocket.Add(t);
+                }
+            }
+
+            cellTop.tileOptions = tilesSameSocket.ToArray();
+
+            if (cellTop.tileOptions.Length == 0)
+            {
+                Debug.LogError($"No possible tiles left for top neighbor at [{cellTop.row}, {cellTop.col}]");
                 IsGenerating = false;
             }
-            else if (topCell.tileOptions.Length == 1)
+            else if (cellTop.tileOptions.Length == 1)
             {
-                Collapse(topCell);
+                Collapse(cellTop);
             }
-            else if (possibleTilesLength > topCell.tileOptions.Length)
+            else if (tilesLength > cellTop.tileOptions.Length)
             {
-                Propagate(topCell);
+                Propagate(cellTop);
             }
         }
 
-        if (bottomCell != null && !bottomCell.collapsed)
+        if (cellBottom != null && !cellBottom.collapsed)
         {
-            int possibleTilesLength = bottomCell.tileOptions.Length;
-            bottomCell.tileOptions = bottomCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.DownSocketID == t.UpSocketID)).ToArray();
+            int tilesLength = cellBottom.tileOptions.Length;
 
-            if (bottomCell.tileOptions.Length == 0)
+            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+            foreach (var t in cellBottom.tileOptions)
             {
-                Debug.LogError($"No possible tiles left for bottom neighbor at [{bottomCell.row}, {bottomCell.col}]");
+                bool sameSocket = false;
+                foreach (var n in cell.tileOptions)
+                {
+                    if (n.DownSocketID == t.UpSocketID)
+                    {
+                        sameSocket = true;
+                        break; 
+                    }
+                }
+                
+                if (sameSocket)
+                {
+                    tilesSameSocket.Add(t);
+                }
+            }
+
+            cellBottom.tileOptions = tilesSameSocket.ToArray();
+
+            if (cellBottom.tileOptions.Length == 0)
+            {
+                Debug.LogError($"No possible tiles left for bottom neighbor at [{cellBottom.row}, {cellBottom.col}]");
                 IsGenerating = false;
             }
-            else if (bottomCell.tileOptions.Length == 1)
+            else if (cellBottom.tileOptions.Length == 1)
             {
-                Collapse(bottomCell);
+                Collapse(cellBottom);
             }
-            else if (possibleTilesLength > bottomCell.tileOptions.Length)
+            else if (tilesLength > cellBottom.tileOptions.Length)
             {
-                Propagate(bottomCell);
+                Propagate(cellBottom);
             }
         }
 
-        if (leftCell != null && !leftCell.collapsed)
+        if (cellLeft != null && !cellLeft.collapsed)
         {
-            int possibleTilesLength = leftCell.tileOptions.Length;
-            leftCell.tileOptions = leftCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.LeftSocketID == t.RightSocketID)).ToArray();
+            int tilesLength = cellLeft.tileOptions.Length;
 
-            if (leftCell.tileOptions.Length == 0)
+            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+            foreach (var t in cellLeft.tileOptions)
             {
-                Debug.LogError($"No possible tiles left for left neighbor at [{leftCell.row}, {leftCell.col}]");
+                bool sameSocket = false;
+                foreach (var n in cell.tileOptions)
+                {
+                    if (n.LeftSocketID == t.RightSocketID)
+                    {
+                        sameSocket = true;
+                        break; 
+                    }
+                }
+                
+                if (sameSocket)
+                {
+                    tilesSameSocket.Add(t);
+                }
+            }
+
+            cellLeft.tileOptions = tilesSameSocket.ToArray();
+            
+            if (cellLeft.tileOptions.Length == 0)
+            {
+                Debug.LogError($"No possible tiles left for left neighbor at [{cellLeft.row}, {cellLeft.col}]");
                 IsGenerating = false;
             }
-            else if (leftCell.tileOptions.Length == 1)
+            else if (cellLeft.tileOptions.Length == 1)
             {
-                Collapse(leftCell);
+                Collapse(cellLeft);
             }
-            else if (possibleTilesLength > leftCell.tileOptions.Length)
+            else if (tilesLength > cellLeft.tileOptions.Length)
             {
-                Propagate(leftCell);
+                Propagate(cellLeft);
             }
         }
 
-        if (rightCell != null && !rightCell.collapsed)
+        if (cellRight != null && !cellRight.collapsed)
         {
-            int possibleTilesLength = rightCell.tileOptions.Length;
-            rightCell.tileOptions = rightCell.tileOptions.Where(t => cell.tileOptions.Any(p => p.RightSocketID == t.LeftSocketID)).ToArray();
+            int tilesLength = cellRight.tileOptions.Length;
 
-            if (rightCell.tileOptions.Length == 0)
+            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+            foreach (var t in cellRight.tileOptions)
             {
-                Debug.LogError($"No possible tiles left for right neighbor at [{rightCell.row}, {rightCell.col}]");
+                bool sameSocket = false;
+                foreach (var n in cell.tileOptions)
+                {
+                    if (n.RightSocketID == t.LeftSocketID)
+                    {
+                        sameSocket = true;
+                        break; 
+                    }
+                }
+                
+                if (sameSocket)
+                {
+                    tilesSameSocket.Add(t);
+                }
+            }
+
+            cellRight.tileOptions = tilesSameSocket.ToArray();
+
+            if (cellRight.tileOptions.Length == 0)
+            {
+                Debug.LogError($"No possible tiles left for right neighbor at [{cellRight.row}, {cellRight.col}]");
                 IsGenerating = false;
             }
-            else if (rightCell.tileOptions.Length == 1)
+            else if (cellRight.tileOptions.Length == 1)
             {
-                Collapse(rightCell);
+                Collapse(cellRight);
             }
-            else if (possibleTilesLength > rightCell.tileOptions.Length)
+            else if (tilesLength > cellRight.tileOptions.Length)
             {
-                Propagate(rightCell);
+                Propagate(cellRight);
             }
         }
     }
 
-    private CellAlgorithm GetTopCell(int row, int col)
+    private CellAlgorithm GetCellTop(int row, int col)
     {
         if (row == dimension - 1)
             return null;
         return grid[row + 1, col];
     }
 
-    private CellAlgorithm GetBottomCell(int row, int col)
+    private CellAlgorithm GetCellBottom(int row, int col)
     {
         if (row == 0)
             return null;
         return grid[row - 1, col];
     }
 
-    private CellAlgorithm GetLeftCell(int row, int col)
+    private CellAlgorithm GetCellLeft(int row, int col)
     {
         if (col == 0)
             return null;
         return grid[row, col - 1];
     }
 
-    private CellAlgorithm GetRightCell(int row, int col)
+    private CellAlgorithm GetCellRight(int row, int col)
     {
         if (col == dimension - 1)
             return null;
         return grid[row, col + 1];
-    }
-
-    private CellAlgorithm FindLowestEntropy()
-    {
-        CellAlgorithm cellWithLowestEntropy = null;
-        float lowestEntropy = float.MaxValue;
-
-        for (int row = 0; row < dimension; row++)
-        {
-            for (int col = 0; col < dimension; col++)
-            {
-                CellAlgorithm cell = grid[row, col];
-                if (cell.collapsed) continue;
-
-                float entropy = CalculateEntropy(cell.tileOptions);
-                if (entropy < lowestEntropy)
-                {
-                    lowestEntropy = entropy;
-                    cellWithLowestEntropy = cell;
-                }
-            }
-        }
-
-        return cellWithLowestEntropy;
-    }
-
-    private float CalculateEntropy(TileAlgorithm[] possibleTiles)
-    {
-        int weightSum = possibleTiles.Sum(t => t.Weight);
-        float weightSumLog = possibleTiles.Sum(t => (t.Weight) * math.log(t.Weight));
-        return math.log(weightSum) - (weightSumLog / weightSum);
     }
 
     private void ClearGridObjects()

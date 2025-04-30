@@ -63,5 +63,6 @@ public class RandomWalkGenerator : Dungeon
     {
         painter.ClearTiles();
         painter.PaintGround(path);
+        WallPlacer.GenerateWalls(path, painter);
     }
 }

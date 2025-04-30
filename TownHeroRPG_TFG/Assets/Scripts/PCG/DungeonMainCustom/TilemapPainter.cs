@@ -58,7 +58,6 @@ public class TilemapPainter : MonoBehaviour
 
         if (tile == null)
         {
-            Debug.LogWarning($"No tile defined for basic wall type: {wallType} at {position}");
             return false;
         }
 
@@ -83,7 +82,6 @@ public class TilemapPainter : MonoBehaviour
 
         if (tile == null)
         {
-            Debug.LogWarning($"No tile defined for corner wall type: {wallType} at {position}");
             return false;
         }
 
