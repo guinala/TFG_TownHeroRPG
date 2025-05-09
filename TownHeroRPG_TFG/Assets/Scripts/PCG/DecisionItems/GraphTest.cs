@@ -12,17 +12,6 @@ public class GraphTest : MonoBehaviour
     Dictionary<Vector2Int, int> dijkstraResult;
     int highestValue;
 
-    /*
-    public void RunDijkstraAlgorithm(Vector2Int playerPosition,IEnumerable<Vector2Int> floorPositions)
-    {
-        graphReady = false;
-        graph = new Graph(floorPositions);
-        dijkstraResult = DijkstraAlgorithm.Dijkstra(graph, playerPosition);
-        highestValue = dijkstraResult.Values.Max();
-        graphReady = true;
-    }
-    */
-    
     public Dictionary<Vector2Int, int> RunDijkstraAlgorithm(Vector2Int playerPosition,IEnumerable<Vector2Int> floorPositions)
     {
         graphReady = false;

@@ -12,7 +12,7 @@ public static class Directions
         new Vector2Int(-1, 0),  // WEST
     };
 
-    public static List<Vector2Int> diagonalDirections = new List<Vector2Int>
+    public static List<Vector2Int> cornerDirections = new List<Vector2Int>
      {
          new Vector2Int(1, 1),    // NORTHEAST
          new Vector2Int(1, -1),   // SOUTHEAST

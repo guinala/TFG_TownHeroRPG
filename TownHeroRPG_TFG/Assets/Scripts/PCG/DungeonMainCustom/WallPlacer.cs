@@ -8,13 +8,13 @@ public static class WallPlacer
 {
     private static readonly Dictionary<string, HashSet<int>> WallTypePatterns = new Dictionary<string, HashSet<int>>
     {
-        // Basic walls (4-bit patterns, cardinal directions)
+        // Basic walls 
         ["Top"] = new HashSet<int> { 0b1111, 0b0110, 0b0011, 0b0010, 0b1010, 0b1100, 0b1110, 0b1011, 0b0111 },
         ["Bottom"] = new HashSet<int> { 0b1000 },
         ["Left"] = new HashSet<int> { 0b0100 },
         ["Right"] = new HashSet<int> { 0b0001 },
 
-        // Corner walls (8-bit patterns, all directions)
+        // Corner walls
         ["InnerCornerDownLeft"] = new HashSet<int>
         {
             0b11110001, 0b11100000, 0b11110000, 0b11100001, 0b10100000, 0b01010001, 0b11010001,
@@ -31,7 +31,7 @@ public static class WallPlacer
         ["DiagonalCornerDownRight"] = new HashSet<int> { 0b00000001 },
         ["DiagonalCornerUpLeft"] = new HashSet<int> { 0b00010000, 0b01010000 },
         ["DiagonalCornerUpRight"] = new HashSet<int> { 0b00000100, 0b00000101 },
-        ["Full"] = new HashSet<int> { 0b1101, 0b0101, 0b1001 }, // Removed duplicates
+        ["Full"] = new HashSet<int> { 0b1101, 0b0101, 0b1001 }, 
         ["FullEightDirections"] = new HashSet<int>
         {
             0b00010100, 0b11100100, 0b10010011, 0b01110100, 0b00010111, 0b00010110, 0b00110100,
@@ -57,7 +57,7 @@ public static class WallPlacer
         }
 
         HashSet<Vector2Int> basicWallPositions = FindWalls(floorPositions, Directions.cardinalDirections);
-        HashSet<Vector2Int> cornerWallPositions = FindWalls(floorPositions, Directions.diagonalDirections);
+        HashSet<Vector2Int> cornerWallPositions = FindWalls(floorPositions, Directions.cornerDirections);
 
         PlaceWalls(visualizer, basicWallPositions, floorPositions, Directions.cardinalDirections, isBasicWall: true);
         PlaceWalls(visualizer, cornerWallPositions, floorPositions, Directions.allDirections, isBasicWall: false);
@@ -88,10 +88,10 @@ public static class WallPlacer
         {
             string neighborPattern = GenerateNeighborPattern(position, floorPositions, directions);
             int patternValue = Convert.ToInt32(neighborPattern, 2);
-            string wallType = DetermineWallType(patternValue, isBasicWall); 
+            string wallType = DetermineWallType(patternValue, isBasicWall);
 
             bool success;
-            
+
             if (isBasicWall)
             {
                 success = painter.PlaceBasicWall(position, wallType);
@@ -104,6 +104,7 @@ public static class WallPlacer
             if (!success)
             {
                 failedCount++;
+                Debug.LogWarning($"Failed to place wall at {position} with type {wallType} and {neighborPattern}.");
             }
         }
         if (failedCount > 0)
@@ -112,7 +113,7 @@ public static class WallPlacer
         }
     }
 
-    private static string GenerateNeighborPattern(Vector2Int position, HashSet<Vector2Int> floorPositions, List<Vector2Int> directions)
+    public static string GenerateNeighborPattern(Vector2Int position, HashSet<Vector2Int> floorPositions, List<Vector2Int> directions)
     {
         string pattern = "";
         foreach (var direction in directions)
@@ -123,10 +124,8 @@ public static class WallPlacer
         return pattern;
     }
 
-    private static string DetermineWallType(int patternValue, bool isBasicWall)
+    public static string DetermineWallType(int patternValue, bool isBasicWall)
     {
-        string binaryPattern = Convert.ToString(patternValue, 2).PadLeft(4, '0');
-
         if (isBasicWall)
         {
             if (WallTypePatterns["Top"].Contains(patternValue)) return "Top";
@@ -148,6 +147,6 @@ public static class WallPlacer
         }
 
 
-        return "Default"; // Fallback if no pattern matches
+        return "Default"; 
     }
 }

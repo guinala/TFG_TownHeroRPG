@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 public class RandomWalkCorridorGenerator : RandomWalkGenerator
@@ -16,6 +18,13 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
     [SerializeField] private bool variableLength;
     [SerializeField] private bool increaseCorridorWidth;
 
+    private Dictionary<Vector2Int, HashSet<Vector2Int>> rooms;
+    private HashSet<Vector2Int> path;
+    private HashSet<Vector2Int> corridorPath;
+    public DungeonData dungeonData;
+    public UnityEvent OnDungeonGenerated = new UnityEvent();
+    private List<Room> roomsList = new();
+
     private void Start()
     {
         RunAlgorithm();
@@ -23,7 +32,11 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
 
     protected override void RunAlgorithm()
     {
+        path = new HashSet<Vector2Int>();
+        corridorPath = new HashSet<Vector2Int>();
+        rooms = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
         RunRandomWalkCorridorAlgorithm();
+        Debug.Log("Terminé");
     }
 
     private void RunRandomWalkCorridorAlgorithm()
@@ -39,7 +52,6 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
             Debug.LogError("Insufficient length for corridors");
             return;
         }
-        HashSet<Vector2Int> path = new HashSet<Vector2Int>();
         HashSet<Vector2Int> possibleRoomPos = new HashSet<Vector2Int>();
         HashSet<Vector2Int> roomPos;
 
@@ -58,8 +70,18 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
                 path.UnionWith(corridorsList[i]); 
             }
         }
-
+        corridorPath.UnionWith(corridorsList.SelectMany(c => c));
+        Debug.Log("Hora de borrar");
         PaintDungeon(path);
+        dungeonData.InitializeRoomDictionary(rooms, corridorPath, path, roomsList);
+        OnDungeonGenerated?.Invoke();
+    }
+
+    private void SaveData(Vector2Int roomPosition, HashSet<Vector2Int> roomFloor)
+    {
+        rooms[roomPosition] = roomFloor;
+        Room room = new Room(roomPosition, roomFloor);
+        roomsList.Add(room);
     }
 
     private void RoomsInDeadEnds(HashSet<Vector2Int> path, HashSet<Vector2Int> roomPos)
@@ -78,6 +100,7 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
             if (!roomPos.Contains(pos))
             {
                 var room = RunRandomWalkAlgorithm(pos);
+                SaveData(pos, room);
                 roomPos.UnionWith(room);
             }
         }
@@ -92,6 +115,7 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
         foreach (var point in shuffledCandidates)
         {
             HashSet<Vector2Int> room = RunRandomWalkAlgorithm(point);
+            SaveData(point, room);
             roomPositions.UnionWith(room);
         }
         
@@ -137,7 +161,6 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
             possibleRoomPos.Add(currentPos);
             path.UnionWith(corridor);
         }
-
         return corridorsList;
     }
 
@@ -161,5 +184,6 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
     {
         painter.ClearTiles();
         painter.PaintGround(path);
+        WallPlacer.GenerateWalls(path, painter);
     }
 }

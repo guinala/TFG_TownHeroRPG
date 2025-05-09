@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class BinarySpacePartitioningGenerator : RandomWalkGenerator
@@ -12,6 +13,11 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
     [SerializeField] private bool randomWalkRooms = false;
     [SerializeField] private bool circularRooms = false;
 
+    private Dictionary<Vector2Int, HashSet<Vector2Int>> rooms = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
+    private HashSet<Vector2Int> path = new HashSet<Vector2Int>();
+    private HashSet<Vector2Int> corridorPath = new HashSet<Vector2Int>();
+    public UnityEvent OnDungeonGenerated;
+
     private void Start()
     {
         RunAlgorithm();
@@ -20,6 +26,8 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
     protected override void RunAlgorithm()
     {
         RunBinarySpaceAlgorithm();
+        DungeonData dungeonData = new DungeonData { rooms = this.rooms, floor = this.path, corridors = this.corridorPath };
+        OnDungeonGenerated?.Invoke();
     }
 
     private void RunBinarySpaceAlgorithm()
@@ -39,7 +47,7 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
         BoundsInt dungeonArea = new BoundsInt((Vector3Int)startPos, new Vector3Int(dungeonWidth, dungeonHeight, 0));
         List<BoundsInt> roomsList = DungeonAlgorithms.BinarySpacePartitioning(dungeonArea, minRoomWidth, minRoomHeight);
 
-        HashSet<Vector2Int> floor = randomWalkRooms ? GenerateRandomWalkRooms(roomsList) : (circularRooms ? GenerateCircularRooms(roomsList) : GenerateSimpleRooms(roomsList));
+        path = randomWalkRooms ? GenerateRandomWalkRooms(roomsList) : (circularRooms ? GenerateCircularRooms(roomsList) : GenerateSimpleRooms(roomsList));
 
         List<Vector2Int> roomCenters = new List<Vector2Int>();
         foreach (var room in roomsList)
@@ -48,36 +56,39 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
             roomCenters.Add(center);
         }
 
-        HashSet<Vector2Int> corridors = ConnectRooms(roomCenters);
-        floor.UnionWith(corridors);
+        corridorPath = ConnectRooms(roomCenters);
+        path.UnionWith(corridorPath);
 
-        PaintDungeon(floor);
+        PaintDungeon(path);
+    }
+
+    private void SaveData(Vector2Int roomPosition, HashSet<Vector2Int> roomFloor)
+    {
+        rooms[roomPosition] = roomFloor;
     }
 
     private HashSet<Vector2Int> GenerateRandomWalkRooms(List<BoundsInt> roomsList)
     {
-        HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
+        HashSet<Vector2Int> path = new HashSet<Vector2Int>();
 
-        foreach (var roomBounds in roomsList)
+        foreach (var room in roomsList)
         {
-            Vector2Int roomCenter = new Vector2Int(
-                Mathf.RoundToInt(roomBounds.center.x),
-                Mathf.RoundToInt(roomBounds.center.y)
-            );
+            Vector2Int roomCenter = (Vector2Int)Vector3Int.RoundToInt(room.center);
 
             HashSet<Vector2Int> roomFloor = RunRandomWalkAlgorithm(roomCenter);
             foreach (var position in roomFloor)
             {
-                if (position.x >= (roomBounds.xMin + offset) &&
-                    position.x <= (roomBounds.xMax - offset) &&
-                    position.y >= (roomBounds.yMin - offset) &&
-                    position.y <= (roomBounds.yMax - offset))
+                if (position.x >= (room.xMin + offset) &&
+                    position.x <= (room.xMax - offset) &&
+                    position.y >= (room.yMin - offset) &&
+                    position.y <= (room.yMax - offset))
                 {
-                    floor.Add(position);
+                    path.Add(position);
                 }
             }
+            SaveData(roomCenter, roomFloor);
         }
-        return floor;
+        return path;
     }
 
     private HashSet<Vector2Int> ConnectRooms(List<Vector2Int> roomCenters)
@@ -145,14 +156,18 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
 
         foreach (var room in roomsList)
         {
+            HashSet<Vector2Int> roomFloor = new HashSet<Vector2Int>();
             for (int col = offset; col < room.size.x - offset; col++)
             {
                 for (int row = offset; row < room.size.y - offset; row++)
                 {
                     Vector2Int pos = (Vector2Int)room.min + new Vector2Int(col, row);
                     floor.Add(pos);
+                    roomFloor.Add(pos);
                 }
             }
+            Vector2Int roomCenter = (Vector2Int)Vector3Int.RoundToInt(room.center);
+            SaveData(roomCenter, roomFloor);
         }
         return floor;
     }
@@ -162,6 +177,7 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
         HashSet<Vector2Int> floor = new HashSet<Vector2Int>();
         foreach (var room in roomsList)
         {
+            HashSet<Vector2Int> roomFloor = new HashSet<Vector2Int>();
             Vector2Int center = (Vector2Int)Vector3Int.RoundToInt(room.center);
             int radius = Mathf.Min(room.size.x, room.size.y) / 2 - offset;
             for (int x = -radius; x <= radius; x++)
@@ -175,10 +191,12 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
                             pos.y >= room.yMin + offset && pos.y <= room.yMax - offset)
                         {
                             floor.Add(pos);
+                            roomFloor.Add(pos);
                         }
                     }
                 }
             }
+            SaveData(center, roomFloor);
         }
         return floor;
     }
