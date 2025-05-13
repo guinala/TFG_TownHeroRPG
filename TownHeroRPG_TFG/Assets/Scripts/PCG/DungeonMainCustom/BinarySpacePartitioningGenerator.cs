@@ -26,7 +26,7 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
     protected override void RunAlgorithm()
     {
         RunBinarySpaceAlgorithm();
-        DungeonData dungeonData = new DungeonData { rooms = this.rooms, floor = this.path, corridors = this.corridorPath };
+        DungeonData dungeonData = new DungeonData { rooms = this.rooms, floor = this.path, Path = this.corridorPath };
         OnDungeonGenerated?.Invoke();
     }
 

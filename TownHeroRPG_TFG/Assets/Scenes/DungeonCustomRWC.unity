@@ -421,9 +421,9 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1041085253}
-        m_TargetAssemblyTypeName: RoomDataExtractor, Assembly-CSharp
+        m_TargetAssemblyTypeName: DungeonContentGenerator, Assembly-CSharp
         m_MethodName: ProcessRooms
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -449,10 +449,10 @@ MonoBehaviour:
   OnFinishedRoomProcessing:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1287568183}
-        m_TargetAssemblyTypeName: PropPlacementManager, Assembly-CSharp
+      - m_Target: {fileID: 1297766200}
+        m_TargetAssemblyTypeName: PrefabPlacer, Assembly-CSharp
         m_MethodName: ProcessRooms
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -462,6 +462,10 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   playerRoomIndex: 2
+  bossRoomParameters: {fileID: 11400000, guid: 25ae6536bf09a5b429b049f20b7dbcfc, type: 2}
+  playerRoomParameters: {fileID: 11400000, guid: 10896fee730172844992dc6834c9b762, type: 2}
+  chestRoomParameters: {fileID: 11400000, guid: ae46755fa1114d84db48a68b17bc495b, type: 2}
+  enemyRoomParameters: {fileID: 11400000, guid: a2a946eea637af94ab461ce45849f8fd, type: 2}
 --- !u!1 &1159544910
 GameObject:
   m_ObjectHideFlags: 0
@@ -21062,7 +21066,7 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!1 &1287568182
+--- !u!1 &1297766199
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -21070,8 +21074,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1287568184}
-  - component: {fileID: 1287568183}
+  - component: {fileID: 1297766201}
+  - component: {fileID: 1297766200}
   m_Layer: 0
   m_Name: PrefabPlacer
   m_TagString: Untagged
@@ -21079,98 +21083,31 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1287568183
+--- !u!114 &1297766200
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1287568182}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 779961f6a4959ba4e96885bf0e6bfbcc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  propsToPlace:
-  - {fileID: 11400000, guid: 9d16a0c275ae50446bfbba83d0618c56, type: 2}
-  - {fileID: 11400000, guid: 6c0162cccf1bbc749b963b1037c5b15e, type: 2}
-  - {fileID: 11400000, guid: eb0dc74f65a66d047b27ccfdda50cf68, type: 2}
-  - {fileID: 11400000, guid: 8f9604b30cd98654c971637fd5397ebb, type: 2}
-  cornerPropPlacementChance: 0.4
-  propPrefab: {fileID: 580606418527117430, guid: 2149e9b0e60d72146999ab24cd41fb59, type: 3}
-  chestProp: {fileID: 11400000, guid: 945f3575bf474d84593bd2fb41f3c3e0, type: 2}
-  OnFinished:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1693576124}
-        m_TargetAssemblyTypeName: AgentPlacer, Assembly-CSharp
-        m_MethodName: PlaceAgents
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!4 &1287568184
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1287568182}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1693576123
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1693576125}
-  - component: {fileID: 1693576124}
-  m_Layer: 0
-  m_Name: AgentPlacer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1693576124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693576123}
+  m_GameObject: {fileID: 1297766199}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5ec34b32f6ad7b743a2d9643fc3e0af9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dungeonData: {fileID: 837606372}
-  playerPrefab: {fileID: 6909470742631781130, guid: 43dafe3a7a4f8fb4898ceae90f9530a6, type: 3}
-  bossPrefab: {fileID: 6693228575972105091, guid: 8022e1a8dfef91142903689ca7365156, type: 3}
-  enemyPrefabs:
-  - {fileID: 6693228575972105091, guid: 5941e6ca8306a1644bfcd60ca18ce4bf, type: 3}
-  - {fileID: 6693228575972105091, guid: c54eeb881c293db4896fc1c708bf1325, type: 3}
---- !u!4 &1693576125
+  parameters: {fileID: 11400000, guid: a2a946eea637af94ab461ce45849f8fd, type: 2}
+  cornerPropPlacementChance: 0.7
+  propPrefab: {fileID: 580606418527117430, guid: 2149e9b0e60d72146999ab24cd41fb59, type: 3}
+  OnFinished:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1297766201
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1693576123}
+  m_GameObject: {fileID: 1297766199}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -21186,7 +21123,6 @@ SceneRoots:
   - {fileID: 522691661}
   - {fileID: 626776794}
   - {fileID: 1041085251}
-  - {fileID: 1287568184}
-  - {fileID: 1693576125}
   - {fileID: 837606373}
   - {fileID: 110928306}
+  - {fileID: 1297766201}

@@ -24,6 +24,8 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     private bool IsGenerating;
 
+    private Queue<CellAlgorithm> propagationQueue = new Queue<CellAlgorithm>();
+
     private void Awake()
     {
         IsGenerating = false;
@@ -70,7 +72,8 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                     collapsed = false,
                     tileOptions = (row == 0 || col == 0 || row == dimension - 1 || col == dimension - 1)
                         ? allTiles.Where(t => t.UseOnEdges).ToArray()
-                        : allTiles
+                        : allTiles,
+                    selectedTile = null
                 };
             }
         }
@@ -106,11 +109,13 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                 InstantiateCollapsedCells();
             }
 
+            Propagate();
             CellAlgorithm nextCell = FindLowestEntropy();
 
             if (nextCell != null)
             {
                 Collapse(nextCell);
+                Propagate();
             }
 
             else
@@ -207,7 +212,8 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         cell.tileOptions = new[] { selectedTile };
         cell.collapsed = true;
 
-        Propagate(cell);
+        // Propagate(cell);
+        propagationQueue.Enqueue(cell);
     }
 
     private TileAlgorithm SelectTile(TileAlgorithm[] tiles)
@@ -229,177 +235,248 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         return tiles.OrderByDescending(t => t.Weight).First();
     }
 
-    private void Propagate(CellAlgorithm cell)
+    //private void Propagate(CellAlgorithm cell)
+    //{
+    //    CellAlgorithm cellLeft = GetCellLeft(cell.row, cell.col);
+    //    CellAlgorithm cellRight = GetCellRight(cell.row, cell.col);
+    //    CellAlgorithm cellTop = GetCellTop(cell.row, cell.col);
+    //    CellAlgorithm cellBottom = GetCellBottom(cell.row, cell.col);
+
+
+    //    if (cellTop != null && !cellTop.collapsed)
+    //    {
+    //        int tilesLength = cellTop.tileOptions.Length;
+
+    //        List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+    //        foreach (var t in cellTop.tileOptions)
+    //        {
+    //            bool sameSocket = false;
+    //            foreach (var n in cell.tileOptions)
+    //            {
+    //                if (n.UpSocketID == t.DownSocketID)
+    //                {
+    //                    sameSocket = true;
+    //                    break; 
+    //                }
+    //            }
+
+    //            if (sameSocket)
+    //            {
+    //                tilesSameSocket.Add(t);
+    //            }
+    //        }
+
+    //        cellTop.tileOptions = tilesSameSocket.ToArray();
+
+    //        if (cellTop.tileOptions.Length == 0)
+    //        {
+    //            Debug.LogError($"No possible tiles left for top neighbor at [{cellTop.row}, {cellTop.col}]");
+    //            IsGenerating = false;
+    //        }
+    //        else if (cellTop.tileOptions.Length == 1)
+    //        {
+    //            Collapse(cellTop);
+    //        }
+    //        else if (tilesLength > cellTop.tileOptions.Length)
+    //        {
+    //            Propagate(cellTop);
+    //        }
+    //    }
+
+    //    if (cellBottom != null && !cellBottom.collapsed)
+    //    {
+    //        int tilesLength = cellBottom.tileOptions.Length;
+
+    //        List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+    //        foreach (var t in cellBottom.tileOptions)
+    //        {
+    //            bool sameSocket = false;
+    //            foreach (var n in cell.tileOptions)
+    //            {
+    //                if (n.DownSocketID == t.UpSocketID)
+    //                {
+    //                    sameSocket = true;
+    //                    break; 
+    //                }
+    //            }
+
+    //            if (sameSocket)
+    //            {
+    //                tilesSameSocket.Add(t);
+    //            }
+    //        }
+
+    //        cellBottom.tileOptions = tilesSameSocket.ToArray();
+
+    //        if (cellBottom.tileOptions.Length == 0)
+    //        {
+    //            Debug.LogError($"No possible tiles left for bottom neighbor at [{cellBottom.row}, {cellBottom.col}]");
+    //            IsGenerating = false;
+    //        }
+    //        else if (cellBottom.tileOptions.Length == 1)
+    //        {
+    //            Collapse(cellBottom);
+    //        }
+    //        else if (tilesLength > cellBottom.tileOptions.Length)
+    //        {
+    //            Propagate(cellBottom);
+    //        }
+    //    }
+
+    //    if (cellLeft != null && !cellLeft.collapsed)
+    //    {
+    //        int tilesLength = cellLeft.tileOptions.Length;
+
+    //        List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+    //        foreach (var t in cellLeft.tileOptions)
+    //        {
+    //            bool sameSocket = false;
+    //            foreach (var n in cell.tileOptions)
+    //            {
+    //                if (n.LeftSocketID == t.RightSocketID)
+    //                {
+    //                    sameSocket = true;
+    //                    break; 
+    //                }
+    //            }
+
+    //            if (sameSocket)
+    //            {
+    //                tilesSameSocket.Add(t);
+    //            }
+    //        }
+
+    //        cellLeft.tileOptions = tilesSameSocket.ToArray();
+
+    //        if (cellLeft.tileOptions.Length == 0)
+    //        {
+    //            Debug.LogError($"No possible tiles left for left neighbor at [{cellLeft.row}, {cellLeft.col}]");
+    //            IsGenerating = false;
+    //        }
+    //        else if (cellLeft.tileOptions.Length == 1)
+    //        {
+    //            Collapse(cellLeft);
+    //        }
+    //        else if (tilesLength > cellLeft.tileOptions.Length)
+    //        {
+    //            Propagate(cellLeft);
+    //        }
+    //    }
+
+    //    if (cellRight != null && !cellRight.collapsed)
+    //    {
+    //        int tilesLength = cellRight.tileOptions.Length;
+
+    //        List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+
+    //        foreach (var t in cellRight.tileOptions)
+    //        {
+    //            bool sameSocket = false;
+    //            foreach (var n in cell.tileOptions)
+    //            {
+    //                if (n.RightSocketID == t.LeftSocketID)
+    //                {
+    //                    sameSocket = true;
+    //                    break; 
+    //                }
+    //            }
+
+    //            if (sameSocket)
+    //            {
+    //                tilesSameSocket.Add(t);
+    //            }
+    //        }
+
+    //        cellRight.tileOptions = tilesSameSocket.ToArray();
+
+    //        if (cellRight.tileOptions.Length == 0)
+    //        {
+    //            Debug.LogError($"No possible tiles left for right neighbor at [{cellRight.row}, {cellRight.col}]");
+    //            IsGenerating = false;
+    //        }
+    //        else if (cellRight.tileOptions.Length == 1)
+    //        {
+    //            Collapse(cellRight);
+    //        }
+    //        else if (tilesLength > cellRight.tileOptions.Length)
+    //        {
+    //            Propagate(cellRight);
+    //        }
+    //    }
+    //}
+
+    private void Propagate()
     {
-        CellAlgorithm cellLeft = GetCellLeft(cell.row, cell.col);
-        CellAlgorithm cellRight = GetCellRight(cell.row, cell.col);
-        CellAlgorithm cellTop = GetCellTop(cell.row, cell.col);
-        CellAlgorithm cellBottom = GetCellBottom(cell.row, cell.col);
-        
-
-        if (cellTop != null && !cellTop.collapsed)
+        while (propagationQueue.Count > 0)
         {
-            int tilesLength = cellTop.tileOptions.Length;
+            CellAlgorithm cell = propagationQueue.Dequeue();
 
-            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+            CellAlgorithm[] neighbors = {
+            GetCellTop(cell.row, cell.col),
+            GetCellBottom(cell.row, cell.col),
+            GetCellLeft(cell.row, cell.col),
+            GetCellRight(cell.row, cell.col)
+        };
 
-            foreach (var t in cellTop.tileOptions)
+            foreach (var neighbor in neighbors)
             {
-                bool sameSocket = false;
-                foreach (var n in cell.tileOptions)
+                if (neighbor == null || neighbor.collapsed) continue;
+
+                int initialOptions = neighbor.tileOptions.Length;
+                neighbor.tileOptions = FilterTiles(neighbor, cell);
+
+                if (neighbor.tileOptions.Length == 0)
                 {
-                    if (n.UpSocketID == t.DownSocketID)
-                    {
-                        sameSocket = true;
-                        break; 
-                    }
+                    Debug.LogError($"No possible tiles left for neighbor at [{neighbor.row}, {neighbor.col}]");
+                    IsGenerating = false;
+                    propagationQueue.Clear();
+                    return;
                 }
-                
-                if (sameSocket)
+
+                if (neighbor.tileOptions.Length < initialOptions)
                 {
-                    tilesSameSocket.Add(t);
+                    propagationQueue.Enqueue(neighbor); // Vuelve a encolar si hay cambios
                 }
             }
+        }
+    }
 
-            cellTop.tileOptions = tilesSameSocket.ToArray();
+    private TileAlgorithm[] FilterTiles(CellAlgorithm neighbor, CellAlgorithm currentCell)
+    {
+        List<TileAlgorithm> validTiles = new List<TileAlgorithm>();
 
-            if (cellTop.tileOptions.Length == 0)
+        foreach (TileAlgorithm neighborTile in neighbor.tileOptions)
+        {
+            foreach (TileAlgorithm currentTile in currentCell.tileOptions)
             {
-                Debug.LogError($"No possible tiles left for top neighbor at [{cellTop.row}, {cellTop.col}]");
-                IsGenerating = false;
-            }
-            else if (cellTop.tileOptions.Length == 1)
-            {
-                Collapse(cellTop);
-            }
-            else if (tilesLength > cellTop.tileOptions.Length)
-            {
-                Propagate(cellTop);
+                if (CheckSocketCompatibility(neighbor, neighborTile, currentCell, currentTile))
+                {
+                    validTiles.Add(neighborTile);
+                    break;
+                }
             }
         }
 
-        if (cellBottom != null && !cellBottom.collapsed)
-        {
-            int tilesLength = cellBottom.tileOptions.Length;
+        return validTiles.ToArray();
+    }
 
-            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
+    // Método auxiliar para verificar compatibilidad de sockets
+    private bool CheckSocketCompatibility(
+        CellAlgorithm neighbor,
+        TileAlgorithm neighborTile,
+        CellAlgorithm currentCell,
+        TileAlgorithm currentTile)
+    {
+        // Determina dirección relativa
+        if (neighbor.row > currentCell.row) return neighborTile.DownSocketID == currentTile.UpSocketID;    // Vecino arriba
+        if (neighbor.row < currentCell.row) return neighborTile.UpSocketID == currentTile.DownSocketID;    // Vecino abajo
+        if (neighbor.col > currentCell.col) return neighborTile.LeftSocketID == currentTile.RightSocketID; // Vecino derecha
+        if (neighbor.col < currentCell.col) return neighborTile.RightSocketID == currentTile.LeftSocketID; // Vecino izquierda
 
-            foreach (var t in cellBottom.tileOptions)
-            {
-                bool sameSocket = false;
-                foreach (var n in cell.tileOptions)
-                {
-                    if (n.DownSocketID == t.UpSocketID)
-                    {
-                        sameSocket = true;
-                        break; 
-                    }
-                }
-                
-                if (sameSocket)
-                {
-                    tilesSameSocket.Add(t);
-                }
-            }
-
-            cellBottom.tileOptions = tilesSameSocket.ToArray();
-
-            if (cellBottom.tileOptions.Length == 0)
-            {
-                Debug.LogError($"No possible tiles left for bottom neighbor at [{cellBottom.row}, {cellBottom.col}]");
-                IsGenerating = false;
-            }
-            else if (cellBottom.tileOptions.Length == 1)
-            {
-                Collapse(cellBottom);
-            }
-            else if (tilesLength > cellBottom.tileOptions.Length)
-            {
-                Propagate(cellBottom);
-            }
-        }
-
-        if (cellLeft != null && !cellLeft.collapsed)
-        {
-            int tilesLength = cellLeft.tileOptions.Length;
-
-            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
-
-            foreach (var t in cellLeft.tileOptions)
-            {
-                bool sameSocket = false;
-                foreach (var n in cell.tileOptions)
-                {
-                    if (n.LeftSocketID == t.RightSocketID)
-                    {
-                        sameSocket = true;
-                        break; 
-                    }
-                }
-                
-                if (sameSocket)
-                {
-                    tilesSameSocket.Add(t);
-                }
-            }
-
-            cellLeft.tileOptions = tilesSameSocket.ToArray();
-            
-            if (cellLeft.tileOptions.Length == 0)
-            {
-                Debug.LogError($"No possible tiles left for left neighbor at [{cellLeft.row}, {cellLeft.col}]");
-                IsGenerating = false;
-            }
-            else if (cellLeft.tileOptions.Length == 1)
-            {
-                Collapse(cellLeft);
-            }
-            else if (tilesLength > cellLeft.tileOptions.Length)
-            {
-                Propagate(cellLeft);
-            }
-        }
-
-        if (cellRight != null && !cellRight.collapsed)
-        {
-            int tilesLength = cellRight.tileOptions.Length;
-
-            List<TileAlgorithm> tilesSameSocket = new List<TileAlgorithm>();
-
-            foreach (var t in cellRight.tileOptions)
-            {
-                bool sameSocket = false;
-                foreach (var n in cell.tileOptions)
-                {
-                    if (n.RightSocketID == t.LeftSocketID)
-                    {
-                        sameSocket = true;
-                        break; 
-                    }
-                }
-                
-                if (sameSocket)
-                {
-                    tilesSameSocket.Add(t);
-                }
-            }
-
-            cellRight.tileOptions = tilesSameSocket.ToArray();
-
-            if (cellRight.tileOptions.Length == 0)
-            {
-                Debug.LogError($"No possible tiles left for right neighbor at [{cellRight.row}, {cellRight.col}]");
-                IsGenerating = false;
-            }
-            else if (cellRight.tileOptions.Length == 1)
-            {
-                Collapse(cellRight);
-            }
-            else if (tilesLength > cellRight.tileOptions.Length)
-            {
-                Propagate(cellRight);
-            }
-        }
+        return false;
     }
 
     private CellAlgorithm GetCellTop(int row, int col)

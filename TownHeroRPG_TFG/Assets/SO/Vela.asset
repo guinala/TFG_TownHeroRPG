@@ -12,14 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd5f11b2be948b4ba4d029f93556931, type: 3}
   m_Name: Vela
   m_EditorClassIdentifier: 
-  PropSprite: {fileID: 5860325458425312261, guid: a0d3fbbc155eb404a87f827b40a48dfe, type: 3}
-  PropSize: {x: 1, y: 1}
+  Sprite: {fileID: 5860325458425312261, guid: a0d3fbbc155eb404a87f827b40a48dfe, type: 3}
+  Size: {x: 1, y: 1}
+  Collider: 1
+  DeadEnd: 1
   Corner: 1
-  NearWallUP: 0
-  NearWallDown: 0
-  NearWallRight: 0
-  NearWallLeft: 0
+  NearUpWall: 0
+  NearDownWall: 0
+  NearRightWall: 0
+  NearLeftWall: 0
   Inner: 0
+  Corridor: 0
   PlacementQuantityMin: 1
   PlacementQuantityMax: 2
   PlaceAsGroup: 0

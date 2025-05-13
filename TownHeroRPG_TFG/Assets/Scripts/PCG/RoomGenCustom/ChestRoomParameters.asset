@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e1e8d042711904188298c71cb282bd, type: 3}
+  m_Name: ChestRoomParameters
+  m_EditorClassIdentifier: 
+  ChestPrefab: {fileID: 7607691775279638219, guid: 1e6fe30b8e3bec94ba7b6f29044785ed, type: 3}
+  Props:
+  - {fileID: 11400000, guid: 6c0162cccf1bbc749b963b1037c5b15e, type: 2}
+  - {fileID: 11400000, guid: eb0dc74f65a66d047b27ccfdda50cf68, type: 2}

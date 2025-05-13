@@ -2,17 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossRoom : MonoBehaviour
+public class BossRoom : Room
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public BossRoomParameters BossRoomParameters;
 
-    // Update is called once per frame
-    void Update()
+    public BossRoom(Vector2Int roomCenterPos, HashSet<Vector2Int> floorTiles, BossRoomParameters bossRoomParameters) : base(roomCenterPos, floorTiles)
     {
-        
+        BossRoomParameters = bossRoomParameters;
     }
 }

@@ -22,8 +22,7 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
     private HashSet<Vector2Int> path;
     private HashSet<Vector2Int> corridorPath;
     public DungeonData dungeonData;
-    public UnityEvent OnDungeonGenerated = new UnityEvent();
-    private List<Room> roomsList = new();
+    public UnityEvent<DungeonData> OnDungeonGenerated;
 
     private void Start()
     {
@@ -52,6 +51,9 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
             Debug.LogError("Insufficient length for corridors");
             return;
         }
+
+        dungeonData.ClearData();
+
         HashSet<Vector2Int> possibleRoomPos = new HashSet<Vector2Int>();
         HashSet<Vector2Int> roomPos;
 
@@ -73,15 +75,13 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
         corridorPath.UnionWith(corridorsList.SelectMany(c => c));
         Debug.Log("Hora de borrar");
         PaintDungeon(path);
-        dungeonData.InitializeRoomDictionary(rooms, corridorPath, path, roomsList);
-        OnDungeonGenerated?.Invoke();
+        dungeonData.InitializeRoomDictionary(rooms, corridorPath, path);
+        OnDungeonGenerated?.Invoke(dungeonData);
     }
 
     private void SaveData(Vector2Int roomPosition, HashSet<Vector2Int> roomFloor)
     {
         rooms[roomPosition] = roomFloor;
-        Room room = new Room(roomPosition, roomFloor);
-        roomsList.Add(room);
     }
 
     private void RoomsInDeadEnds(HashSet<Vector2Int> path, HashSet<Vector2Int> roomPos)

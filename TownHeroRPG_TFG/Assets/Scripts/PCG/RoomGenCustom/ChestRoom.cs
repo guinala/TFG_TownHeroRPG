@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChestRoom : MonoBehaviour
+public class ChestRoom : Room
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public ChestRoomParameters ChestRoomParameters;
 
-    // Update is called once per frame
-    void Update()
+    public ChestRoom(Vector2Int roomCenterPos, HashSet<Vector2Int> floorTiles, ChestRoomParameters parameters) : base(roomCenterPos, floorTiles)
     {
-        
+        ChestRoomParameters = parameters;
     }
 }
+

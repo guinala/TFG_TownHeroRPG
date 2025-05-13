@@ -2,17 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyRoom : MonoBehaviour
+public class EnemyRoom : Room
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public EnemyRoomParameters EnemyRoomParameters;
 
-    // Update is called once per frame
-    void Update()
+    public EnemyRoom(Vector2Int roomCenterPos, HashSet<Vector2Int> floorTiles, EnemyRoomParameters parameters) : base(roomCenterPos, floorTiles)
     {
-        
+        EnemyRoomParameters = parameters;
     }
 }
+

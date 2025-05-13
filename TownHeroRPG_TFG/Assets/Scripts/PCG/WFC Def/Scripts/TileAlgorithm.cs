@@ -14,4 +14,16 @@ public class TileAlgorithm : MonoBehaviour
     public int Weight;
 
     public bool UseOnEdges = false;
+
+    public int GetSocket(string direction)
+    {
+        switch (direction)
+        {
+            case "Up": return UpSocketID;
+            case "Down": return DownSocketID;
+            case "Left": return LeftSocketID;
+            case "Right": return RightSocketID;
+            default: throw new ArgumentException("Dirección inválida");
+        }
+    }
 }
