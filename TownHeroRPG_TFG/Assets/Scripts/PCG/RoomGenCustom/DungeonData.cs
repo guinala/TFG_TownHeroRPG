@@ -4,10 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-/// <summary>
-/// Stores all the data about our dungeon.
-/// Useful when creating a save / load system
-/// </summary>
 public class DungeonData : MonoBehaviour
 {
     public Dictionary<Vector2Int, HashSet<Vector2Int>> rooms = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
@@ -15,7 +11,6 @@ public class DungeonData : MonoBehaviour
     public HashSet<Vector2Int> Path { get; set; } = new HashSet<Vector2Int>();
     public HashSet<Vector2Int> floor { get; set; }
     public PlayerRoom PlayerRoom { get; set; }
-
     public GameObject PlayerReference { get; set; }
 
     private void Awake()

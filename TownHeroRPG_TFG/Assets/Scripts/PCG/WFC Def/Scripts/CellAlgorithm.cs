@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-[Serializable]
 public class CellAlgorithm
 {
     [Header("Tiles")]
@@ -15,4 +14,14 @@ public class CellAlgorithm
     [Header("State")]
     public bool collapsed;
     public bool instantiated;
+}
+
+[Serializable]
+public class CellWFCData
+{
+    public int row;
+    public int col;
+    public bool collapsed;
+    public bool instantiated;
+    public int selectedTileIndex;
 }

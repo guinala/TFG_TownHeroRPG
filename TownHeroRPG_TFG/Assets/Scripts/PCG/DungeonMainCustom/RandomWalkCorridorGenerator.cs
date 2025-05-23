@@ -73,7 +73,6 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
             }
         }
         corridorPath.UnionWith(corridorsList.SelectMany(c => c));
-        Debug.Log("Hora de borrar");
         PaintDungeon(path);
         dungeonData.InitializeRoomDictionary(rooms, corridorPath, path);
         OnDungeonGenerated?.Invoke(dungeonData);

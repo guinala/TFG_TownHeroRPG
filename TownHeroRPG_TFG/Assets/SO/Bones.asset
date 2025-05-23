@@ -24,7 +24,7 @@ MonoBehaviour:
   Inner: 1
   Corridor: 1
   PlacementQuantityMin: 1
-  PlacementQuantityMax: 4
-  PlaceAsGroup: 1
+  PlacementQuantityMax: 2
+  PlaceAsGroup: 0
   GroupMinCount: 2
   GroupMaxCount: 4

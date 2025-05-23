@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MainMenuTest.unity
+    guid: 1ee18bf82c21b3f4f984c1cc6e8d7adc
+  - enabled: 1
+    path: Assets/Scenes/WaveFunctionCollapse.unity
+    guid: 81536908b088315469814a33ba6137bc
+  - enabled: 1
     path: Assets/Scenes/SenseiHouse.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1

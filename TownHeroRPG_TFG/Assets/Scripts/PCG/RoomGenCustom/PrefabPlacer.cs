@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.LowLevel;
 using Random = UnityEngine.Random;
 
 public enum PlacementOriginCorner
@@ -17,6 +18,7 @@ public enum PlacementOriginCorner
 public class PrefabPlacer : MonoBehaviour
 {
     private DungeonData dungeonData;
+    private RandomWalkRoomData randomWalkData;
 
     [SerializeField]
     private EnemyRoomParameters parameters;
@@ -32,7 +34,7 @@ public class PrefabPlacer : MonoBehaviour
 
     #region PropPlacement
 
-    public void ProcessRooms(DungeonData data)
+    public void ProcessRoomProps(DungeonData data)
     {
         if (data == null)
             return;
@@ -40,150 +42,129 @@ public class PrefabPlacer : MonoBehaviour
         dungeonData = data;
         foreach (Room room in dungeonData.Rooms)
         {
-            List<Prop> propsToPlace = parameters.Props; // Props genéricos por defecto
-
-            if (room is BossRoom bossRoom)
-            {
-                propsToPlace = bossRoom.BossRoomParameters.Props; // Props exclusivos de BossRoom
-            }
-            else if (room is ChestRoom chestRoom)
-            {
-                propsToPlace = chestRoom.ChestRoomParameters.Props; // Props exclusivos de ChestRoom
-                Vector2Int center = Vector2Int.RoundToInt(room.RoomCenterPos);
-            }
-            else if (room is PlayerRoom playerRoom)
-            {
-                propsToPlace = playerRoom.PlayerRoomParameters.Props; // Props exclusivos de PlayerRoom
-            }
-
-            List<Prop> deadEndProps = propsToPlace.Where(x => x.DeadEnd).ToList();
-            if(deadEndProps.Count > 0)
-                PlaceDeadEndProps(room, deadEndProps);
-
-            //Place props place props in the corners
-            List<Prop> cornerProps = propsToPlace.Where(x => x.Corner).ToList();
-            if(cornerProps.Count > 0)
-                PlaceCornerProps(room, cornerProps);
-
-            //Place props in the corridors
-            List<Prop> corridorProps = propsToPlace.Where(x => x.Corridor).ToList();
-            if(corridorProps.Count > 0)
-                PlaceCorridorProps(room, corridorProps);
-
-            //Place props near LEFT wall
-            List<Prop> leftWallProps = propsToPlace
-            .Where(x => x.NearLeftWall)
-            .OrderByDescending(x => x.Size.x * x.Size.y)
-            .ToList();
-
-            if(leftWallProps.Count > 0)
-                PlaceProps(room, leftWallProps, room.NearWallLeftTiles, PlacementOriginCorner.BottomLeft);
-
-            //Place props near RIGHT wall
-            List <Prop> rightWallProps = propsToPlace
-            .Where(x => x.NearRightWall)
-            .OrderByDescending(x => x.Size.x * x.Size.y)
-            .ToList();
-
-            if(rightWallProps.Count > 0)
-                PlaceProps(room, rightWallProps, room.NearWallRightTiles, PlacementOriginCorner.TopRight);
-
-            //Place props near UP wall
-            List <Prop> topWallProps = propsToPlace
-            .Where(x => x.NearUpWall)
-            .OrderByDescending(x => x.Size.x * x.Size.y)
-            .ToList();
-
-            if (topWallProps.Count > 0)
-                PlaceProps(room, topWallProps, room.NearWallUpTiles, PlacementOriginCorner.TopLeft);
-
-            //Place props near DOWN wall
-            List <Prop> downWallProps = propsToPlace
-            .Where(x => x.NearDownWall)
-            .OrderByDescending(x => x.Size.x * x.Size.y)
-            .ToList();
-
-            if(downWallProps.Count > 0)
-                PlaceProps(room, downWallProps, room.NearWallDownTiles, PlacementOriginCorner.BottomLeft); 
-
-            //Place inner props
-            List <Prop> innerProps = propsToPlace
-                .Where(x => x.Inner)
-                .OrderByDescending(x => x.Size.x * x.Size.y)
-                .ToList();
-            if(innerProps.Count > 0)
-                PlaceProps(room, innerProps, room.InnerTiles, PlacementOriginCorner.BottomLeft);
+            ExtractProps(room);
         }
 
-        //OnFinished?.Invoke();
-        //Invoke("RunEvent", 1);
         PlaceSpecialObjects();
-
     }
 
-    public void RunEvent()
+    private void ExtractProps(Room room)
     {
-        OnFinished?.Invoke();
+        List<Prop> propsToPlace = parameters.Props;
+
+        if (room is RandomWalkDungeonRoom rwRoom)
+        {
+            propsToPlace = rwRoom.RandomWalkDungeonParameters.Props;
+        }
+
+        if (room is BossRoom bossRoom)
+        {
+            propsToPlace = bossRoom.BossRoomParameters.Props;
+        }
+        else if (room is ChestRoom chestRoom)
+        {
+            propsToPlace = chestRoom.ChestRoomParameters.Props;
+            Vector2Int center = Vector2Int.RoundToInt(room.RoomCenterPos);
+        }
+        else if (room is PlayerRoom playerRoom)
+        {
+            propsToPlace = playerRoom.PlayerRoomParameters.Props;
+        }
+
+        List<Prop> deadEndProps = propsToPlace.Where(x => x.DeadEnd).ToList();
+        if (deadEndProps.Count > 0)
+            PlaceDeadEndProps(room, deadEndProps);
+
+        List<Prop> cornerProps = propsToPlace.Where(x => x.Corner).ToList();
+        if (cornerProps.Count > 0)
+            PlaceCornerProps(room, cornerProps);
+
+        List<Prop> corridorProps = propsToPlace.Where(x => x.Corridor).ToList();
+        if (corridorProps.Count > 0)
+            PlaceCorridorProps(room, corridorProps);
+
+        List<Prop> leftWallProps = propsToPlace
+        .Where(x => x.NearLeftWall)
+        .OrderByDescending(x => x.Size.x * x.Size.y)
+        .ToList();
+
+        if (leftWallProps.Count > 0)
+            PlaceProps(room, leftWallProps, room.NearWallLeftTiles, PlacementOriginCorner.BottomLeft);
+
+        List<Prop> rightWallProps = propsToPlace
+        .Where(x => x.NearRightWall)
+        .OrderByDescending(x => x.Size.x * x.Size.y)
+        .ToList();
+
+        if (rightWallProps.Count > 0)
+            PlaceProps(room, rightWallProps, room.NearWallRightTiles, PlacementOriginCorner.TopRight);
+
+        List<Prop> topWallProps = propsToPlace
+        .Where(x => x.NearUpWall)
+        .OrderByDescending(x => x.Size.x * x.Size.y)
+        .ToList();
+
+        if (topWallProps.Count > 0)
+            PlaceProps(room, topWallProps, room.NearWallUpTiles, PlacementOriginCorner.TopLeft);
+
+        List<Prop> downWallProps = propsToPlace
+        .Where(x => x.NearDownWall)
+        .OrderByDescending(x => x.Size.x * x.Size.y)
+        .ToList();
+
+        if (downWallProps.Count > 0)
+            PlaceProps(room, downWallProps, room.NearWallDownTiles, PlacementOriginCorner.BottomLeft);
+
+        List<Prop> innerProps = propsToPlace
+            .Where(x => x.Inner)
+            .OrderByDescending(x => x.Size.x * x.Size.y)
+            .ToList();
+        if (innerProps.Count > 0)
+            PlaceProps(room, innerProps, room.InnerTiles, PlacementOriginCorner.BottomLeft);
     }
 
     private void PlaceProps(
         Room room, List<Prop> wallProps, HashSet<Vector2Int> availableTiles, PlacementOriginCorner placement)
     {
-        //Remove path positions from the initial nearWallTiles to ensure the clear path to traverse dungeon
         HashSet<Vector2Int> tempPositons = new HashSet<Vector2Int>(availableTiles);
         tempPositons.ExceptWith(dungeonData.Path);
 
-        //We will try to place all the props
         foreach (Prop propToPlace in wallProps)
         {
-            //We want to place only certain quantity of each prop
             int quantity = Random.Range(propToPlace.PlacementQuantityMin, propToPlace.PlacementQuantityMax + 1);
 
             for (int i = 0; i < quantity; i++)
             {
-                //remove taken positions
                 tempPositons.ExceptWith(room.PropPositions);
-                //shuffel the positions
                 List<Vector2Int> availablePositions = tempPositons.OrderBy(x => Guid.NewGuid()).ToList();
-                //If placement has failed there is no point in trying to place the same prop again
-                if (TryPlacingPropBruteForce(room, propToPlace, availablePositions, placement) == false)
+                if (TryToPlacePropBruteForce(room, propToPlace, availablePositions, placement) == false)
                     break;
             }
 
         }
     }
 
-    private bool TryPlacingPropBruteForce(
-        Room room, Prop propToPlace, List<Vector2Int> availablePositions, PlacementOriginCorner placement)
+    private bool TryToPlacePropBruteForce(Room room, Prop prop, List<Vector2Int> availablePositions, PlacementOriginCorner placement)
     {
-        //try placing the objects starting from the corner specified by the placement parameter
         for (int i = 0; i < availablePositions.Count; i++)
         {
-            //select the specified position (but it can be already taken after placing the corner props as a group)
             Vector2Int position = availablePositions[i];
             if (room.PropPositions.Contains(position))
                 continue;
 
-            //check if there is enough space around to fit the prop
-            List<Vector2Int> freePositionsAround
-                = TryToFitProp(propToPlace, availablePositions, position, placement);
+            List<Vector2Int> freePositionsAround = TryToFitProp(prop, availablePositions, position, placement);
 
-            //If we have enough spaces place the prop
-            if (freePositionsAround.Count == propToPlace.Size.x * propToPlace.Size.y)
+            if (freePositionsAround.Count == prop.Size.x * prop.Size.y)
             {
-                //Place the gameobject
-                PlacePropGameObjectAt(room, position, propToPlace);
-                //Lock all the positions recquired by the prop (based on its size)
+                PlacePropGameObject(room, position, prop);
                 foreach (Vector2Int pos in freePositionsAround)
                 {
-                    //Hashest will ignore duplicate positions
                     room.PropPositions.Add(pos);
                 }
 
-                //Deal with groups
-                if (propToPlace.PlaceAsGroup)
+                if (prop.PlaceAsGroup)
                 {
-                    PlaceGroupObject(room, position, propToPlace, 1);
+                    PlaceGroupObject(room, position, prop, 1);
                 }
                 return true;
             }
@@ -192,15 +173,10 @@ public class PrefabPlacer : MonoBehaviour
         return false;
     }
 
-    private List<Vector2Int> TryToFitProp(
-        Prop prop,
-        List<Vector2Int> availablePositions,
-        Vector2Int originPosition,
-        PlacementOriginCorner placement)
+    private List<Vector2Int> TryToFitProp(Prop prop, List<Vector2Int> availablePositions, Vector2Int originPosition, PlacementOriginCorner placement)
     {
         List<Vector2Int> freePositions = new();
 
-        //Perform the specific loop depending on the PlacementOriginCorner
         if (placement == PlacementOriginCorner.BottomLeft)
         {
             for (int xOffset = 0; xOffset < prop.Size.x; xOffset++)
@@ -253,20 +229,19 @@ public class PrefabPlacer : MonoBehaviour
         return freePositions;
     }
 
-    private void PlaceCornerProps(Room room, List<Prop> cornerProps)
+    private void PlaceCornerProps(Room room, List<Prop> props)
     {
-        float tempChance = cornerPropPlacementChance;
+        float chance = cornerPropPlacementChance;
 
         foreach (Vector2Int cornerTile in room.CornerTiles)
         {
-            if (Random.value < tempChance)
+            if (Random.value < chance)
             {
-                Prop propToPlace
-                    = cornerProps[Random.Range(0, cornerProps.Count)];
+                Prop propToPlace = props[Random.Range(0, props.Count)];
 
                 if (!room.PropPositions.Contains(cornerTile) && !dungeonData.Path.Contains(cornerTile))
                 {
-                    PlacePropGameObjectAt(room, cornerTile, propToPlace);
+                    PlacePropGameObject(room, cornerTile, propToPlace);
                 }
                 if (propToPlace.PlaceAsGroup)
                 {
@@ -275,25 +250,24 @@ public class PrefabPlacer : MonoBehaviour
             }
             else
             {
-                tempChance = Mathf.Clamp01(tempChance + 0.1f);
+                chance = Mathf.Clamp01(chance + 0.1f);
             }
         }
     }
 
-    private void PlaceDeadEndProps(Room room, List<Prop> deadEndProps)
+    private void PlaceDeadEndProps(Room room, List<Prop> props)
     {
-        float tempChance = deadPropPlacementChance;
+        float chance = deadPropPlacementChance;
 
         foreach (Vector2Int deadEndTile in room.DeadEndTiles)
         {
-            if (Random.value < tempChance)
+            if (Random.value < chance)
             {
-                Prop propToPlace
-                    = deadEndProps[Random.Range(0, deadEndProps.Count)];
+                Prop propToPlace = props[Random.Range(0, props.Count)];
 
                 if (!room.PropPositions.Contains(deadEndTile) && !dungeonData.Path.Contains(deadEndTile))
                 {
-                    PlacePropGameObjectAt(room, deadEndTile, propToPlace);
+                    PlacePropGameObject(room, deadEndTile, propToPlace);
                 }
                 if (propToPlace.PlaceAsGroup)
                 {
@@ -302,25 +276,24 @@ public class PrefabPlacer : MonoBehaviour
             }
             else
             {
-                tempChance = Mathf.Clamp01(tempChance + 0.1f);
+                chance = Mathf.Clamp01(chance + 0.1f);
             }
         }
     }
 
-    private void PlaceCorridorProps(Room room, List<Prop> corridorProps)
+    private void PlaceCorridorProps(Room room, List<Prop> props)
     {
-        float tempChance = corridorPropPlacementChance;
+        float chance = corridorPropPlacementChance;
 
         foreach (Vector2Int corridorTile in room.CorridorTiles)
         {
-            if (Random.value < tempChance)
+            if (Random.value < chance)
             {
-                Prop propToPlace
-                    = corridorProps[Random.Range(0, corridorProps.Count)];
+                Prop propToPlace = props[Random.Range(0, props.Count)];
 
                 if (!room.PropPositions.Contains(corridorTile) && !dungeonData.Path.Contains(corridorTile))
                 {
-                    PlacePropGameObjectAt(room, corridorTile, propToPlace);
+                    PlacePropGameObject(room, corridorTile, propToPlace);
                 }
                 if (propToPlace.PlaceAsGroup)
                 {
@@ -329,22 +302,16 @@ public class PrefabPlacer : MonoBehaviour
             }
             else
             {
-                tempChance = Mathf.Clamp01(tempChance + 0.1f);
+                chance = Mathf.Clamp01(chance + 0.1f);
             }
         }
     }
 
-    private void PlaceGroupObject(
-        Room room, Vector2Int groupOriginPosition, Prop propToPlace, int searchOffset)
+    private void PlaceGroupObject(Room room, Vector2Int groupOriginPosition, Prop propToPlace, int searchOffset)
     {
-        //*Can work poorely when placing bigger props as groups
-
-        //calculate how many elements are in the group -1 that we have placed in the center
-        int count = UnityEngine.Random.Range(propToPlace.GroupMinCount, propToPlace.GroupMaxCount) - 1;
+        int count = Random.Range(propToPlace.GroupMinCount, propToPlace.GroupMaxCount) - 1;
         count = Mathf.Clamp(count, 0, 8);
 
-        //find the available spaces around the center point.
-        //we use searchOffset to limit the distance between those points and the center point
         List<Vector2Int> availableSpaces = new List<Vector2Int>();
         for (int xOffset = -searchOffset; xOffset <= searchOffset; xOffset++)
         {
@@ -360,29 +327,24 @@ public class PrefabPlacer : MonoBehaviour
             }
         }
 
-        //shuffle the list
         availableSpaces.OrderBy(x => Guid.NewGuid());
 
-        //place the props (as many as we want or if there is less space fill all the available spaces)
         int tempCount = count < availableSpaces.Count ? count : availableSpaces.Count;
         for (int i = 0; i < tempCount; i++)
         {
-            PlacePropGameObjectAt(room, availableSpaces[i], propToPlace);
+            PlacePropGameObject(room, availableSpaces[i], propToPlace);
         }
 
     }
 
 
-    private GameObject PlacePropGameObjectAt(Room room, Vector2Int placementPostion, Prop propToPlace)
+    private GameObject PlacePropGameObject(Room room, Vector2Int placementPostion, Prop propToPlace)
     {
-        //Instantiat the prop at this positon
         GameObject prop = Instantiate(propPrefab);
-        if (propToPlace.name == "Chest")
-        {
-            prop.gameObject.name = "Chest";
-            Debug.Log("Se supone que se instancia el cofreasdasdasdasdasdasdas");
-        }
+        
         SpriteRenderer propSpriteRenderer = prop.GetComponentInChildren<SpriteRenderer>();
+
+        Vector2Int Size = Vector2Int.one;
 
         if (propSpriteRenderer == null)
         {
@@ -391,8 +353,12 @@ public class PrefabPlacer : MonoBehaviour
         }
         else
         {
-            //set the sprite
             propSpriteRenderer.sprite = propToPlace.Sprite;
+        }
+
+        if(propToPlace.Corner == false && propToPlace.DeadEnd == false && propToPlace.Corridor == false)
+        {
+            Size = propToPlace.Size;
         }
 
         if (propToPlace.Collider)
@@ -400,24 +366,33 @@ public class PrefabPlacer : MonoBehaviour
             CapsuleCollider2D collider = propSpriteRenderer.gameObject.AddComponent<CapsuleCollider2D>();
             collider.offset = Vector2.zero;
 
-            if (propToPlace.Size.x > propToPlace.Size.y)
+            if (Size.x > Size.y)
             {
                 collider.direction = CapsuleDirection2D.Horizontal;
             }
 
-            collider.size = new Vector2(propToPlace.Size.x * 0.8f, propToPlace.Size.y * 0.8f);
+            collider.size = new Vector2(Size.x * 0.8f, Size.y * 0.8f);
         }
-        //collider.size = size;
 
         prop.transform.localPosition = (Vector2)placementPostion;
-        //adjust the position to the sprite
-        propSpriteRenderer.transform.localPosition
-            = (Vector2)propToPlace.Size * 0.5f;
+        propSpriteRenderer.transform.localPosition = (Vector2)Size * 0.5f;
 
-        //Save the prop in the room data (so in the dunbgeon data)
         room.PropPositions.Add(placementPostion);
         room.PropObjects.Add(prop);
         return prop;
+    }
+
+    public void ProcessSingleRoom(RandomWalkRoomData data)
+    {
+        if (data == null)
+            return;
+
+        randomWalkData = data;
+
+        RandomWalkDungeonRoom room = randomWalkData.Room;
+        ExtractProps(room);
+
+        PlaceRandomWalkRoomSpecialObjects(room);
     }
 
     #endregion
@@ -428,27 +403,38 @@ public class PrefabPlacer : MonoBehaviour
     {
         if (dungeonData == null || dungeonData.Rooms.Count == 0) return;
 
-        // Calcular posiciones accesibles para cada habitación
         CalculateAccessiblePositionsForRooms();
 
         Room playerRoom = dungeonData.PlayerRoom;
         
         if(playerRoom.AvailablePositionsFromPath.Count > 0)
         {
-            Vector2Int playerTile = playerRoom.AvailablePositionsFromPath[0];
+            Vector2Int playerTile;
+            if (playerRoom.AvailablePositionsFromPath.Contains(playerRoom.RoomCenterPos))
+                playerTile = playerRoom.RoomCenterPos;
+            else
+            {
+                playerRoom.AvailablePositionsFromPath.OrderBy(x => Guid.NewGuid()).ToList();
+                playerTile = playerRoom.AvailablePositionsFromPath[0];
+            }
             GameObject player = Instantiate(dungeonData.PlayerRoom.PlayerRoomParameters.PlayerPrefab);
             player.transform.localPosition = (Vector2)playerTile + Vector2.one * 0.5f;
         }
 
-        // Colocar jefe y enemigos
         foreach (Room room in dungeonData.Rooms)
         {
             if (room is BossRoom bossRoom)
             {
-                // Colocar solo al jefe en la habitación del jefe
                 if (room.AvailablePositionsFromPath.Count > 0)
                 {
-                    Vector2Int bossPosition = room.AvailablePositionsFromPath[0];
+                    Vector2Int bossPosition;
+                    if (room.AvailablePositionsFromPath.Contains(room.RoomCenterPos))
+                        bossPosition = room.RoomCenterPos;
+                    else
+                    {
+                        room.AvailablePositionsFromPath.OrderBy(x => Guid.NewGuid()).ToList();
+                        bossPosition = room.AvailablePositionsFromPath[0];
+                    }
                     GameObject boss = Instantiate(bossRoom.BossRoomParameters.BossPrefab);
                     boss.transform.localPosition = (Vector2)bossPosition + Vector2.one * 0.5f;
                     room.EnemiesInRoom.Add(boss);
@@ -456,10 +442,16 @@ public class PrefabPlacer : MonoBehaviour
             }
             else if (room is ChestRoom chestRoom)
             {
-                // Colocar solo al jefe en la habitación del jefe
                 if (room.AvailablePositionsFromPath.Count > 0)
                 {
-                    Vector2Int chestPosition = room.AvailablePositionsFromPath[0];
+                    Vector2Int chestPosition;
+                    if(room.AvailablePositionsFromPath.Contains(room.RoomCenterPos))
+                        chestPosition = room.RoomCenterPos;
+                    else
+                    {
+                        room.AvailablePositionsFromPath.OrderBy(x => Guid.NewGuid()).ToList();
+                        chestPosition = room.AvailablePositionsFromPath[0];
+                    }
                     GameObject chest = Instantiate(chestRoom.ChestRoomParameters.ChestPrefab);
                     chest.transform.localPosition = (Vector2)chestPosition + Vector2.one * 0.5f;
                     room.SpecialItemsInRoom.Add(chest);
@@ -467,16 +459,18 @@ public class PrefabPlacer : MonoBehaviour
             }
             else if (room is EnemyRoom enemyRoom)
             {
-                // Colocar enemigos regulares en habitaciones no especiales (excluyendo la del jugador)
-                int enemyCount = Random.Range(enemyRoom.EnemyRoomParameters.EnemyCountMin, enemyRoom.EnemyRoomParameters.EnemyCountMax); // Ajustar según sea necesario
+                int enemyCount = Random.Range(enemyRoom.EnemyRoomParameters.EnemyCountMin, enemyRoom.EnemyRoomParameters.EnemyCountMax);
                 PlaceEnemies(enemyRoom, enemyCount);
             }
         }
+        OnFinished?.Invoke();
     }
 
     private void PlaceEnemies(EnemyRoom room, int count)
     {
         List<Vector2Int> accessiblePositions = new List<Vector2Int>(room.AvailablePositionsFromPath);
+
+        accessiblePositions = accessiblePositions.OrderBy(x => Guid.NewGuid()).ToList(); 
         count = Mathf.Min(count, accessiblePositions.Count);
 
         for (int i = 0; i < count; i++)
@@ -490,11 +484,61 @@ public class PrefabPlacer : MonoBehaviour
         }
     }
 
+    private void PlaceRandomWalkRoomSpecialObjects(RandomWalkDungeonRoom room)
+    {
+        room.AvailablePositionsFromPath.OrderBy(x => Guid.NewGuid()).ToList();
+        
+
+        if (room.AvailablePositionsFromPath.Count > 0)
+        {
+            Vector2Int playerTile;
+            if (room.AvailablePositionsFromPath.Contains(room.RoomCenterPos))
+            {
+                playerTile = room.RoomCenterPos;
+            }
+                
+            else
+            {
+                playerTile = room.AvailablePositionsFromPath[0];
+            }
+
+            room.AvailablePositionsFromPath.Remove(playerTile);
+
+            GameObject player = Instantiate(randomWalkData.Room.RandomWalkDungeonParameters.PlayerPrefab);
+            player.transform.localPosition = (Vector2)playerTile + Vector2.one * 0.5f;
+
+
+            Vector2Int chestTile = room.AvailablePositionsFromPath[Random.Range(0, room.AvailablePositionsFromPath.Count)];
+            GameObject chest = Instantiate(randomWalkData.Room.RandomWalkDungeonParameters.ChestPrefab);
+            chest.transform.localPosition = (Vector2)chestTile + Vector2.one * 0.5f;
+            room.AvailablePositionsFromPath.Remove(chestTile);
+
+            Vector2Int bossTile = room.AvailablePositionsFromPath[Random.Range(0, room.AvailablePositionsFromPath.Count)];
+            GameObject boss = Instantiate(randomWalkData.Room.RandomWalkDungeonParameters.BossPrefab);
+            boss.transform.localPosition = (Vector2)bossTile + Vector2.one * 0.5f;
+            room.AvailablePositionsFromPath.Remove(bossTile);
+
+            room.AvailablePositionsFromPath.OrderBy(x => Guid.NewGuid()).ToList();
+            int count = room.RandomWalkDungeonParameters.EnemyCount;
+            count = Mathf.Min(count, room.AvailablePositionsFromPath.Count);
+
+            for (int i = 0; i < count; i++)
+            {
+                if (room.AvailablePositionsFromPath.Count == 0) break;
+                Vector2Int pos = room.AvailablePositionsFromPath[Random.Range(0, room.AvailablePositionsFromPath.Count)];
+                GameObject enemy = Instantiate(room.RandomWalkDungeonParameters.EnemyPrefabs[Random.Range(0, room.RandomWalkDungeonParameters.EnemyPrefabs.Length)]);
+                enemy.transform.localPosition = (Vector2)pos + Vector2.one * 0.5f;
+                room.EnemiesInRoom.Add(enemy);
+                room.AvailablePositionsFromPath.Remove(pos);
+            }
+        }
+
+    }
+
     private void CalculateAccessiblePositionsForRooms()
     {
         foreach (Room room in dungeonData.Rooms)
         {
-            // Encontrar tiles accesibles usando BFS
             RoomGraph roomGraph = new RoomGraph(room.FloorTiles);
             HashSet<Vector2Int> roomFloor = new HashSet<Vector2Int>(room.FloorTiles);
             roomFloor.IntersectWith(dungeonData.Path);

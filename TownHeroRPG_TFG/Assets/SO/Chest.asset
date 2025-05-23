@@ -12,15 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd5f11b2be948b4ba4d029f93556931, type: 3}
   m_Name: Chest
   m_EditorClassIdentifier: 
-  PropSprite: {fileID: 0}
-  PropSize: {x: 1, y: 1}
+  Sprite: {fileID: 0}
+  Size: {x: 1, y: 1}
   Collider: 1
   DeadEnd: 1
   Corner: 1
-  NearWallUP: 1
-  NearWallDown: 1
-  NearWallRight: 1
-  NearWallLeft: 1
+  NearUpWall: 0
+  NearDownWall: 0
+  NearRightWall: 0
+  NearLeftWall: 0
   Inner: 1
   Corridor: 1
   PlacementQuantityMin: 1

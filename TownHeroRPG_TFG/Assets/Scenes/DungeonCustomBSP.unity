@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 338366901}
   - component: {fileID: 338366902}
+  - component: {fileID: 338366903}
   m_Layer: 0
   m_Name: BinarySpacePartitioning
   m_TagString: Untagged
@@ -176,9 +177,56 @@ MonoBehaviour:
   offset: 2
   randomWalkRooms: 0
   circularRooms: 0
+  dungeonData: {fileID: 1649190193}
   OnDungeonGenerated:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 338366903}
+        m_TargetAssemblyTypeName: DungeonContentGenerator, Assembly-CSharp
+        m_MethodName: ProcessRooms
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &338366903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338366900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9c608b651d6c1f46b7ed600c74f128e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnFinishedRoomProcessing:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1104410129}
+        m_TargetAssemblyTypeName: PrefabPlacer, Assembly-CSharp
+        m_MethodName: ProcessRoomProps
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  bossRoomParameters: {fileID: 11400000, guid: 25ae6536bf09a5b429b049f20b7dbcfc, type: 2}
+  playerRoomParameters: {fileID: 11400000, guid: 10896fee730172844992dc6834c9b762, type: 2}
+  chestRoomParameters: {fileID: 11400000, guid: ae46755fa1114d84db48a68b17bc495b, type: 2}
+  enemyRoomParameters: {fileID: 11400000, guid: a2a946eea637af94ab461ce45849f8fd, type: 2}
+  randomWalkDungeonParameters: {fileID: 0}
+  showGizmo: 0
+  square: {fileID: 6219520592550615845, guid: 78c865f4b9fa5bd40a45e27108ebc804, type: 3}
 --- !u!1 &522691660
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,7 +319,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ground: {fileID: 1159544913}
   wall: {fileID: 850661520}
-  Square: {fileID: 0}
   groundBase: {fileID: 11400000, guid: c731c501b871de847b3845829e00b29c, type: 2}
   wallTopTile: {fileID: 11400000, guid: 6993db89c1b41d748a192abe1835c006, type: 2}
   wallBottomTile: {fileID: 11400000, guid: ef6fbff5b70f3c84d9cf4df27c679cc9, type: 2}
@@ -8687,6 +8734,56 @@ TilemapCollider2D:
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0
   m_UseDelaunayMesh: 0
+--- !u!1 &1104410128
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1104410130}
+  - component: {fileID: 1104410129}
+  m_Layer: 0
+  m_Name: PrefabPlacer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1104410129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104410128}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ec34b32f6ad7b743a2d9643fc3e0af9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters: {fileID: 11400000, guid: a2a946eea637af94ab461ce45849f8fd, type: 2}
+  cornerPropPlacementChance: 0.7
+  propPrefab: {fileID: 580606418527117430, guid: 2149e9b0e60d72146999ab24cd41fb59, type: 3}
+  OnFinished:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!4 &1104410130
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1104410128}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1159544910
 GameObject:
   m_ObjectHideFlags: 0
@@ -25661,6 +25758,50 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1649190192
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1649190194}
+  - component: {fileID: 1649190193}
+  m_Layer: 0
+  m_Name: DungeonData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1649190193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649190192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a27ae4fdc6f122c4c86aad6bec8e8955, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1649190194
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1649190192}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 22.737978, y: 13.143162, z: -0.02496504}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -25668,3 +25809,5 @@ SceneRoots:
   - {fileID: 522691661}
   - {fileID: 626776794}
   - {fileID: 338366901}
+  - {fileID: 1104410130}
+  - {fileID: 1649190194}

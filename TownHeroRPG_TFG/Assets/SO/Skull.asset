@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Skull
   m_EditorClassIdentifier: 
   Sprite: {fileID: 1369372634922183146, guid: a0d3fbbc155eb404a87f827b40a48dfe, type: 3}
-  Size: {x: 1, y: 1}
+  Size: {x: 2, y: 2}
   Collider: 1
   DeadEnd: 1
   Corner: 1
@@ -21,7 +21,7 @@ MonoBehaviour:
   NearDownWall: 0
   NearRightWall: 0
   NearLeftWall: 0
-  Inner: 0
+  Inner: 1
   Corridor: 0
   PlacementQuantityMin: 1
   PlacementQuantityMax: 1

@@ -13,10 +13,11 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
     [SerializeField] private bool randomWalkRooms = false;
     [SerializeField] private bool circularRooms = false;
 
-    private Dictionary<Vector2Int, HashSet<Vector2Int>> rooms = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
-    private HashSet<Vector2Int> path = new HashSet<Vector2Int>();
-    private HashSet<Vector2Int> corridorPath = new HashSet<Vector2Int>();
-    public UnityEvent OnDungeonGenerated;
+    private Dictionary<Vector2Int, HashSet<Vector2Int>> rooms;
+    private HashSet<Vector2Int> path;
+    private HashSet<Vector2Int> corridorPath;
+    public DungeonData dungeonData;
+    public UnityEvent<DungeonData> OnDungeonGenerated;
 
     private void Start()
     {
@@ -25,9 +26,10 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
 
     protected override void RunAlgorithm()
     {
+        rooms = new Dictionary<Vector2Int, HashSet<Vector2Int>>();
+        path = new HashSet<Vector2Int>();
+        corridorPath = new HashSet<Vector2Int>();
         RunBinarySpaceAlgorithm();
-        DungeonData dungeonData = new DungeonData { rooms = this.rooms, floor = this.path, Path = this.corridorPath };
-        OnDungeonGenerated?.Invoke();
     }
 
     private void RunBinarySpaceAlgorithm()
@@ -58,8 +60,10 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
 
         corridorPath = ConnectRooms(roomCenters);
         path.UnionWith(corridorPath);
-
         PaintDungeon(path);
+
+        dungeonData.InitializeRoomDictionary(rooms, corridorPath, path);
+        OnDungeonGenerated?.Invoke(dungeonData);
     }
 
     private void SaveData(Vector2Int roomPosition, HashSet<Vector2Int> roomFloor)

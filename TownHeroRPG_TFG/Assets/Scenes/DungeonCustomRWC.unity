@@ -444,14 +444,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9c608b651d6c1f46b7ed600c74f128e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  square: {fileID: 6219520592550615845, guid: 78c865f4b9fa5bd40a45e27108ebc804, type: 3}
-  showGizmo: 0
   OnFinishedRoomProcessing:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1297766200}
         m_TargetAssemblyTypeName: PrefabPlacer, Assembly-CSharp
-        m_MethodName: ProcessRooms
+        m_MethodName: ProcessRoomProps
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -461,11 +459,13 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  playerRoomIndex: 2
   bossRoomParameters: {fileID: 11400000, guid: 25ae6536bf09a5b429b049f20b7dbcfc, type: 2}
   playerRoomParameters: {fileID: 11400000, guid: 10896fee730172844992dc6834c9b762, type: 2}
   chestRoomParameters: {fileID: 11400000, guid: ae46755fa1114d84db48a68b17bc495b, type: 2}
   enemyRoomParameters: {fileID: 11400000, guid: a2a946eea637af94ab461ce45849f8fd, type: 2}
+  randomWalkDungeonParameters: {fileID: 0}
+  showGizmo: 0
+  square: {fileID: 6219520592550615845, guid: 78c865f4b9fa5bd40a45e27108ebc804, type: 3}
 --- !u!1 &1159544910
 GameObject:
   m_ObjectHideFlags: 0

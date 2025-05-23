@@ -17,11 +17,11 @@ MonoBehaviour:
   Collider: 1
   DeadEnd: 0
   Corner: 0
-  NearUpWall: 1
-  NearDownWall: 1
-  NearRightWall: 1
-  NearLeftWall: 1
-  Inner: 0
+  NearUpWall: 0
+  NearDownWall: 0
+  NearRightWall: 0
+  NearLeftWall: 0
+  Inner: 1
   Corridor: 0
   PlacementQuantityMin: 1
   PlacementQuantityMax: 4
