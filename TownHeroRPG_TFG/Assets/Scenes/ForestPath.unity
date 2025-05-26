@@ -3872,7 +3872,7 @@ TilemapRenderer:
   m_SortingLayer: -1
   m_SortingOrder: 0
   m_ChunkSize: {x: 32, y: 32, z: 32}
-  m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
+  m_ChunkCullingBounds: {x: 0.5, y: 0.5, z: 0}
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
@@ -16638,7 +16638,7 @@ GameObject:
   - component: {fileID: 996380564}
   - component: {fileID: 996380563}
   m_Layer: 0
-  m_Name: ExitToDungeon
+  m_Name: ExitToWFC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16683,7 +16683,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de1783cab58f2124180f488463998e9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneToLoad: {fileID: 11400000, guid: 46651ca8168afe54c8221501b969978a, type: 2}
+  sceneToLoad: {fileID: 11400000, guid: 2a45340f044d67240895ba9a3393d903, type: 2}
   levelEntrance: {fileID: 0}
   loadingScreen: 1
   sceneRequest: {fileID: 11400000, guid: 088c0ca6ca5bcc244a5404e2e1a32a11, type: 2}

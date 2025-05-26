@@ -52,7 +52,7 @@ public class RandomWalkCorridorGenerator : RandomWalkGenerator
             return;
         }
 
-        dungeonData.ClearData();
+        //dungeonData.ClearData();
 
         HashSet<Vector2Int> possibleRoomPos = new HashSet<Vector2Int>();
         HashSet<Vector2Int> roomPos;

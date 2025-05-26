@@ -3,13 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class RandomWalkGenerator : Dungeon
 {
     [Header("Parameters")]
     public RandomWalkParameters parameters;
+
+    [Header("Room Dependencies")]
+    public RandomWalkDungeonParameters dungeonParameters;
+    public RandomWalkRoomData rwData;
+    public UnityEvent<RandomWalkRoomData> OnRWDungeonGenerated;
+
+    private RandomWalkDungeonRoom room;
 
     protected override void RunAlgorithm()
     {
@@ -18,6 +27,9 @@ public class RandomWalkGenerator : Dungeon
         {
             PaintDungeon(path);
         }
+        room = new RandomWalkDungeonRoom(startPos, path, dungeonParameters);
+        rwData.Room = room;
+        OnRWDungeonGenerated?.Invoke(rwData);
     }
 
     protected HashSet<Vector2Int> RunRandomWalkAlgorithm(Vector2Int origin)

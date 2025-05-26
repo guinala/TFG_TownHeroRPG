@@ -21,7 +21,7 @@ MonoBehaviour:
   NearDownWall: 0
   NearRightWall: 0
   NearLeftWall: 0
-  Inner: 1
+  Inner: 0
   Corridor: 0
   PlacementQuantityMin: 1
   PlacementQuantityMax: 2

@@ -186,6 +186,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd8d439e312790248adce4ddc1711a48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemDeathPrefab: {fileID: 4345769228491148462, guid: b3d1f2e18bbada344933db6177bd76e7, type: 3}
   health: 25
 --- !u!114 &8034947310350370805
 MonoBehaviour:

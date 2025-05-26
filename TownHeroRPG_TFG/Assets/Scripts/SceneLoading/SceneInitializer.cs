@@ -11,7 +11,15 @@ public class SceneInitializer : MonoBehaviour
     [Header("On Scene Ready")]
     public UnityEvent onDependenciesLoaded;
 
+    public bool dungeonScene = false;
+
     void Start()
+    {
+        if(dungeonScene == false)
+            StartCoroutine(LoadDependencies());
+    }
+
+    public void OnLoadDependencies()
     {
         StartCoroutine(LoadDependencies());
     }

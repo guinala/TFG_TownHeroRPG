@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 874ed0cafe1406c4694472782e3f9b52, type: 3}
+  m_Name: Random Walk Dungeon Parameters
+  m_EditorClassIdentifier: 
+  PlayerPrefab: {fileID: 6909470742631781130, guid: 43dafe3a7a4f8fb4898ceae90f9530a6, type: 3}
+  EnemyPrefabs:
+  - {fileID: 6693228575972105091, guid: c54eeb881c293db4896fc1c708bf1325, type: 3}
+  - {fileID: 6693228575972105091, guid: 5941e6ca8306a1644bfcd60ca18ce4bf, type: 3}
+  EnemyCount: 4
+  ChestPrefab: {fileID: 7607691775279638219, guid: 1e6fe30b8e3bec94ba7b6f29044785ed, type: 3}
+  BossPrefab: {fileID: 6693228575972105091, guid: 8022e1a8dfef91142903689ca7365156, type: 3}
+  Props:
+  - {fileID: 11400000, guid: eb0dc74f65a66d047b27ccfdda50cf68, type: 2}
+  - {fileID: 11400000, guid: 9d16a0c275ae50446bfbba83d0618c56, type: 2}
+  - {fileID: 11400000, guid: 6c0162cccf1bbc749b963b1037c5b15e, type: 2}
+  - {fileID: 11400000, guid: 8f9604b30cd98654c971637fd5397ebb, type: 2}

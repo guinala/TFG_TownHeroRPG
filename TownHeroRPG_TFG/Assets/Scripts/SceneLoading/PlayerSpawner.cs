@@ -9,6 +9,7 @@ public class PlayerSpawner : MonoBehaviour
     public GameObject playerPrefab;
     public CinemachineVirtualCamera followCamera;
     public GameObject playerParent;
+    public bool proceduralScene;
     
     public static Action<PlayerGeneral> onPlayerSpawned;
 
@@ -17,7 +18,11 @@ public class PlayerSpawner : MonoBehaviour
         GameObject player = GetPlayer();
         Transform entrance = GetLevelEntrance(playerPath.levelEntrance);
 
-        player.transform.position = entrance.transform.position;
+        if(proceduralScene == false)
+        {
+            player.transform.position = entrance.transform.position;
+            
+        }
         player.transform.parent = playerParent.transform;
         this.followCamera.Follow = player.transform;
 

@@ -6,6 +6,8 @@ public class TriggerChecker : MonoBehaviour
     [Header("Extra config")]
     public string validTag;
 
+    private bool invoked = false;
+
     [Header("Events")]
     public UnityEvent onTriggerEnter;
     public UnityEvent onTriggerStay;
@@ -15,8 +17,10 @@ public class TriggerChecker : MonoBehaviour
     {
         if (collision.CompareTag(validTag))
         {
-            if (onTriggerEnter != null)
+            Debug.Log("Detectado");
+            if (onTriggerEnter != null && !invoked)
             {
+                invoked = true;
                 onTriggerEnter.Invoke();
             }
         }

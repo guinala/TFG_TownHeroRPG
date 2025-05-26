@@ -256,7 +256,7 @@ public class WaveFunctionCollapseAlgorithmNope : MonoBehaviour
         if (nextCellToCollapse == null)
         {
             Generating = false;
-            EditorApplication.update -= EditorUpdate;
+            //EditorApplication.update -= EditorUpdate;
         }
         else
         {
@@ -489,7 +489,7 @@ public class WaveFunctionCollapseAlgorithmNope : MonoBehaviour
         CollapseCell(cells[0, 0]);
 
         MaxIterationNumber = dimension * dimension;
-        EditorApplication.update += EditorUpdate;
+       // EditorApplication.update += EditorUpdate;
     }
 
     public void ClearGridObjects()

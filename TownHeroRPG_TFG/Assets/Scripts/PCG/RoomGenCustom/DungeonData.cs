@@ -34,6 +34,7 @@ public class DungeonData : MonoBehaviour
 
     public void InitializeRoomDictionary(Dictionary<Vector2Int, HashSet<Vector2Int>> roomDictionary, HashSet<Vector2Int> Corridors, HashSet<Vector2Int> Floor)
     {
+        Rooms = new();
         rooms = roomDictionary;
         floor = Floor;
         Path = new HashSet<Vector2Int>(Corridors);

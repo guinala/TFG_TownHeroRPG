@@ -23,6 +23,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     public LoadWFCData loadData;
     public SceneLoadingTest sceneLoadingTest;
     public bool loadScene = false;
+    public UnityEvent OnLoadedScenario;
 
     [Header("Tiles")]
     public List<TileAlgorithm> AvailableTiles = new List<TileAlgorithm>();
@@ -185,6 +186,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                 objectPlacer.InstantiateObjects(placedObjects.ToArray());
             }
             Debug.Log("Mapa cargado desde: " + savePath);
+            OnLoadedScenario?.Invoke();
         }
     }
 
@@ -248,7 +250,9 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     {
         int seed = Random.Range(1, 2000000);
         Random.InitState(seed);
-        EditorApplication.update += EditorUpdate;
+        #if UNITY_EDITOR
+                EditorApplication.update += EditorUpdate;
+        #endif
 
         Iteration = 0;
         MaxIteration = dimension * dimension;
@@ -293,7 +297,9 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                     InstantiateAllCells();
                 }
 
-                EditorApplication.update -= EditorUpdate;
+                #if UNITY_EDITOR
+                    EditorApplication.update += EditorUpdate;
+                #endif
                 placedObjects = objectPlacer.PlaceObjects(grid, dimension);
                 SaveMap();
             }

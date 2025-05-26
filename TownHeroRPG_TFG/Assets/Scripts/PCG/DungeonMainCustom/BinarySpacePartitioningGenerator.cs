@@ -46,6 +46,8 @@ public class BinarySpacePartitioningGenerator : RandomWalkGenerator
             return;
         }
 
+        //dungeonData.ClearData();
+
         BoundsInt dungeonArea = new BoundsInt((Vector3Int)startPos, new Vector3Int(dungeonWidth, dungeonHeight, 0));
         List<BoundsInt> roomsList = DungeonAlgorithms.BinarySpacePartitioning(dungeonArea, minRoomWidth, minRoomHeight);
 

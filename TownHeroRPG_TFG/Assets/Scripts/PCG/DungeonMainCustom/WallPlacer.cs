@@ -1,8 +1,6 @@
 using System;
 using System.Collections.Generic;
-using UnityEditorInternal;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public static class WallPlacer
 {

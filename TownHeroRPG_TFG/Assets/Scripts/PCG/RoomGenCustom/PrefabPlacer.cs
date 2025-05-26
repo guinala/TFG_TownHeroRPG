@@ -127,7 +127,9 @@ public class PrefabPlacer : MonoBehaviour
         Room room, List<Prop> wallProps, HashSet<Vector2Int> availableTiles, PlacementOriginCorner placement)
     {
         HashSet<Vector2Int> tempPositons = new HashSet<Vector2Int>(availableTiles);
-        tempPositons.ExceptWith(dungeonData.Path);
+
+        if (dungeonData != null)
+            tempPositons.ExceptWith(dungeonData.Path);
 
         foreach (Prop propToPlace in wallProps)
         {
@@ -239,10 +241,21 @@ public class PrefabPlacer : MonoBehaviour
             {
                 Prop propToPlace = props[Random.Range(0, props.Count)];
 
-                if (!room.PropPositions.Contains(cornerTile) && !dungeonData.Path.Contains(cornerTile))
+                if (!room.PropPositions.Contains(cornerTile))
                 {
-                    PlacePropGameObject(room, cornerTile, propToPlace);
+                    if (dungeonData != null)
+                    {
+                        if (!dungeonData.Path.Contains(cornerTile))
+                        {
+                            PlacePropGameObject(room, cornerTile, propToPlace);
+                        }
+                    }
+                    else
+                    {
+                        PlacePropGameObject(room, cornerTile, propToPlace);
+                    }
                 }
+
                 if (propToPlace.PlaceAsGroup)
                 {
                     PlaceGroupObject(room, cornerTile, propToPlace, 1);
@@ -265,9 +278,19 @@ public class PrefabPlacer : MonoBehaviour
             {
                 Prop propToPlace = props[Random.Range(0, props.Count)];
 
-                if (!room.PropPositions.Contains(deadEndTile) && !dungeonData.Path.Contains(deadEndTile))
+                if (!room.PropPositions.Contains(deadEndTile))
                 {
-                    PlacePropGameObject(room, deadEndTile, propToPlace);
+                    if (dungeonData != null)
+                    {
+                        if (!dungeonData.Path.Contains(deadEndTile))
+                        {
+                            PlacePropGameObject(room, deadEndTile, propToPlace);
+                        }
+                    }
+                    else
+                    {
+                        PlacePropGameObject(room, deadEndTile, propToPlace);
+                    }
                 }
                 if (propToPlace.PlaceAsGroup)
                 {
@@ -291,9 +314,19 @@ public class PrefabPlacer : MonoBehaviour
             {
                 Prop propToPlace = props[Random.Range(0, props.Count)];
 
-                if (!room.PropPositions.Contains(corridorTile) && !dungeonData.Path.Contains(corridorTile))
+                if (!room.PropPositions.Contains(corridorTile))
                 {
-                    PlacePropGameObject(room, corridorTile, propToPlace);
+                    if (dungeonData != null)
+                    {
+                        if (!dungeonData.Path.Contains(corridorTile))
+                        {
+                            PlacePropGameObject(room, corridorTile, propToPlace);
+                        }
+                    }
+                    else
+                    {
+                        PlacePropGameObject(room, corridorTile, propToPlace);
+                    }
                 }
                 if (propToPlace.PlaceAsGroup)
                 {
@@ -375,6 +408,7 @@ public class PrefabPlacer : MonoBehaviour
         }
 
         prop.transform.localPosition = (Vector2)placementPostion;
+        prop.transform.parent = this.transform;
         propSpriteRenderer.transform.localPosition = (Vector2)Size * 0.5f;
 
         room.PropPositions.Add(placementPostion);
@@ -438,6 +472,7 @@ public class PrefabPlacer : MonoBehaviour
                     GameObject boss = Instantiate(bossRoom.BossRoomParameters.BossPrefab);
                     boss.transform.localPosition = (Vector2)bossPosition + Vector2.one * 0.5f;
                     room.EnemiesInRoom.Add(boss);
+                    boss.transform.parent = this.transform;
                 }
             }
             else if (room is ChestRoom chestRoom)
@@ -454,6 +489,7 @@ public class PrefabPlacer : MonoBehaviour
                     }
                     GameObject chest = Instantiate(chestRoom.ChestRoomParameters.ChestPrefab);
                     chest.transform.localPosition = (Vector2)chestPosition + Vector2.one * 0.5f;
+                    chest.transform.parent = this.transform;
                     room.SpecialItemsInRoom.Add(chest);
                 }
             }
@@ -479,6 +515,7 @@ public class PrefabPlacer : MonoBehaviour
             Vector2Int pos = accessiblePositions[Random.Range(0, accessiblePositions.Count)];
             GameObject enemy = Instantiate(room.EnemyRoomParameters.EnemyPrefabs[Random.Range(0, room.EnemyRoomParameters.EnemyPrefabs.Length)]);
             enemy.transform.localPosition = (Vector2)pos + Vector2.one * 0.5f;
+            enemy.transform.parent = this.transform;
             room.EnemiesInRoom.Add(enemy);
             accessiblePositions.Remove(pos);
         }
@@ -486,6 +523,7 @@ public class PrefabPlacer : MonoBehaviour
 
     private void PlaceRandomWalkRoomSpecialObjects(RandomWalkDungeonRoom room)
     {
+        CalculateAccessiblePositionsForRooms();
         room.AvailablePositionsFromPath.OrderBy(x => Guid.NewGuid()).ToList();
         
 
@@ -511,11 +549,13 @@ public class PrefabPlacer : MonoBehaviour
             Vector2Int chestTile = room.AvailablePositionsFromPath[Random.Range(0, room.AvailablePositionsFromPath.Count)];
             GameObject chest = Instantiate(randomWalkData.Room.RandomWalkDungeonParameters.ChestPrefab);
             chest.transform.localPosition = (Vector2)chestTile + Vector2.one * 0.5f;
+            chest.transform.parent = this.transform;
             room.AvailablePositionsFromPath.Remove(chestTile);
 
             Vector2Int bossTile = room.AvailablePositionsFromPath[Random.Range(0, room.AvailablePositionsFromPath.Count)];
             GameObject boss = Instantiate(randomWalkData.Room.RandomWalkDungeonParameters.BossPrefab);
             boss.transform.localPosition = (Vector2)bossTile + Vector2.one * 0.5f;
+            boss.transform.parent = this.transform;
             room.AvailablePositionsFromPath.Remove(bossTile);
 
             room.AvailablePositionsFromPath.OrderBy(x => Guid.NewGuid()).ToList();
@@ -528,20 +568,43 @@ public class PrefabPlacer : MonoBehaviour
                 Vector2Int pos = room.AvailablePositionsFromPath[Random.Range(0, room.AvailablePositionsFromPath.Count)];
                 GameObject enemy = Instantiate(room.RandomWalkDungeonParameters.EnemyPrefabs[Random.Range(0, room.RandomWalkDungeonParameters.EnemyPrefabs.Length)]);
                 enemy.transform.localPosition = (Vector2)pos + Vector2.one * 0.5f;
+                enemy.transform.parent = this.transform;
                 room.EnemiesInRoom.Add(enemy);
                 room.AvailablePositionsFromPath.Remove(pos);
             }
         }
 
+        OnFinished?.Invoke();
+
     }
 
     private void CalculateAccessiblePositionsForRooms()
     {
-        foreach (Room room in dungeonData.Rooms)
+        if(dungeonData != null)
         {
+            foreach (Room room in dungeonData.Rooms)
+            {
+                RoomGraph roomGraph = new RoomGraph(room.FloorTiles);
+                HashSet<Vector2Int> roomFloor = new HashSet<Vector2Int>(room.FloorTiles);
+                roomFloor.IntersectWith(dungeonData.Path);
+                if (roomFloor.Count > 0)
+                {
+                    Dictionary<Vector2Int, Vector2Int> roomMap = roomGraph.RunBFS(roomFloor.First(), room.PropPositions);
+                    room.AvailablePositionsFromPath = roomMap.Keys.ToList();
+                }
+                else
+                {
+                    Debug.LogWarning("No se encontró un tile de camino en la habitación: " + room.RoomCenterPos);
+                    room.AvailablePositionsFromPath = new List<Vector2Int>();
+                }
+            }
+        }
+        else if(randomWalkData != null)
+        {
+            Room room = randomWalkData.Room;
             RoomGraph roomGraph = new RoomGraph(room.FloorTiles);
             HashSet<Vector2Int> roomFloor = new HashSet<Vector2Int>(room.FloorTiles);
-            roomFloor.IntersectWith(dungeonData.Path);
+            //roomFloor.IntersectWith(dungeonData.Path);
             if (roomFloor.Count > 0)
             {
                 Dictionary<Vector2Int, Vector2Int> roomMap = roomGraph.RunBFS(roomFloor.First(), room.PropPositions);

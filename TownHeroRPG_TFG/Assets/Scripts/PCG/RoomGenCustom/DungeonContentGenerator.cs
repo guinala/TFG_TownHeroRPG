@@ -11,6 +11,7 @@ public class DungeonContentGenerator : MonoBehaviour
     private DungeonData dungeonData;
     private RandomWalkRoomData randomWalkRoomData;
     public UnityEvent<DungeonData> OnFinishedRoomProcessing;
+    public UnityEvent<RandomWalkRoomData> OnFinishedRWRoomProcessing;
 
     [Header("Room Parameters")]
     [SerializeField] private BossRoomParameters bossRoomParameters;
@@ -21,7 +22,6 @@ public class DungeonContentGenerator : MonoBehaviour
 
     [Header("Gizmos")]
     [SerializeField] private bool showGizmo = false;
-    [SerializeField] private GameObject square;
 
     public void ProcessRooms(DungeonData data)
     {
@@ -52,8 +52,6 @@ public class DungeonContentGenerator : MonoBehaviour
 
     private void ClassifyRoomTiles(Room room)
     {
-        square = Instantiate(square, new Vector3(room.RoomCenterPos.x, room.RoomCenterPos.y, 0), Quaternion.identity);
-
         room.NearWallUpTiles.Clear();
         room.NearWallDownTiles.Clear();
         room.NearWallLeftTiles.Clear();
@@ -189,83 +187,212 @@ public class DungeonContentGenerator : MonoBehaviour
             return;
         this.randomWalkRoomData = data;
 
-        RandomWalkDungeonRoom randomWalkDungeonRoom = new RandomWalkDungeonRoom(dungeonData.Rooms[0].RoomCenterPos, dungeonData.Rooms[0].FloorTiles, randomWalkDungeonParameters);
-        dungeonData.Rooms.Add(randomWalkDungeonRoom);
-        ClassifyRoomTiles(randomWalkDungeonRoom);
-        OnFinishedRoomProcessing?.Invoke(dungeonData);
+        ClassifyRoomTiles(randomWalkRoomData.Room);
+        OnFinishedRWRoomProcessing?.Invoke(randomWalkRoomData);
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (dungeonData == null || showGizmo == false)
+        if ((dungeonData == null && randomWalkRoomData == null) || showGizmo == false)
             return;
-        foreach (Room room in dungeonData.Rooms)
+        if(dungeonData != null)
         {
-            //Draw inner tiles
-            Gizmos.color = Color.yellow;
-            foreach (Vector2Int floorPosition in room.InnerTiles)
+            foreach (Room room in dungeonData.Rooms)
             {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
-            //Draw near wall tiles UP
-            Gizmos.color = Color.blue;
-            foreach (Vector2Int floorPosition in room.NearWallUpTiles)
-            {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
-            //Draw near wall tiles DOWN
-            Gizmos.color = Color.green;
-            foreach (Vector2Int floorPosition in room.NearWallDownTiles)
-            {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
-            //Draw near wall tiles RIGHT
-            Gizmos.color = Color.white;
-            foreach (Vector2Int floorPosition in room.NearWallRightTiles)
-            {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
-            //Draw near wall tiles LEFT
-            Gizmos.color = Color.cyan;
-            foreach (Vector2Int floorPosition in room.NearWallLeftTiles)
-            {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
-            //Draw near wall tiles CORNERS
-            Gizmos.color = Color.magenta;
-            foreach (Vector2Int floorPosition in room.CornerTiles)
-            {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
+                //Draw inner tiles
+                Gizmos.color = Color.yellow;
+                foreach (Vector2Int floorPosition in room.InnerTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+                //Draw near wall tiles UP
+                Gizmos.color = Color.blue;
+                foreach (Vector2Int floorPosition in room.NearWallUpTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+                //Draw near wall tiles DOWN
+                Gizmos.color = Color.green;
+                foreach (Vector2Int floorPosition in room.NearWallDownTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+                //Draw near wall tiles RIGHT
+                Gizmos.color = Color.white;
+                foreach (Vector2Int floorPosition in room.NearWallRightTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+                //Draw near wall tiles LEFT
+                Gizmos.color = Color.cyan;
+                foreach (Vector2Int floorPosition in room.NearWallLeftTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+                //Draw near wall tiles CORNERS
+                Gizmos.color = Color.magenta;
+                foreach (Vector2Int floorPosition in room.CornerTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
 
-            Gizmos.color = Color.black;
-            foreach (Vector2Int floorPosition in room.DeadEndTiles)
-            {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
+                Gizmos.color = Color.black;
+                foreach (Vector2Int floorPosition in room.DeadEndTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
 
-            Gizmos.color = Color.red;
-            foreach (Vector2Int floorPosition in room.CorridorTiles)
-            {
-                if (dungeonData.Path.Contains(floorPosition))
-                    continue;
-                Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
-            }
+                Gizmos.color = Color.red;
+                foreach (Vector2Int floorPosition in room.CorridorTiles)
+                {
+                    if (dungeonData != null)
+                    {
+                        if (dungeonData.Path.Contains(floorPosition))
+                        {
+                            continue;
+                        }
+                    }
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
 
+            }
+        }
+        else
+        {
+            Room selectedRoom = randomWalkRoomData?.Room; // Cambia esto para seleccionar la habitación deseada
+
+            if (selectedRoom != null)
+            {
+                // Dibujar Inner Tiles
+                Gizmos.color = Color.yellow;
+                foreach (Vector2Int floorPosition in selectedRoom.InnerTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+
+                // Dibujar Near Wall Tiles UP
+                Gizmos.color = Color.blue;
+                foreach (Vector2Int floorPosition in selectedRoom.NearWallUpTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+
+                // Dibujar Near Wall Tiles DOWN
+                Gizmos.color = Color.green;
+                foreach (Vector2Int floorPosition in selectedRoom.NearWallDownTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+
+                // Dibujar Near Wall Tiles RIGHT
+                Gizmos.color = Color.white;
+                foreach (Vector2Int floorPosition in selectedRoom.NearWallRightTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+
+                // Dibujar Near Wall Tiles LEFT
+                Gizmos.color = Color.cyan;
+                foreach (Vector2Int floorPosition in selectedRoom.NearWallLeftTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+
+                // Dibujar Corner Tiles
+                Gizmos.color = Color.magenta;
+                foreach (Vector2Int floorPosition in selectedRoom.CornerTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+
+                // Dibujar Dead End Tiles
+                Gizmos.color = Color.black;
+                foreach (Vector2Int floorPosition in selectedRoom.DeadEndTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+
+                // Dibujar Corridor Tiles
+                Gizmos.color = Color.red;
+                foreach (Vector2Int floorPosition in selectedRoom.CorridorTiles)
+                {
+                    if (dungeonData != null && dungeonData.Path.Contains(floorPosition))
+                        continue;
+
+                    Gizmos.DrawCube(floorPosition + Vector2.one * 0.5f, Vector2.one);
+                }
+            }
         }
     }
+    
 }
