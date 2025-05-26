@@ -15,13 +15,14 @@ public class TriggerChecker : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (invoked) return; // Prevent multiple invocations
         if (collision.CompareTag(validTag))
         {
             Debug.Log("Detectado");
-            if (onTriggerEnter != null && !invoked)
+            if (onTriggerEnter != null)
             {
-                invoked = true;
                 onTriggerEnter.Invoke();
+                invoked = true;
             }
         }
     }

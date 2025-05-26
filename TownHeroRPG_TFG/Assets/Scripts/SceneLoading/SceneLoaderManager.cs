@@ -8,6 +8,8 @@ public class SceneLoaderManager : MonoBehaviour
     [SerializeField] private CanvasGroup fadeScreen;
     
     private SceneRequestSO _pendingRequest;
+    private bool _isLoading = false;
+
     private void OnEnable()
     {
         SceneLoader.loadSceneEvent += OnLoadLevelRequest;    
@@ -88,8 +90,9 @@ public class SceneLoaderManager : MonoBehaviour
 
     private IEnumerator ProcessLevelLoading(SceneRequestSO request)
     {
-        if (request.scene != null)
+        if (request.scene != null && !_isLoading)
         {
+            _isLoading = true;
             var currentLoadedLevel = SceneManager.GetActiveScene();
             SceneManager.UnloadSceneAsync(currentLoadedLevel);
 
@@ -111,6 +114,7 @@ public class SceneLoaderManager : MonoBehaviour
         // Set active
         var loadedLevel = SceneManager.GetSceneByName(request.scene.name);
         SceneManager.SetActiveScene(loadedLevel);
+        _isLoading = false;
 
         // Hide black loading screen
         if (request.loadScene)

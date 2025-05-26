@@ -24,6 +24,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     public SceneLoadingTest sceneLoadingTest;
     public bool loadScene = false;
     public UnityEvent OnLoadedScenario;
+    public UnityEvent OnSavedScenario;
 
     [Header("Tiles")]
     public List<TileAlgorithm> AvailableTiles = new List<TileAlgorithm>();
@@ -115,7 +116,10 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         Debug.Log("Mapa guardado en: " + savePath);
         loadData.loadData = true;
         if(loadScene)
-            sceneLoadingTest.LoadInitScene();
+        {
+            OnSavedScenario?.Invoke();
+        }
+            //sceneLoadingTest.LoadInitScene();
     }
 
     //private void LoadMap()

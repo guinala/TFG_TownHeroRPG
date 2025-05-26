@@ -70,7 +70,8 @@ public class WFCObjectPlacer : MonoBehaviour
         currentCell.selectedTile.UpSocketID == wfcObject.UpSocketID &&
         currentCell.selectedTile.DownSocketID == wfcObject.DownSocketID &&
         currentCell.selectedTile.LeftSocketID == wfcObject.LeftSocketID &&
-        currentCell.selectedTile.RightSocketID == wfcObject.RightSocketID;
+        currentCell.selectedTile.RightSocketID == wfcObject.RightSocketID &&
+        !currentCell.selectedTile.UseOnEdges;
 
         return valid;
     }

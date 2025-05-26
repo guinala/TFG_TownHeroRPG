@@ -38,6 +38,7 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         _playerControls.Disable();
+        rigidbody.velocity = Vector2.zero; // Stop movement when controls are disabled
     }
 
     private void Start()
