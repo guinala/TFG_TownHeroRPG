@@ -100,8 +100,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UpSocketID: 21
   DownSocketID: 17
-  LeftSocketID: 1
-  RightSocketID: 19
+  LeftSocketID: 20
+  RightSocketID: 21
   Weight: 5
   UseOnEdges: 0
 --- !u!61 &2647198397973773702
