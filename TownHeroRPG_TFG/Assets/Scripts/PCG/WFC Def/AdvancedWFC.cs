@@ -129,7 +129,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     //    //{
     //    //    grid = (CellAlgorithm[,])formatter.Deserialize(stream);
     //    //}
-    //    //InstantiateAllCells(); // Método para instanciar las celdas en la escena
+    //    //InstantiateAllCells(); // Mï¿½todo para instanciar las celdas en la escena
     //    BinaryFormatter formatter = new BinaryFormatter();
     //    using (FileStream stream = new FileStream(savePath, FileMode.Open))
     //    {
@@ -155,7 +155,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             string json = File.ReadAllText(savePath);
             if (string.IsNullOrEmpty(json))
             {
-                Debug.LogError("Archivo JSON vacío. Regenerando mapa...");
+                Debug.LogError("Archivo JSON vacï¿½o. Regenerando mapa...");
                 File.Delete(savePath);
                 StartGeneration();
                 return;
@@ -612,6 +612,13 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                     propagationQueue.Clear();
                     return;
                 }
+                
+                if (neighbor.tileOptions.Length == 1)
+                {
+                    neighbor.selectedTile = neighbor.tileOptions[0];
+                    neighbor.collapsed = true;
+                    propagationQueue.Enqueue(neighbor);
+                }
 
                 if (neighbor.tileOptions.Length < initialOptions)
                 {
@@ -640,14 +647,14 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         return validTiles.ToArray();
     }
 
-    // Método auxiliar para verificar compatibilidad de sockets
+    // Mï¿½todo auxiliar para verificar compatibilidad de sockets
     private bool CheckSocketCompatibility(
         CellAlgorithm neighbor,
         TileAlgorithm neighborTile,
         CellAlgorithm currentCell,
         TileAlgorithm currentTile)
     {
-        // Determina dirección relativa
+        // Determina direcciï¿½n relativa
         if (neighbor.row > currentCell.row) return neighborTile.DownSocketID == currentTile.UpSocketID;    // Vecino arriba
         if (neighbor.row < currentCell.row) return neighborTile.UpSocketID == currentTile.DownSocketID;    // Vecino abajo
         if (neighbor.col > currentCell.col) return neighborTile.LeftSocketID == currentTile.RightSocketID; // Vecino derecha
