@@ -1,11 +1,11 @@
 using System;
 using UnityEngine;
 
-public class CellAlgorithm
+public class CellWFC
 {
     [Header("Tiles")]
-    public TileAlgorithm[] tileOptions;
-    public TileAlgorithm selectedTile;
+    public TileWFC[] tileOptions;
+    public TileWFC selectedTile;
 
     [Header("Position")]
     public int row;

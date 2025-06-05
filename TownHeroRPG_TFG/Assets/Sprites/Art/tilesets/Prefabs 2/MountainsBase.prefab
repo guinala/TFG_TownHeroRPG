@@ -103,3 +103,4 @@ MonoBehaviour:
   RightSocketID: 16
   Weight: 20
   UseOnEdges: 0
+  walkable: 0

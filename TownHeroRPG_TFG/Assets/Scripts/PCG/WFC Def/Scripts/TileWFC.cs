@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [Serializable]
-public class TileAlgorithm : MonoBehaviour
+public class TileWFC : MonoBehaviour
 {
     [Header("Sockets")]
     public int UpSocketID;
@@ -14,6 +14,8 @@ public class TileAlgorithm : MonoBehaviour
     public int Weight;
 
     public bool UseOnEdges = false;
+
+    public bool walkable = true;
 
     public int GetSocket(string direction)
     {

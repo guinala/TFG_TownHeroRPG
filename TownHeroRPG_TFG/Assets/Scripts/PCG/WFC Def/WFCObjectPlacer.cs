@@ -8,7 +8,7 @@ public class WFCObjectPlacer : MonoBehaviour
     public List<WFCObject> objectsToPlace;
     public UnityEvent OnObjectsPlaced;
 
-    public List<WFCObjectInstance> PlaceObjects(CellAlgorithm[,] grid, int dimension) 
+    public List<WFCObjectInstance> PlaceObjects(CellWFC[,] grid, int dimension) 
     {
         List<WFCObjectInstance> placedWfcObjects = new List<WFCObjectInstance>(); 
 
@@ -62,9 +62,9 @@ public class WFCObjectPlacer : MonoBehaviour
         return placedWfcObjects;
     }
 
-    private bool IsValidPosition(int row, int col, WFCObject wfcObject, CellAlgorithm[,] grid, int dimension) 
+    private bool IsValidPosition(int row, int col, WFCObject wfcObject, CellWFC[,] grid, int dimension) 
     {
-        CellAlgorithm currentCell = grid[row, col];
+        CellWFC currentCell = grid[row, col];
 
         bool valid =
         currentCell.selectedTile.UpSocketID == wfcObject.UpSocketID &&

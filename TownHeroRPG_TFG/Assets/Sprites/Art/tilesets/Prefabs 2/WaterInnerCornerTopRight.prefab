@@ -104,6 +104,7 @@ MonoBehaviour:
   RightSocketID: 21
   Weight: 5
   UseOnEdges: 0
+  walkable: 0
 --- !u!61 &2647198397973773702
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ BoxCollider2D:
   m_Offset: {x: 0.5, y: 0.5}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
+    pivot: {x: 0, y: 0}
     oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5

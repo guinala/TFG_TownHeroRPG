@@ -189,6 +189,7 @@ MonoBehaviour:
   RightSocketID: 15
   Weight: 5
   UseOnEdges: 0
+  walkable: 0
 --- !u!61 &3764352614956476266
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -27,17 +27,16 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     public UnityEvent OnSavedScenario;
 
     [Header("Tiles")]
-    public List<TileAlgorithm> AvailableTiles = new List<TileAlgorithm>();
-    private TileAlgorithm[] allTiles;
-    private CellAlgorithm[,] grid;
+    public List<TileWFC> AvailableTiles = new List<TileWFC>();
+    private TileWFC[] allTiles;
+    private CellWFC[,] grid;
 
     private int Iteration;
     private int MaxIteration;
 
     private bool IsGenerating;
 
-
-    private Queue<CellAlgorithm> propagationQueue = new Queue<CellAlgorithm>();
+    private Queue<CellWFC> propagationQueue = new Queue<CellWFC>();
     public WFCObjectPlacer objectPlacer;
     private List<WFCObjectInstance> placedObjects;
 
@@ -93,7 +92,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         {
             for (int col = 0; col < dimension; col++)
             {
-                CellAlgorithm cell = grid[row, col];
+                CellWFC cell = grid[row, col];
                 dataGrid.Add(new CellWFCData
                 {
                     row = row,
@@ -119,7 +118,6 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         {
             OnSavedScenario?.Invoke();
         }
-            //sceneLoadingTest.LoadInitScene();
     }
 
     //private void LoadMap()
@@ -163,15 +161,15 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
             MapData mapData = JsonUtility.FromJson<MapData>(json);
 
-            List<TileAlgorithm> tileList = AvailableTiles.Where(t => t != null).ToList();
+            List<TileWFC> tileList = AvailableTiles.Where(t => t != null).ToList();
             allTiles = tileList.OrderBy(t => t.Weight).ToArray();
 
             dimension = (int)Mathf.Sqrt(mapData.Grid.Count);
-            grid = new CellAlgorithm[dimension, dimension];
+            grid = new CellWFC[dimension, dimension];
 
             foreach (var sc in mapData.Grid)
             {
-                grid[sc.row, sc.col] = new CellAlgorithm
+                grid[sc.row, sc.col] = new CellWFC
                 {
                     row = sc.row,
                     col = sc.col,
@@ -227,16 +225,16 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     private void InitializeGrid()
     {
-        List<TileAlgorithm> tileList = AvailableTiles.Where(t => t != null).ToList();
+        List<TileWFC> tileList = AvailableTiles.Where(t => t != null).ToList();
         allTiles = tileList.OrderBy(t => t.Weight).ToArray();
 
-        grid = new CellAlgorithm[dimension, dimension];
+        grid = new CellWFC[dimension, dimension];
 
         for (int row = 0; row < dimension; row++)
         {
             for (int col = 0; col < dimension; col++)
             {
-                grid[row, col] = new CellAlgorithm
+                grid[row, col] = new CellWFC
                 {
                     row = row,
                     col = col,
@@ -266,7 +264,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         InitializeGrid();
 
 
-        CellAlgorithm initialCell = grid[0, 0];
+        CellWFC initialCell = grid[0, 0];
         Collapse(initialCell);
     }
 
@@ -283,7 +281,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             }
 
             Propagate();
-            CellAlgorithm nextCell = FindLowestEntropy();
+            CellWFC nextCell = FindLowestEntropy();
 
             if (nextCell != null)
             {
@@ -302,7 +300,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                 }
 
                 #if UNITY_EDITOR
-                    EditorApplication.update += EditorUpdate;
+                    EditorApplication.update -= EditorUpdate;
                 #endif
                 placedObjects = objectPlacer.PlaceObjects(grid, dimension);
                 SaveMap();
@@ -316,7 +314,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         {
             for (int col = 0; col < dimension; col++)
             {
-                CellAlgorithm cell = grid[row, col];
+                CellWFC cell = grid[row, col];
                 if (cell.collapsed && !cell.instantiated)
                 {
                     Instantiate(cell.selectedTile, new Vector3(col, row, 0f), Quaternion.identity, transform);
@@ -332,7 +330,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         {
             for (int col = 0; col < dimension; col++)
             {
-                CellAlgorithm cell = grid[row, col];
+                CellWFC cell = grid[row, col];
                 if (cell.collapsed)
                 {
                     Instantiate(cell.selectedTile, new Vector3(col, row, 0f), Quaternion.identity, transform);
@@ -342,16 +340,16 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         }
     }
 
-    private CellAlgorithm FindLowestEntropy()
+    private CellWFC FindLowestEntropy()
     {
-        CellAlgorithm cellWithLowestEntropy = null;
+        CellWFC cellWithLowestEntropy = null;
         float lowestEntropy = float.PositiveInfinity;
 
         for (int row = 0; row < dimension; row++)
         {
             for (int col = 0; col < dimension; col++)
             {
-                CellAlgorithm cell = grid[row, col];
+                CellWFC cell = grid[row, col];
                 if (!cell.collapsed)
                 {
                     float entropy = CalculateEntropy(cell.tileOptions);
@@ -367,7 +365,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         return cellWithLowestEntropy;
     }
 
-    private float CalculateEntropy(TileAlgorithm[] tiles)
+    private float CalculateEntropy(TileWFC[] tiles)
     {
         int sumOfWeights = tiles.Sum(t => t.Weight);
         float logSumOfWeights = tiles.Sum(t => (t.Weight) * math.log(t.Weight));
@@ -375,7 +373,7 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     }
 
 
-    private void Collapse(CellAlgorithm cell)
+    private void Collapse(CellWFC cell)
     {
         if (cell.tileOptions.Length == 0)
         {
@@ -384,16 +382,15 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
             return;
         }
 
-        TileAlgorithm selectedTile = SelectTile(cell.tileOptions);
+        TileWFC selectedTile = SelectTile(cell.tileOptions);
         cell.selectedTile = selectedTile;
         cell.tileOptions = new[] { selectedTile };
         cell.collapsed = true;
 
-        // Propagate(cell);
         propagationQueue.Enqueue(cell);
     }
 
-    private TileAlgorithm SelectTile(TileAlgorithm[] tiles)
+    private TileWFC SelectTile(TileWFC[] tiles)
     {
         if (tiles.Length == 1)
             return tiles[0];
@@ -589,9 +586,9 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
     {
         while (propagationQueue.Count > 0)
         {
-            CellAlgorithm cell = propagationQueue.Dequeue();
+            CellWFC cell = propagationQueue.Dequeue();
 
-            CellAlgorithm[] neighbors = {
+            CellWFC[] neighbors = {
             GetCellTop(cell.row, cell.col),
             GetCellBottom(cell.row, cell.col),
             GetCellLeft(cell.row, cell.col),
@@ -615,26 +612,24 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
                 
                 if (neighbor.tileOptions.Length == 1)
                 {
-                    neighbor.selectedTile = neighbor.tileOptions[0];
-                    neighbor.collapsed = true;
-                    propagationQueue.Enqueue(neighbor);
+                    Collapse(neighbor);
                 }
 
                 if (neighbor.tileOptions.Length < initialOptions)
                 {
-                    propagationQueue.Enqueue(neighbor); // Vuelve a encolar si hay cambios
+                    propagationQueue.Enqueue(neighbor); 
                 }
             }
         }
     }
 
-    private TileAlgorithm[] FilterTiles(CellAlgorithm neighbor, CellAlgorithm currentCell)
+    private TileWFC[] FilterTiles(CellWFC neighbor, CellWFC currentCell)
     {
-        List<TileAlgorithm> validTiles = new List<TileAlgorithm>();
+        List<TileWFC> validTiles = new List<TileWFC>();
 
-        foreach (TileAlgorithm neighborTile in neighbor.tileOptions)
+        foreach (TileWFC neighborTile in neighbor.tileOptions)
         {
-            foreach (TileAlgorithm currentTile in currentCell.tileOptions)
+            foreach (TileWFC currentTile in currentCell.tileOptions)
             {
                 if (CheckSocketCompatibility(neighbor, neighborTile, currentCell, currentTile))
                 {
@@ -649,10 +644,10 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
 
     // M�todo auxiliar para verificar compatibilidad de sockets
     private bool CheckSocketCompatibility(
-        CellAlgorithm neighbor,
-        TileAlgorithm neighborTile,
-        CellAlgorithm currentCell,
-        TileAlgorithm currentTile)
+        CellWFC neighbor,
+        TileWFC neighborTile,
+        CellWFC currentCell,
+        TileWFC currentTile)
     {
         // Determina direcci�n relativa
         if (neighbor.row > currentCell.row) return neighborTile.DownSocketID == currentTile.UpSocketID;    // Vecino arriba
@@ -663,28 +658,28 @@ public class WaveFunctionCollapseAlgorithm : MonoBehaviour
         return false;
     }
 
-    private CellAlgorithm GetCellTop(int row, int col)
+    private CellWFC GetCellTop(int row, int col)
     {
         if (row == dimension - 1)
             return null;
         return grid[row + 1, col];
     }
 
-    private CellAlgorithm GetCellBottom(int row, int col)
+    private CellWFC GetCellBottom(int row, int col)
     {
         if (row == 0)
             return null;
         return grid[row - 1, col];
     }
 
-    private CellAlgorithm GetCellLeft(int row, int col)
+    private CellWFC GetCellLeft(int row, int col)
     {
         if (col == 0)
             return null;
         return grid[row, col - 1];
     }
 
-    private CellAlgorithm GetCellRight(int row, int col)
+    private CellWFC GetCellRight(int row, int col)
     {
         if (col == dimension - 1)
             return null;

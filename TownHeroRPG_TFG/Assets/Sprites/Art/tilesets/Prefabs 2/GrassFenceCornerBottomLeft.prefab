@@ -150,6 +150,7 @@ MonoBehaviour:
   RightSocketID: 25
   Weight: 5
   UseOnEdges: 0
+  walkable: 0
 --- !u!1 &6197476285912940326
 GameObject:
   m_ObjectHideFlags: 0

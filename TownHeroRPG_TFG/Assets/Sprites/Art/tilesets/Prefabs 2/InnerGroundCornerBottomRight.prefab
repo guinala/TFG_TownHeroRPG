@@ -101,5 +101,6 @@ MonoBehaviour:
   DownSocketID: 6
   LeftSocketID: 4
   RightSocketID: 6
-  Weight: 5
+  Weight: 12
   UseOnEdges: 0
+  walkable: 1

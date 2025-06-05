@@ -234,3 +234,4 @@ MonoBehaviour:
   RightSocketID: 25
   Weight: 10
   UseOnEdges: 0
+  walkable: 0
